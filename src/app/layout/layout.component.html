@@ -1,0 +1,33 @@
+<!-- <mat-progress-bar mode="query"></mat-progress-bar> -->
+<div class="container" fxLayout="column">
+    <mat-sidenav-container autosize fxFlex>
+        <!-- SIDENAV -->
+        <mat-sidenav mode="side" [opened]="showSide" #side></mat-sidenav>
+        <!-- END SIDENAV -->
+        <mat-sidenav-content class="content-container" fxLayout="column">
+            <mat-toolbar color="primary" fxLayoutAlign="space-between center">
+                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px">
+                    <button mat-icon-button (click)="showSide = !showSide">
+                        <mat-icon>{{ side.opened ? 'close' : 'menu' }}</mat-icon>
+                    </button>
+                    <p matLine>Sistema de búsqueda de Farmacias</p>
+                </div>
+                <div>
+                    <button mat-icon-button>
+                        <mat-icon>favorite</mat-icon>
+                    </button>
+                    <button mat-icon-button>
+                        <mat-icon>share</mat-icon>
+                    </button>
+                </div>
+            </mat-toolbar>
+            <!-- CONTENT -->
+            <div [class.scroll-disabled]="false" cdkScrollable class="content" fxFlex="auto" fxLayout="column">
+                <div class="content-inner" fxFlex="auto">
+                    <router-outlet></router-outlet>
+                </div>
+            </div>
+            <!-- END CONTENT -->
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>
