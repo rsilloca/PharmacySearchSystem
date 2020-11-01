@@ -1,23 +1,68 @@
-<div fxLayout="row" fxLayoutAlign="center center" class="bg-pharmacy">
-    <mat-card fxFlex="80%" fxFlex.sm="60%" fxFlex.md="40%" fxFlex.lg="35%" style="border-radius: .7rem;">
-        <mat-card-title style="padding-top: .7rem;">Card Login</mat-card-title>
-        <mat-card-subtitle>Subtitle</mat-card-subtitle>
+<div fxLayout="row" fxLayoutAlign="center center" class="bg-pharmacy allHeight">
+    <mat-card fxFlex="90%" fxFlex.sm="25rem" fxFlex.md="25rem" fxFlex.lg="25rem" class="login-card">
+        <mat-card-title class="bg-primary login-card-title" fxLayoutAlign="center center">
+            <mat-icon class="main-icon" svgIcon="logo"></mat-icon>
+        </mat-card-title>
         <mat-card-content>
-            <form fxLayout="column">
-                <mat-form-field fxFlex="auto" appearance="outline">
-                    <mat-label>User</mat-label>
-                    <input matInput>
-                </mat-form-field>
-                <mat-form-field fxFlex="auto" appearance="outline">
-                    <mat-label>Password</mat-label>
-                    <input matInput [type]="hide ? 'password' : 'text'">
-                    <button mat-icon-button matSuffix (click)="hide = !hide">
-                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                    </button>
-                </mat-form-field>
-                <button mat-raised-button type="button"
-                    color="primary">Ingresar</button>
-            </form>
+            <mat-tab-group mat-stretch-tabs>
+                <mat-tab label="{{ 'authentication.login.labels.userPatient' | translate }}">
+                    <form fxLayout="column" class="login-card-content" [formGroup]="formLoginPatient"
+                        (ngSubmit)="loginPatient()">
+                        <mat-form-field fxFlex="auto" appearance="outline">
+                            <mat-label> {{ 'authentication.login.labels.user' | translate }} </mat-label>
+                            <input matInput>
+                        </mat-form-field>
+                        <mat-form-field fxFlex="auto" appearance="outline">
+                            <mat-label> {{ 'authentication.login.labels.pwd' | translate }} </mat-label>
+                            <input matInput [type]="hide ? 'password' : 'text'">
+                            <button type="button" mat-icon-button matSuffix (click)="hide = !hide">
+                                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </button>
+                        </mat-form-field>
+                        <div fxLayout="row" fxLayoutAlign="space-between center" style="margin-bottom: 1rem">
+                            <mat-checkbox> {{ 'authentication.login.labels.rememberUser' | translate }} </mat-checkbox>
+                            <a class="route-link" [routerLink]="['/forgot-password']">
+                                {{ 'authentication.login.labels.forgotPwd' | translate }} </a>
+                        </div>
+                        <button mat-raised-button type="submit" color="primary">
+                            {{ 'authentication.login.buttons.login' | translate }} </button>
+                    </form>
+                </mat-tab>
+                <mat-tab label="{{ 'authentication.login.labels.userPharmacy' | translate }}">
+                    <form fxLayout="column" class="login-card-content" [formGroup]="formLoginPharmacy"
+                        (ngSubmit)="loginPharmacy()">
+                        <mat-form-field fxFlex="auto" appearance="outline">
+                            <mat-label> {{ 'authentication.login.labels.user' | translate }} </mat-label>
+                            <input matInput>
+                        </mat-form-field>
+                        <mat-form-field fxFlex="auto" appearance="outline">
+                            <mat-label> {{ 'authentication.login.labels.pwd' | translate }} </mat-label>
+                            <input matInput [type]="hide ? 'password' : 'text'">
+                            <button type="button" mat-icon-button matSuffix (click)="hide = !hide">
+                                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </button>
+                        </mat-form-field>
+                        <div fxLayout="row" fxLayoutAlign="space-between center" style="margin-bottom: 1rem">
+                            <mat-checkbox> {{ 'authentication.login.labels.rememberUser' | translate }} </mat-checkbox>
+                            <a class="route-link" [routerLink]="['/forgot-password']">
+                                {{ 'authentication.login.labels.forgotPwd' | translate }} </a>
+                        </div>
+                        <button mat-raised-button type="submit" color="primary">
+                            {{ 'authentication.login.buttons.login' | translate }} </button>
+                    </form>
+                </mat-tab>
+            </mat-tab-group>
         </mat-card-content>
+        <mat-card-actions style="margin: 1rem; padding: 0;">
+            <div fxLayout="row" fxLayoutAlign="space-between center">
+                <div>
+                    <p matLine> {{ 'authentication.login.labels.dontHaveAccount' | translate }} </p>
+                    <a class="route-link" [routerLink]="['/register']">
+                        {{ 'authentication.login.labels.registerHere' | translate }} </a>
+                </div>
+                <app-translation color="primary"></app-translation>
+            </div>
+
+        </mat-card-actions>
     </mat-card>
 </div>

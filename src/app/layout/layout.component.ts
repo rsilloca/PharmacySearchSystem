@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthenticationService } from '../@services/authentication.service';
 
 @Component({
   selector: 'app-layout',
@@ -8,10 +10,17 @@ import { Component, OnInit } from '@angular/core';
 export class LayoutComponent implements OnInit {
 
   showSide: boolean = false;
+  pharmacyUser: boolean = false;
 
-  constructor() { }
+  constructor(private authService: AuthenticationService, private router: Router) { }
 
   ngOnInit(): void {
+    this.pharmacyUser = this.authService.isPharmacyUser();
+  }
+
+  public logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 
 }

@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { DashboardRoutingModule } from './dashboard-routing.module';
+import { ForgotPasswordRoutingModule } from './forgot-password-routing.module';
 
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    DashboardRoutingModule
+    ForgotPasswordRoutingModule
   ]
 })
-export class DashboardModule { }
+export class ForgotPasswordModule { }

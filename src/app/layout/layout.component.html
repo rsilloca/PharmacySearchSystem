@@ -1,33 +1,56 @@
-<!-- <mat-progress-bar mode="query"></mat-progress-bar> -->
 <div class="container" fxLayout="column">
+
     <mat-sidenav-container autosize fxFlex>
+
         <!-- SIDENAV -->
-        <mat-sidenav mode="side" [opened]="showSide" #side></mat-sidenav>
+        <mat-sidenav *ngIf="pharmacyUser" mode="side" [opened]="true" class="bg-primary sidenav" [ngClass]=" { 'expanded': showSide } " #side>
+            <button mat-icon-button class="icon-white" (click)="showSide = !showSide">
+                <mat-icon>{{ showSide ? 'close' : 'menu' }}</mat-icon>
+            </button>
+        </mat-sidenav>
         <!-- END SIDENAV -->
+
         <mat-sidenav-content class="content-container" fxLayout="column">
-            <mat-toolbar color="primary" fxLayoutAlign="space-between center">
-                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px">
-                    <button mat-icon-button (click)="showSide = !showSide">
-                        <mat-icon>{{ side.opened ? 'close' : 'menu' }}</mat-icon>
-                    </button>
-                    <p matLine>Sistema de búsqueda de Farmacias</p>
-                </div>
+
+            <!-- TOOLBAR -->
+            <mat-toolbar fxLayoutAlign="space-between center" class="mat-elevation-z2">
+                <p matLine>{{ 'nameApp' | translate }}</p>
                 <div>
+                    <app-translation></app-translation>
                     <button mat-icon-button>
-                        <mat-icon>favorite</mat-icon>
+                        <mat-icon>notifications_active</mat-icon>
                     </button>
-                    <button mat-icon-button>
-                        <mat-icon>share</mat-icon>
+                    <button mat-icon-button [matMenuTriggerFor]="menu">
+                        <mat-icon>account_circle</mat-icon>
                     </button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item>
+                            <mat-icon>settings</mat-icon>
+                            <span>Configuración</span>
+                        </button>
+                        <button mat-menu-item (click)="logout()">
+                            <mat-icon>exit_to_app</mat-icon>
+                            <span>Salir</span>
+                        </button>
+                    </mat-menu>
                 </div>
             </mat-toolbar>
+            <!-- END TOOLBAR -->
+
             <!-- CONTENT -->
-            <div [class.scroll-disabled]="false" cdkScrollable class="content" fxFlex="auto" fxLayout="column">
+            <div cdkScrollable class="content" fxFlex="auto" fxLayout="column">
                 <div class="content-inner" fxFlex="auto">
+
+                    <!-- CONTENT INNER -->
                     <router-outlet></router-outlet>
+                    <!-- END CONTENT INNER -->
+
                 </div>
             </div>
             <!-- END CONTENT -->
+
         </mat-sidenav-content>
+
     </mat-sidenav-container>
+
 </div>
