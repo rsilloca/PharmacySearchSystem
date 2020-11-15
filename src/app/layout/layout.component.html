@@ -3,10 +3,40 @@
     <mat-sidenav-container autosize fxFlex>
 
         <!-- SIDENAV -->
-        <mat-sidenav *ngIf="pharmacyUser" mode="side" [opened]="true" class="bg-primary sidenav" [ngClass]=" { 'expanded': showSide } " #side>
-            <button mat-icon-button class="icon-white" (click)="showSide = !showSide">
-                <mat-icon>{{ showSide ? 'close' : 'menu' }}</mat-icon>
-            </button>
+        <mat-sidenav *ngIf="pharmacyUser" mode="side" [opened]="true" class="sidenav bg-primary"
+            [ngClass]=" { 'expanded': showSide } " #side>
+            <div fxLayout="column">
+                <button mat-icon-button class="icon-white" (click)="showSide = !showSide">
+                    <mat-icon>{{ showSide ? 'close' : 'menu' }}</mat-icon>
+                </button>
+                <div fxFlex="7rem"></div>
+                <div *ngIf="showSide; else navigationIcons" fxLayout="column" fxLayoutGap="0.5rem">
+                    <button mat-raised-button [routerLink]="['/pharmacy']">Home</button>
+                    <button mat-raised-button [routerLink]="['/pharmacy/locales']">Mis Locales</button>
+                    <button mat-raised-button [routerLink]="['/pharmacy/locales/nuevo']">Agregar Local</button>
+                    <button mat-raised-button [routerLink]="['/pharmacy/productos']">Productos</button>
+                    <button mat-raised-button [routerLink]="['/pharmacy/control-stock']">Control de Stock</button>
+                </div>
+                <ng-template #navigationIcons>
+                    <div fxLayout="column" fxLayoutGap="0.5rem">
+                        <button mat-icon-button class="icon-white" [routerLink]="['/pharmacy']">
+                            <mat-icon>home</mat-icon>
+                        </button>
+                        <button mat-icon-button class="icon-white" [routerLink]="['/pharmacy/locales']">
+                            <mat-icon>local_pharmacy</mat-icon>
+                        </button>
+                        <button mat-icon-button class="icon-white" [routerLink]="['/pharmacy/locales/nuevo']">
+                            <mat-icon>add_business</mat-icon>
+                        </button>
+                        <button mat-icon-button class="icon-white" [routerLink]="['/pharmacy/productos']">
+                            <mat-icon>medical_services</mat-icon>
+                        </button>
+                        <button mat-icon-button class="icon-white" [routerLink]="['/pharmacy/control-stock']">
+                            <mat-icon>shopping_basket</mat-icon>
+                        </button>
+                    </div>
+                </ng-template>
+            </div>
         </mat-sidenav>
         <!-- END SIDENAV -->
 

@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from 'src/@theming/shared.module';
 import { LayoutComponent } from './layout/layout.component';
-import { DashboardComponent } from './pages/farmacia/dashboard/dashboard.component';
 import { LoginComponent } from './pages/authentication/login/login.component';
 import { RegisterComponent } from './pages/authentication/register/register.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -15,6 +14,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslationComponent } from './translation/translation.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ForgotPasswordComponent } from './pages/authentication/forgot-password/forgot-password.component';
+import { MaterialComponentsModule } from 'src/@theming/shared/material-components.module';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -24,7 +24,6 @@ export function createTranslateLoader(http: HttpClient) {
   declarations: [
     AppComponent,
     LayoutComponent,
-    DashboardComponent,
     LoginComponent,
     RegisterComponent,
     TranslationComponent,
@@ -36,6 +35,7 @@ export function createTranslateLoader(http: HttpClient) {
     AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
+    MaterialComponentsModule,
     // Translation
     HttpClientModule,
     TranslateModule.forRoot({
