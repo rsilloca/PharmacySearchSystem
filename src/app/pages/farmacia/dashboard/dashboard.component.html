@@ -1,1 +1,125 @@
-<p>dashboard works!</p>
+<div class="principal_content" fxLayout="row"  fxLayoutAlign="space-between center">
+  
+  <div id="content_1" fxLayout="column" fxLayoutAlign="start stretch" >
+    <h2 id="title">
+      Acceso rápido
+    </h2>
+    
+    <mat-form-field appearance="fill">
+      <mat-label>Mi Farmacia</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let farmacia of farmacias" [value]="farmacia.value">
+          {{farmacia.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <h3 id="title">Estado de Stock</h3>
+    <div fxLayout="row"  fxLayoutAlign="space-around stretch">
+      <mat-icon>sentiment_very_dissatisfied</mat-icon>
+      <h4> Desactualizado</h4>
+      <a href="/control-stock/control-stock.component.html">Actualizar ahora</a>
+    </div>
+   
+    <div div fxLayout="row" fxLayoutAlign="space-between center" >
+      <div>    
+        <h3 id="title"  style="margin-top:15px">Horario de Atención</h3>
+      </div>
+      <div class="button-container">
+        <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon">
+        <mat-icon>edit</mat-icon>
+      </button>
+      </div>
+   
+    </div>
+
+    <div style=" overflow-y: scroll;">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef> No. </th>
+          <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+        </ng-container>
+        <!-- DAY Column -->
+        <ng-container matColumnDef="day">
+          <th mat-header-cell *matHeaderCellDef> Día </th>
+          <td mat-cell *matCellDef="let element"> {{element.day}} </td>
+        </ng-container>
+      
+        <!-- Opennig time Column -->
+        <ng-container matColumnDef="openning">
+          <th mat-header-cell *matHeaderCellDef> Hora de apertura </th>
+          <td mat-cell *matCellDef="let element"> {{element.openning}} </td>
+        </ng-container>
+      
+        <!-- Closing time Column -->
+        <ng-container matColumnDef="closing">
+          <th mat-header-cell *matHeaderCellDef> Hora de cierre </th>
+          <td mat-cell *matCellDef="let element"> {{element.closing}} </td>
+        </ng-container>
+              
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()"
+                          [aria-label]="checkboxLabel()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(row) : null"
+                          [checked]="selection.isSelected(row)"
+                          [aria-label]="checkboxLabel(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+            (click)="selection.toggle(row)">
+        </tr>
+      </table>
+    </div>
+    
+  </div> 
+  
+  <!-- Panel de notificaciones -->
+  <div id="content_2" fxLayout="column" fxLayoutAlign="start start" >
+    <h2 id="title">
+      Notificaciones
+    </h2>
+
+    <div >
+      <mat-form-field color="accent" appearance="fill">
+        <mat-label>Desde</mat-label>
+        <input matInput [matDatepicker]="picker1">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+      
+      <mat-form-field color="accent" appearance="fill">
+        <mat-label>Hasta</mat-label>
+        <input matInput [matDatepicker]="picker2">
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2 color="primary"></mat-datepicker>
+      </mat-form-field>
+      
+    </div>
+        
+    <div class ="notifications-sms" style=" overflow-y: scroll;"  fxLayout="column" fxLayoutAlign="start end" >
+      <div class="notif-item" fxLayout="row" style="margin-top:20px">
+        <p>Tu local Inkafarma Ejército no ha sido actualizado desde hace dos semanas.         <a href="/control-stock/control-stock.component.html">Actualizar ahora</a>
+        </p>
+        <mat-icon> message</mat-icon>
+      </div>
+      <div class="notif-item" fxLayout="row">
+        <p>Tu opinión nos importa. <br> Agrega un comentario para ayudarnos a mejorar. <a href="/control-stock/control-stock.component.html">Agregar comentario</a>
+        </p>
+        <mat-icon> message</mat-icon>
+      </div>
+    </div>
+
+  </div>
+</div>
