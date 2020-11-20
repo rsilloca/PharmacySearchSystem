@@ -1,0 +1,8 @@
+<h3 mat-dialog-title>{{titulo}}</h3>
+<mat-dialog-content>
+    <p>{{mensaje}}</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button [mat-dialog-close]="'Ha aceptado'" cdkFocusInitial>Aceptar</button>
+</mat-dialog-actions>
