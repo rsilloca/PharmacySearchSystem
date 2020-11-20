@@ -31,6 +31,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ScrollingModule } from '@angular/cdk/scrolling'
 
 
 @NgModule({
@@ -70,7 +71,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatStepperModule,
     FlexLayoutModule,
     MatDividerModule,
-    MatBadgeModule
+    MatBadgeModule,
+    ScrollingModule
   ]
 })
 export class MaterialComponentsModule { }
