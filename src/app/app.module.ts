@@ -15,6 +15,7 @@ import { TranslationComponent } from './translation/translation.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ForgotPasswordComponent } from './pages/authentication/forgot-password/forgot-password.component';
 import { MaterialComponentsModule } from 'src/@theming/shared/material-components.module';
+import { AlertComponent } from './pages/alert/alert.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -28,7 +29,8 @@ export function createTranslateLoader(http: HttpClient) {
     RegisterComponent,
     TranslationComponent,
     NotFoundComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
