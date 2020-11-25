@@ -1,0 +1,50 @@
+.principal_content{
+    margin: 40px;
+}
+  #content_1, #content_2{
+    margin-top: 10px;
+    margin-right: 10px;
+    padding: 15px;
+    border-style: solid; 
+    border-width: 3px; 
+    border-radius: 20px;
+    width: 630px;
+    height: 630px;
+  }
+
+  #title{
+    font-weight: bold;
+  }
+
+table {
+  width: 100%;
+ }
+
+ mat-form-field {
+  margin-right: 10px;
+}
+
+.button-container {
+  width: 120px;
+}
+
+.notifications-sms{
+  margin: 10px;
+  border-style: solid; 
+  border-width: 3px; 
+  border-radius: 15px;
+  height: 100%;
+}
+
+.notif-item{
+  margin-right: 10px;
+  margin-left: 12px;
+  margin-bottom: 5px;
+  width: 85%;
+}
+p {
+  border-style: solid;
+  border-radius: 5px;
+}
+ 
+  
