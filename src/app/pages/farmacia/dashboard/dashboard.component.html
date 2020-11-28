@@ -17,7 +17,7 @@
     <div fxLayout="row"  fxLayoutAlign="space-around stretch">
       <mat-icon>sentiment_very_dissatisfied</mat-icon>
       <h4> Desactualizado</h4>
-      <a href="/control-stock/control-stock.component.html">Actualizar ahora</a>
+      <a [routerLink]="['/pharmacy/control-stock']">Actualizar ahora</a>
     </div>
    
     <div div fxLayout="row" fxLayoutAlign="space-between center" >
@@ -110,12 +110,12 @@
         
     <div class ="notifications-sms" style=" overflow-y: scroll;"  fxLayout="column" fxLayoutAlign="start end" >
       <div class="notif-item" fxLayout="row" style="margin-top:20px">
-        <p>Tu local Inkafarma Ejército no ha sido actualizado desde hace dos semanas.         <a href="/control-stock/control-stock.component.html">Actualizar ahora</a>
+        <p>Tu local Inkafarma Ejército no ha sido actualizado desde hace dos semanas.         <a [routerLink]="['/pharmacy/control-stock']">Actualizar ahora</a>
         </p>
         <mat-icon> message</mat-icon>
       </div>
       <div class="notif-item" fxLayout="row">
-        <p>Tu opinión nos importa. <br> Agrega un comentario para ayudarnos a mejorar. <a href="/control-stock/control-stock.component.html">Agregar comentario</a>
+        <p>Tu opinión nos importa. <br> Agrega un comentario para ayudarnos a mejorar. <a href="/pharmacy/control-stock">Agregar comentario</a>
         </p>
         <mat-icon> message</mat-icon>
       </div>

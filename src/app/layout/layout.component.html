@@ -44,7 +44,8 @@
 
             <!-- TOOLBAR -->
             <mat-toolbar fxLayoutAlign="space-between center" class="mat-elevation-z2">
-                <p matLine>{{ 'nameApp' | translate }}</p>
+                <p matLine fxHide.xs="true">{{ 'nameApp' | translate }}</p>
+                <p fxHide="true" fxHide.xs="false">SBF</p>
                 <div>
                     <app-translation></app-translation>
                     <button mat-icon-button>
