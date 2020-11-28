@@ -14,7 +14,8 @@
     font-weight: bold;
     text-align: center;
     font-size: 25px;
-  }
+    color: rgb(31, 168, 161);
+}
 
 #content_2{
     margin-top: 1px;
@@ -93,5 +94,21 @@ th{
 td{
     font-size: 16px;
 }
- 
-  
+.subcontents{
+  width: 90%;
+}
+#select-form{
+   width: 100%;
+}
+
+.search-form {
+  margin-left: 10%;
+  margin-right: 5%;
+  min-width: 90px;
+  max-width: 550px;
+  width: 100%;
+}
+
+.search-full-width {
+  width: 100%;
+}
