@@ -6,19 +6,29 @@
         <mat-card-content>
             <mat-tab-group mat-stretch-tabs>
                 <mat-tab label="{{ 'authentication.login.labels.userPatient' | translate }}">
+
+
+
+
+
                     <form fxLayout="column" class="login-card-content" [formGroup]="formLoginPatient"
                         (ngSubmit)="loginPatient()">
                         <mat-form-field fxFlex="auto" appearance="outline">
                             <mat-label> {{ 'authentication.login.labels.user' | translate }} </mat-label>
-                            <input matInput>
+                            <input matInput formControlName="userPaciente">
+                            <mat-error *ngIf="formLoginPatient.get('userPaciente').hasError('required')">Ingrese un usuario</mat-error>
+                            <mat-error *ngIf="formLoginPatient.get('userPaciente').hasError('email')">Ingrese un correo</mat-error>
                         </mat-form-field>
+
                         <mat-form-field fxFlex="auto" appearance="outline">
                             <mat-label> {{ 'authentication.login.labels.pwd' | translate }} </mat-label>
-                            <input matInput [type]="hide ? 'password' : 'text'">
+                            <input matInput [type]="hide ? 'password' : 'text'" formControlName="pwdPaciente">
                             <button type="button" mat-icon-button matSuffix (click)="hide = !hide">
                                 <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                             </button>
+                            <mat-error *ngIf="formLoginPatient.get('pwdPaciente').hasError('required')">Ingrese un contraseña</mat-error>
                         </mat-form-field>
+
                         <div fxLayout="row" fxLayoutAlign="space-between center" style="margin-bottom: 1rem">
                             <mat-checkbox> {{ 'authentication.login.labels.rememberUser' | translate }} </mat-checkbox>
                             <a class="route-link" [routerLink]="['/forgot-password']">
@@ -27,6 +37,12 @@
                         <button mat-raised-button type="submit" color="primary">
                             {{ 'authentication.login.buttons.login' | translate }} </button>
                     </form>
+
+
+
+
+
+
                 </mat-tab>
                 <mat-tab label="{{ 'authentication.login.labels.userPharmacy' | translate }}">
                     <form fxLayout="column" class="login-card-content" [formGroup]="formLoginPharmacy"

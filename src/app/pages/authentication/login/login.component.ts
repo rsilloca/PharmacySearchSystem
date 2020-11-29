@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -25,11 +25,16 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.formLoginPatient = this.formBuilder.group({});
+    this.formLoginPatient = this.formBuilder.group({
+      userPaciente: new FormControl('', [Validators.required, Validators.email]),
+      pwdPaciente: new FormControl('', [Validators.required])
+    });
     this.formLoginPharmacy = this.formBuilder.group({});
   }
 
   public loginPatient() {
+    if (this.formLoginPatient.invalid) return;
+    // this.formLoginPatient.get('userPaciente').hasError('required')
     this.authService.login(false, "", "");
     this.router.navigate(['/']);
   }

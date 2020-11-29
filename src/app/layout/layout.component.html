@@ -47,6 +47,9 @@
                 <p matLine fxHide.xs="true">{{ 'nameApp' | translate }}</p>
                 <p fxHide="true" fxHide.xs="false">SBF</p>
                 <div>
+                    <button mat-icon-button (click)="openFilter()">
+                        <mat-icon>search</mat-icon>
+                    </button>
                     <app-translation></app-translation>
                     <button mat-icon-button>
                         <mat-icon>notifications_active</mat-icon>
