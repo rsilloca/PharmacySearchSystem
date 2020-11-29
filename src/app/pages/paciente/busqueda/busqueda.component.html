@@ -1,8 +1,8 @@
 
 <div class="principal_content" fxLayout="row"  fxLayoutAlign="space-between center">
   
-    <div id="filters_content" >
-     
+    <div id="filters_content">
+      <app-filtro expandableMultiple="true" (eventFiltro)="filtrar($event)"></app-filtro>
     </div> 
     
     <!-- Panel de busqueda -->
@@ -10,14 +10,15 @@
         <H1 id="title"  >Busca lo que necesitas</H1>
         <div class="subcontents" fxLayout="column" fxLayoutAlign=" center" >
             <div class="subcontents" fxLayout="row" fxLayoutAlign="space-around center" >
-                <form class="search-form">
+                <div class="search-form">
                     <mat-form-field class="search-full-width">
                       <mat-label>Búsqueda</mat-label>
-                      <input type="prod" matInput placeholder="Producto o marca">
+                      <input type="text" matInput placeholder="Producto o marca" [formControl]="filtroProducto">
+                      <mat-error *ngIf="filtroProducto.hasError('pattern')">No cumple</mat-error>
                       <mat-icon matPrefix>search</mat-icon>
                     </mat-form-field>
-                </form>
-                <button mat-raised-button color="primary" style="width: 30%;">Buscar</button>    
+                  </div>
+                <button mat-raised-button color="primary" style="width: 30%;" (click)="filtrarProducto()">Buscar</button>    
             </div>
             <div class="subcontents"  fxLayout="row" fxLayoutAlign="end center" >
                 <h3 style="margin-right: 23px;">Ordenar por: </h3>
@@ -84,10 +85,10 @@
                     </mat-card-content>
                     <mat-card-actions  fxLayout="row" >
                         <h1 style="padding-right: 30%;" >S/.10</h1>
-                        <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
+                        <button mat-icon-button color="primary" aria-label="Example icon button with a home icon" (click)="abrirDetalles()">
                             <mat-icon>visibility</mat-icon>
                           </button>
-                        <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
+                        <button mat-icon-button color="primary" (click)="abrirDetalles()" aria-label="Example icon button with a home icon">
                             <mat-icon>near_me</mat-icon>
                         </button>
                     </mat-card-actions>
