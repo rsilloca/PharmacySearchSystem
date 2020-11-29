@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { DetallesProductoComponent } from './detalles-producto/detalles-producto.component';
 
 @Component({
   selector: 'app-busqueda',
@@ -7,12 +9,14 @@ import { FormControl, Validators } from '@angular/forms';
   styleUrls: ['./busqueda.component.scss']
 })
 export class BusquedaComponent implements OnInit {
+  
+  //dialog: any;
 
   filtroProducto: FormControl = new FormControl('');
   filtroOrden: FormControl = new FormControl(null);
   filtroGeneral: any;
 
-  constructor() { }
+  constructor(private dialog:MatDialog) { }
 
   ngOnInit(): void {
   }
@@ -29,6 +33,15 @@ export class BusquedaComponent implements OnInit {
       return;
     }
     console.log('buscando', this.filtroProducto.value);
+  }
+
+
+  abrirDetalles(): void {
+    const dialog = this.dialog.open(DetallesProductoComponent, {
+      width: '20rem',
+      data: { titulo: 'Detalles Producto', mensaje: 'Probando' }
+    });
+    
   }
 
 }

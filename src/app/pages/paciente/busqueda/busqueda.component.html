@@ -85,10 +85,10 @@
                     </mat-card-content>
                     <mat-card-actions  fxLayout="row" >
                         <h1 style="padding-right: 30%;" >S/.10</h1>
-                        <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
+                        <button mat-icon-button color="primary" aria-label="Example icon button with a home icon" (click)="abrirDetalles()">
                             <mat-icon>visibility</mat-icon>
                           </button>
-                        <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
+                        <button mat-icon-button color="primary" (click)="abrirDetalles()" aria-label="Example icon button with a home icon">
                             <mat-icon>near_me</mat-icon>
                         </button>
                     </mat-card-actions>

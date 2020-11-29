@@ -3,22 +3,20 @@
     <div id="content_1" fxLayout="column" fxLayoutAlign="start stretch" >
       <h2 id="title">
         Mis Locales Farmacia
-      </h2>
+      </h2>      
       
-      
-      
-        <div fxLayout="row"  fxLayoutAlign="space-around stretch">
-            
-            <form>
-                <input type="text" name="filtrar" class="form-control" placeholder="Buscar">
-                <mat-icon>search</mat-icon>     
-     </form>
-            
-            <button mat-raised-button color="primary">Buscar</button>  
-          </div>
-           
-  
-      
+      <div class="subcontents" fxLayout="column" fxLayoutAlign=" center" >
+        <div class="subcontents" fxLayout="row" fxLayoutAlign="space-around center" >
+            <form class="search-form">
+                <mat-form-field class="search-full-width">
+                  <mat-label>Búsqueda</mat-label>
+                  <input type="prod" matInput placeholder="Nombre de la Farmacia">
+                  <mat-icon matPrefix>search</mat-icon>
+                </mat-form-field>
+            </form>
+            <button mat-raised-button color="primary" style="width: 35%;">Buscar</button>    
+        </div>
+      </div>       
       
       <div id="content_3" fxLayout="row" fxLayoutAlign="end start">
          <div class="example-button-row">
