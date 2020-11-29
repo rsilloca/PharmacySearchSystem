@@ -1,6 +1,105 @@
-<p>busqueda works!</p>
-<div fxLayout="row">
-    <div fxFlex="30%">
-        <app-filtro [expandableMultiple]="true"></app-filtro>
+
+<div class="principal_content" fxLayout="row"  fxLayoutAlign="space-between center">
+  
+    <div id="filters_content" >
+     
+    </div> 
+    
+    <!-- Panel de busqueda -->
+    <div id="search_content" fxLayout="column" fxLayoutAlign="space-between center">
+        <H1 id="title"  >Busca lo que necesitas</H1>
+        <div class="subcontents" fxLayout="column" fxLayoutAlign=" center" >
+            <div class="subcontents" fxLayout="row" fxLayoutAlign="space-around center" >
+                <form class="search-form">
+                    <mat-form-field class="search-full-width">
+                      <mat-label>Búsqueda</mat-label>
+                      <input type="prod" matInput placeholder="Producto o marca">
+                      <mat-icon matPrefix>search</mat-icon>
+                    </mat-form-field>
+                </form>
+                <button mat-raised-button color="primary" style="width: 30%;">Buscar</button>    
+            </div>
+            <div class="subcontents"  fxLayout="row" fxLayoutAlign="end center" >
+                <h3 style="margin-right: 23px;">Ordenar por: </h3>
+                <mat-form-field id="select-form"appearance="fill">
+                    <mat-label>Selecciona una opción</mat-label>
+                    <mat-select [(value)]="selected">
+                      <mat-option>Ninguno</mat-option>
+                      <mat-option value="option1">Más cercano</mat-option>
+                      <mat-option value="option2">Más económico</mat-option>
+                      <mat-option value="option3">Más económico y cercano</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+       
+        <div class="subcontents" fxLayout="column" fxLayoutAlign="start center" >
+            <div  fxLayoutAlign="space-between center" >
+                <mat-card class="example-card">
+                    <mat-card-header>
+                        <mat-card-subtitle>Blister x 100 unid.</mat-card-subtitle>
+                      <mat-card-title>Ibuprofeno 800mg</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                      <p> Inkafarma Ejército </p>
+                      <p id="direccion-Farm"> Av. Ejercito 123 </p>
+                    </mat-card-content>
+                    <mat-card-actions  fxLayout="row" >
+                        <h1 style="padding-right: 30%;" >S/.20</h1>
+                        <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
+                            <mat-icon>visibility</mat-icon>
+                          </button>
+                        <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
+                            <mat-icon>near_me</mat-icon>
+                        </button>
+                    </mat-card-actions>
+                </mat-card>
+                <mat-card class="example-card">
+                    <mat-card-header>
+                        <mat-card-subtitle>Inyectable x 1 unid.</mat-card-subtitle>
+                      <mat-card-title>Abanbromox 600mg</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                      <p> Mifarma Paucarpata </p>
+                      <p id="direccion-Farm"> Calle Junín 701 </p>
+                    </mat-card-content>
+                    <mat-card-actions  fxLayout="row" >
+                        <h1 style="padding-right: 30%;" >S/.5</h1>
+                        <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
+                            <mat-icon>visibility</mat-icon>
+                          </button>
+                        <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
+                            <mat-icon>near_me</mat-icon>
+                        </button>
+                    </mat-card-actions>
+                </mat-card>
+                <mat-card class="example-card">
+                    <mat-card-header>
+                        <mat-card-subtitle>Caja tubo 5g x 1 unidad</mat-card-subtitle>
+                      <mat-card-title>Aciclovir 5%</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                      <p> Botica María JLByR </p>
+                      <p id="direccion-Farm"> Jr. Castilla L-7</p>
+                    </mat-card-content>
+                    <mat-card-actions  fxLayout="row" >
+                        <h1 style="padding-right: 30%;" >S/.10</h1>
+                        <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
+                            <mat-icon>visibility</mat-icon>
+                          </button>
+                        <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
+                            <mat-icon>near_me</mat-icon>
+                        </button>
+                    </mat-card-actions>
+                </mat-card>
+                
+            </div>
+        </div>
+        <div class="subcontents" fxLayoutAlign="end end"  >
+            <mat-paginator [length]="100"
+              [pageSize]="10"
+              [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons>
+            </mat-paginator >    
+        </div>
     </div>
-</div>
+  </div>
