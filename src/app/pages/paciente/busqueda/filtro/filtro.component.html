@@ -1,0 +1,99 @@
+<div *ngIf="expandableMultiple; else modal">
+    <mat-card>
+        <h2 mat-dialog-title>Filtros</h2>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title> Radio de localización </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-slider fxFlex="100%" thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="1" max="100000">
+            </mat-slider>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title> Categorias (4) </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-radio-group fxLayout="column">
+                <mat-radio-button
+                    *ngFor="let categoria of ['Todos', 'Adulto Mayor', 'Cuidado Bucal', 'Cuidado Infantil', 'Cuidado Íntimo']"
+                    [value]="categoria">
+                    {{categoria}}
+                </mat-radio-button>
+            </mat-radio-group>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title> Precio </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-slider fxFlex="100%" thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="1" max="100000">
+            </mat-slider>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title> Presentación (5) </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-radio-group fxLayout="column">
+                <mat-radio-button *ngFor="let presentacion of ['Todos', 'Caja', 'Frasco', 'Blíster', 'Tabletas']"
+                    [value]="presentacion">
+                    {{presentacion}}
+                </mat-radio-button>
+            </mat-radio-group>
+        </mat-expansion-panel>
+    </mat-card>
+</div>
+
+<ng-template #modal>
+    <h2 mat-dialog-title>Filtros</h2>
+    <mat-dialog-content style="height: auto; padding: 1rem 0;">
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title> Radio de localización </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-slider fxFlex="100%" thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="1"
+                    max="100000">
+                </mat-slider>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title> Categorias (4) </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-radio-group fxLayout="column">
+                    <mat-radio-button
+                        *ngFor="let categoria of ['Todos', 'Adulto Mayor', 'Cuidado Bucal', 'Cuidado Infantil', 'Cuidado Íntimo']"
+                        [value]="categoria">
+                        {{categoria}}
+                    </mat-radio-button>
+                </mat-radio-group>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title> Precio </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-slider fxFlex="100%" thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="1"
+                    max="100000">
+                </mat-slider>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title> Presentación (5) </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-radio-group fxLayout="column">
+                    <mat-radio-button *ngFor="let presentacion of ['Todos', 'Caja', 'Frasco', 'Blíster', 'Tabletas']"
+                        [value]="presentacion">
+                        {{presentacion}}
+                    </mat-radio-button>
+                </mat-radio-group>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-button mat-dialog-close>Cancelar</button>
+        <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Filtrar</button>
+    </mat-dialog-actions>
+</ng-template>
