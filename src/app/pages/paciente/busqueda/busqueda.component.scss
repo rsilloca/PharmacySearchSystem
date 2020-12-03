@@ -3,31 +3,27 @@
 }
   #filters_content, #search_content{
     margin-top: 10px;
-    margin-right: 10px;
     height: 630px;
   }
   #filters_content{
     width: 30%;
   }
   #search_content{
-    width: 65%;
+    margin-right: 4%;
+    margin-left: 5%;
   }
 #title{
     font-weight: 560;
-    font-size:2rem;
+    font-size:5vw; //rem
     color: rgb(31, 168, 161);
+    text-align: center;
 }
 .subcontents{
     width: 100%;
 }
-#select-form{
-    margin-right: 20px;
-    width: 30%;
-}
 
 .search-form {
-    min-width: 90px;
-    max-width: 550px;
+    min-width: 80px;
     width: 100%;
   }
   
@@ -36,7 +32,6 @@
   }
   .example-card {
     max-width: 400px;
-    margin: 20px;
   }
   
   #direccion-Farm{
