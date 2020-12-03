@@ -1,5 +1,18 @@
-<h3 mat-dialog-title>{{titulo}}</h3>
-<mat-dialog-content>
-    <p>{{mensaje}}</p>
-</mat-dialog-content>
+<div fxLayout="row" fxLayoutAlign="space-between none" >
+<h1 mat-dialog-title>{{titulo}}</h1>
+<button  mat-icon-button mat-dialog-close color = "primary"  aria-label = "Botón de icono de ejemplo con un icono de menú">
+  <mat-icon>close</mat-icon > 
+</button>
 
+</div>
+<h2 mat-dialog-title>{{nombreMedicamento}}</h2>
+<h5>{{marca}}</h5>
+<div class="separacion" fxLayout="row">
+    <h2 style="padding-right: 30%;">{{nombreLab}}</h2>
+    <h2>{{precio}}</h2>
+</div>
+<h2 style="text-align: center;"> Lo encuentras en:</h2>
+<h3 id="nombreFar">{{nombreFarmacia}}</h3>
+<p id="direccion-Farm">{{ubicacion}}</p>
+<p>{{distancia}}</p>
+<p>{{horario}}</p>
