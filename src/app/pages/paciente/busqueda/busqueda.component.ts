@@ -38,8 +38,11 @@ export class BusquedaComponent implements OnInit {
 
   abrirDetalles(): void {
     const dialog = this.dialog.open(DetallesProductoComponent, {
-      width: '20rem',
-      data: { titulo: 'Detalles Producto', mensaje: 'Probando' }
+      width: '25rem',
+      data: { titulo: 'Detalles de búsqueda', nombreMedicamento: 'Ibuprofeno 800mg.- TABLETA', 
+      marca:'Blister x100 uni.', nombreLab:'FARMAINDUSTRIA', precio:'S/.20.00',
+      nombreFarmacia:'Inkafarma Ejercito - Inkafarma', ubicacion:'Av. Ejercito 123 ',
+       distancia:'A 0.5km. aproximadamente', horario:'Atiende de 9:00hrs a 18:00hrs'}
     });
     
   }

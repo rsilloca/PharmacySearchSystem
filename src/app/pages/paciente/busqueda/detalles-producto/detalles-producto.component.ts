@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+
 @Component({
   selector: 'app-detalles-producto',
   templateUrl: './detalles-producto.component.html',
@@ -9,16 +10,27 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class DetallesProductoComponent implements OnInit {
 
   titulo: string = '';
-  mensaje: string = '';
+  nombreMedicamento: string = '';
+  marca: string = '';
+  nombreLab: string = '';
+  precio: string = '';
+  nombreFarmacia: string = '';
+  ubicacion: string = '';
+  distancia: string = '';
+  horario: string = '';
 
   constructor(public dialogRef: MatDialogRef<DetallesProductoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
     this.titulo = this.data.titulo;
-    this.mensaje = this.data.mensaje;
+    this.nombreMedicamento = this.data.nombreMedicamento;
+    this.marca = this.data.marca;
+    this.nombreLab = this.data.nombreLab;
+    this.precio= this.data.precio;
+    this.nombreFarmacia = this.data.nombreFarmacia;
+    this.ubicacion = this.data.ubicacion;
+    this.distancia = this.data.distancia;
+    this.horario = this.data.horario;
   }
-
-
-
 }
