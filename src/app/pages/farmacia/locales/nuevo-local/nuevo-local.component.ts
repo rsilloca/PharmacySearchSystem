@@ -3,6 +3,7 @@ import {FormControl} from '@angular/forms';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog} from '@angular/material/dialog';
+import { AlertComponent } from '../../../alert/alert.component';
 
 export interface TimeTable {
   name: string;
@@ -66,22 +67,15 @@ export class NuevoLocalComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
  
-  openDialog() {
-    this.dialog.open(DialogElementsExampleDialog);
-  }
-
-}
-
-@Component({
-  selector: 'dialog-elements-example-dialog',
-  templateUrl: 'dialog-elements-example-dialog.html',
-  styleUrls: ['./nuevo-local.component.scss']
-})
-export class DialogElementsExampleDialog {
-  constructor(private matDialog: MatDialog){}
-
-closed(){
-  this.matDialog.closeAll();
-}
   
+  openDialog(): void {
+    const dialog = this.dialog.open(AlertComponent, {
+      width: '20rem',
+      data: { titulo: '¡ACCIÓN EXITOSA!', mensaje: '¡Registro realizado correctamente!' }
+    });
+    dialog.afterClosed().subscribe( respuesta => {
+      console.log(respuesta);
+    });
+  }
 }
+
