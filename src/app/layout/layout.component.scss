@@ -1,43 +1,23 @@
+@import "var";
+
 .container {
-    height: 100%;
-    position: relative;
+  height: 100%;
+  position: relative;
 }
 
 .content-container {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .content {
-    overflow-x: hidden;
-    overflow-y: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
 
-    &.scroll-disabled {
-        overflow: hidden;
+  &.scroll-disabled {
+    overflow: hidden;
 
-        .content-inner {
-            min-height: 0;
-        }
+    .content-inner {
+      min-height: 0;
     }
-}
-
-.sidenav {
-    // -webkit-transition: width 1s;
-    // -moz-transition: width 1s;
-    // -ms-transition: width 1s;
-    // -o-transition: width 1s;
-    // transition: width 1s;
-    width: auto;
-    padding: 0.5rem 1rem;
-}
-
-.sidenav.expanded {
-    width: 15rem;
-}
-
-.icon-white {
-    color: white;
-}
-
-mat-toolbar {
-    background: white;
+  }
 }
