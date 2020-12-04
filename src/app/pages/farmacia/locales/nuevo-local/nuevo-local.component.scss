@@ -1,0 +1,44 @@
+.container {
+    margin: 10px;
+  }
+  
+  .item {
+    padding: 1em 1em;
+  }
+  .title {
+    color: #000;
+    font-family: sans-serif;
+    font-size: 2em;
+    text-transform: uppercase;
+  }
+  
+  //css para los input  
+  .input-name-direction {
+    width: 100%;
+  }
+  
+  td {
+    padding-right: 30px;
+  }
+
+  //subtitulo
+  .sub-title{
+      font-weight: bold
+  }
+
+  //tabla de horarios
+  .mat-elevation-z8 {
+    width: 100%;
+  }
+
+  //mapa
+  agm-map {
+    width: 100%;
+    height: 100%;
+ }
+
+ // botones
+ .button-row{
+    margin: 8px 8px 8px 0;
+ }
+
