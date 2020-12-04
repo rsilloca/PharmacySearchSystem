@@ -1,15 +1,16 @@
 
-<div class="principal_content" fxLayout="row"  fxLayoutAlign="space-between center">
+<div class="principal_content" fxLayout="row"  fxLayoutAlign="space-between center" fxLayoutAlign.xs=" stretch">
   
-    <div id="filters_content">
+    <div id="filters_content" fxHide.xs="true">
       <app-filtro expandableMultiple="true" (eventFiltro)="filtrar($event)"></app-filtro>
     </div> 
     
     <!-- Panel de busqueda -->
-    <div id="search_content" fxLayout="column" fxLayoutAlign="space-between center">
-        <H1 id="title"  >Busca lo que necesitas</H1>
+    <div id="search_content" fxLayout="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs=" stretch">
+        <h3>Busca lo que necesitas</h3>
+        <!-- id="title" -->
         <div class="subcontents" fxLayout="column" fxLayoutAlign=" center" >
-            <div class="subcontents" fxLayout="row" fxLayoutAlign="space-around center" >
+            <div class="subcontents" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around center" fxLayoutAlign.xs="center stretch">
                 <div class="search-form">
                     <mat-form-field class="search-full-width">
                       <mat-label>Búsqueda</mat-label>
@@ -17,12 +18,12 @@
                       <mat-error *ngIf="filtroProducto.hasError('pattern')">No cumple</mat-error>
                       <mat-icon matPrefix>search</mat-icon>
                     </mat-form-field>
-                  </div>
-                <button mat-raised-button color="primary" style="width: 30%;" (click)="filtrarProducto()">Buscar</button>    
+                </div>
+                <button mat-raised-button color="primary" style="min-width: 30%;" (click)="filtrarProducto()">Buscar</button>    
             </div>
-            <div class="subcontents"  fxLayout="row" fxLayoutAlign="end center" >
-                <h3 style="margin-right: 23px;">Ordenar por: </h3>
-                <mat-form-field id="select-form"appearance="fill">
+            <div class="subcontents"  fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5%" fxLayoutAlign.xs="space-between center">
+                <p style="font-size: 1.1em;">Ordenar por: </p>
+                <mat-form-field style="min-width: 30%;" appearance="outline">
                     <mat-label>Selecciona una opción</mat-label>
                     <mat-select [(value)]="selected">
                       <mat-option>Ninguno</mat-option>
@@ -35,7 +36,7 @@
         </div>
        
         <div class="subcontents" fxLayout="column" fxLayoutAlign="start center" >
-            <div  fxLayoutAlign="space-between center" >
+            <div  fxLayout.xs="column" fxLayoutAlign="center center" fxLayoutGap="10px" >
                 <mat-card class="example-card">
                     <mat-card-header>
                         <mat-card-subtitle>Blister x 100 unid.</mat-card-subtitle>
@@ -45,14 +46,17 @@
                       <p> Inkafarma Ejército </p>
                       <p id="direccion-Farm"> Av. Ejercito 123 </p>
                     </mat-card-content>
-                    <mat-card-actions  fxLayout="row" >
-                        <h1 style="padding-right: 30%;" >S/.20</h1>
-                        <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
+                    <mat-card-actions  fxLayout="row" fxLayoutAlign="space-around center"  >
+                        <h1 >S/.20</h1>
+                        <div>
+                          <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
                             <mat-icon>visibility</mat-icon>
                           </button>
                         <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
                             <mat-icon>near_me</mat-icon>
                         </button>
+                        </div>
+                        
                     </mat-card-actions>
                 </mat-card>
                 <mat-card class="example-card">
@@ -64,14 +68,16 @@
                       <p> Mifarma Paucarpata </p>
                       <p id="direccion-Farm"> Calle Junín 701 </p>
                     </mat-card-content>
-                    <mat-card-actions  fxLayout="row" >
-                        <h1 style="padding-right: 30%;" >S/.5</h1>
-                        <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
+                    <mat-card-actions  fxLayout="row" fxLayoutAlign="space-around center" >
+                        <h1>S/.5</h1>
+                        <div>
+                          <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
                             <mat-icon>visibility</mat-icon>
                           </button>
-                        <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
-                            <mat-icon>near_me</mat-icon>
-                        </button>
+                          <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
+                              <mat-icon>near_me</mat-icon>
+                          </button>
+                        </div>
                     </mat-card-actions>
                 </mat-card>
                 <mat-card class="example-card">
@@ -83,14 +89,16 @@
                       <p> Botica María JLByR </p>
                       <p id="direccion-Farm"> Jr. Castilla L-7</p>
                     </mat-card-content>
-                    <mat-card-actions  fxLayout="row" >
-                        <h1 style="padding-right: 30%;" >S/.10</h1>
-                        <button mat-icon-button color="primary" aria-label="Example icon button with a home icon" (click)="abrirDetalles()">
+                    <mat-card-actions  fxLayout="row" fxLayoutAlign="space-around center" >
+                        <h1>S/.10</h1>
+                        <div>
+                          <button mat-icon-button color="primary" (click)="abrirDetalles()">
                             <mat-icon>visibility</mat-icon>
                           </button>
-                        <button mat-icon-button color="primary" (click)="abrirDetalles()" aria-label="Example icon button with a home icon">
-                            <mat-icon>near_me</mat-icon>
-                        </button>
+                          <button mat-icon-button color="primary" (click)="abrirVerRuta()">
+                              <mat-icon>near_me</mat-icon>
+                          </button>
+                        </div>
                     </mat-card-actions>
                 </mat-card>
                 

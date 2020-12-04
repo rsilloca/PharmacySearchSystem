@@ -1,34 +1,70 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { SidebarDirective } from '../../@fury/shared/sidebar/sidebar.directive';
+import { SidenavService } from './sidenav/sidenav.service';
+import { filter, map, startWith } from 'rxjs/operators';
+import { ThemeService } from '../../@fury/services/theme.service';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { checkRouterChildsData } from '../../@fury/utils/check-router-childs-data';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { AuthenticationService } from '../@services/authentication.service';
 import { FiltroComponent } from '../pages/paciente/busqueda/filtro/filtro.component';
 
 @Component({
-  selector: 'app-layout',
+  selector: 'fury-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss']
 })
-export class LayoutComponent implements OnInit {
+export class LayoutComponent implements OnInit, OnDestroy {
 
-  showSide: boolean = false;
-  pharmacyUser: boolean = false;
+  @ViewChild('configPanel', { static: true }) configPanel: SidebarDirective;
 
-  constructor(private authService: AuthenticationService, private router: Router, public dialog: MatDialog) { }
+  sidenavOpen$ = this.sidenavService.open$;
+  sidenavMode$ = this.sidenavService.mode$;
+  sidenavCollapsed$ = this.sidenavService.collapsed$;
+  sidenavExpanded$ = this.sidenavService.expanded$;
+  quickPanelOpen: boolean;
 
-  ngOnInit(): void {
-    this.pharmacyUser = this.authService.isPharmacyUser();
+  sideNavigation$ = this.themeService.config$.pipe(map(config => config.navigation === 'side'));
+  topNavigation$ = this.themeService.config$.pipe(map(config => config.navigation === 'top'));
+  toolbarVisible$ = this.themeService.config$.pipe(map(config => config.toolbarVisible));
+  toolbarPosition$ = this.themeService.config$.pipe(map(config => config.toolbarPosition));
+  footerPosition$ = this.themeService.config$.pipe(map(config => config.footerPosition));
+
+  scrollDisabled$ = this.router.events.pipe(
+    filter<NavigationEnd>(event => event instanceof NavigationEnd),
+    startWith(null),
+    map(() => checkRouterChildsData(this.router.routerState.root.snapshot, data => data.scrollDisabled))
+  );
+
+  constructor(private sidenavService: SidenavService,
+              private themeService: ThemeService,
+              private route: ActivatedRoute,
+              private router: Router,
+              private dialog: MatDialog) {}
+
+  ngOnInit() {}
+
+  openQuickPanel() {
+    this.quickPanelOpen = true;
   }
 
-  public logout() {
-    this.authService.logout();
-    this.router.navigate(['/login']);
+  openConfigPanel() {
+    this.configPanel.open();
   }
 
-  public openFilter() {
-    this.dialog.open(FiltroComponent, {
-      panelClass: 'filtro-modal'
+  closeSidenav() {
+    this.sidenavService.close();
+  }
+
+  openSidenav() {
+    this.sidenavService.open();
+  }
+
+  ngOnDestroy(): void {}
+
+  abrirFiltro() {
+    let dialogFiltro = this.dialog.open(FiltroComponent, {
+      width: '30rem'
     });
   }
-
 }
+

@@ -1,0 +1,14 @@
+<div fxLayout="row" fxLayoutAlign="space-between start">
+    <h3>Ruta hacia Botica Maria JLByR (0.5km)</h3>
+    <button mat-icon-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<div mat-dialog-content>
+    <agm-map [latitude]="lat" [zoom]="zoom" [longitude]="lng">
+        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+    </agm-map>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button mat-dialog-close color="primary">Aceptar</button>
+</div>

@@ -3,13 +3,18 @@ import { Routes, RouterModule } from '@angular/router';
 import { LocalesComponent } from './locales.component';
 import { NuevoLocalComponent } from './nuevo-local/nuevo-local.component';
 
+
 const routes: Routes = [
   {
     path: '',
     component: LocalesComponent
   },
   {
-    path: 'nuevo',
+    path: 'local',
+    component: NuevoLocalComponent
+  },
+  {
+    path: 'local/:id',
     component: NuevoLocalComponent
   }
 ];

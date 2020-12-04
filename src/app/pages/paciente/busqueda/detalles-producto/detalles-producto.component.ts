@@ -1,9 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-
 @Component({
-  selector: 'app-detalles-producto',
+  selector: 'fury-detalles-producto',
   templateUrl: './detalles-producto.component.html',
   styleUrls: ['./detalles-producto.component.scss']
 })
@@ -33,4 +32,5 @@ export class DetallesProductoComponent implements OnInit {
     this.distancia = this.data.distancia;
     this.horario = this.data.horario;
   }
+
 }
