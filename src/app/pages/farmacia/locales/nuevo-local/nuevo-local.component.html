@@ -1,99 +1,122 @@
-<div class="container" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px" fxLayoutGap.xs="0">
-    <div class="item" fxFlex="auto">
-        <div class="center">
-            <h1 class="title">Nuevo Local Farmacia</h1>
-        </div>
+<div class="container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Nuevo Local Farmacia</mat-card-title>
+        </mat-card-header>
+        <mat-card-content fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10px" fxLayoutGap.xs="0">
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1rem" fxLayoutGap.xs="0">
+                <!-- class="item" -->
+                <!-- <div class="center">
+                    <h1 class="title">Nuevo Local Farmacia</h1>
+                </div>
         
-        <table class="input-name-direction" cellspacing="0" ><tr fxLayout.xs="column"> 
-            <td><mat-form-field appearance="outline" class="input-name-direction">
-                <mat-label>Nombre</mat-label>
-                <input matInput>
-            </mat-form-field></td>
-            <td><mat-form-field appearance="outline" class="input-name-direction">
-                <mat-label>Dirección</mat-label>
-                <input matInput>
-            </mat-form-field></td>
-        </tr></table>
+                <table class="input-name-direction" cellspacing="0">
+                    <tr fxLayout.xs="column">
+                        <td> -->
+                <mat-form-field appearance="outline" fxFlex="calc(50% - 1rem)">
+                    <!-- class="input-name-direction" -->
+                    <mat-label>Nombre</mat-label>
+                    <input matInput>
+                </mat-form-field>
+                <!-- </td>
+                        <td> -->
+                <mat-form-field appearance="outline" fxFlex="calc(50% - 1rem)">
+                    <!-- class="input-name-direction" -->
+                    <mat-label>Dirección</mat-label>
+                    <input matInput>
+                </mat-form-field>
+                <!-- </td>
+                    </tr>
+                </table>
         
-        <table><tr fxLayout.xs="column">
-            <td><p>
-                <mat-checkbox [formControl]="disableSelect">Ubicación automática</mat-checkbox>
-            </p></td>
-            <td><mat-form-field appearance="outline">
-                <input matNativeControl [disabled]="disableSelect.value" value ="-1223874,-2539345" matInput>
-            </mat-form-field></td>
-        </tr></table>
-  </div>
-</div>
+                <table>
+                    <tr fxLayout.xs="column">
+                        <td>
+                            <p></p>
+                        </td>
+                        <td></td>
+                    </tr>
+                </table> -->
+            </div>
+            <!-- </div> -->
 
-<div class="container" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px" fxLayoutGap.xs="0">
-  <div class="item" fxFlex="auto">
-    <agm-map [latitude]="lat" [zoom]="zoom" [longitude]="lng">
-        <agm-marker  [latitude]="lat" [longitude]="lng"></agm-marker>
-    </agm-map>
-  </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="1rem" fxLayoutGap.xs="0">
+                <!-- class="container" -->
+                <div fxFlex="calc(50% - 1rem)" fxFlex.xs="auto" fxLayout="column">
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="space-around stretch">
+                        <mat-checkbox fxFlex="auto" [formControl]="disableSelect">Ubicación automática</mat-checkbox>
+                        <mat-form-field fxFlex="auto" appearance="outline">
+                            <input matNativeControl [disabled]="disableSelect.value" value="-1223874,-2539345" matInput>
+                        </mat-form-field>
+                    </div>
+                    <!-- class="item" -->
+                    <agm-map [latitude]="lat" [zoom]="zoom" [longitude]="lng">
+                        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+                    </agm-map>
+                </div>
 
-  <div class="item" fxFlex="auto">
-    <div class="center">
-        <h4 class="sub-title">Horario de Atención</h4>
-    </div>
+                <div fxFlex="calc(50% - 1rem)" fxFlex.xs="auto">
+                    <!-- class="item" -->
+                    <div class="center">
+                        <h4 class="sub-title">Horario de Atención</h4>
+                    </div>
 
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-        <!-- Position Column -->
-        <ng-container matColumnDef="position">
-          <th mat-header-cell *matHeaderCellDef> No. </th>
-          <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-        </ng-container>
-      
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef> Día </th>
-          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-        </ng-container>
+                        <!-- Position Column -->
+                        <ng-container matColumnDef="position">
+                            <th mat-header-cell *matHeaderCellDef> No. </th>
+                            <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                        </ng-container>
 
-        <!-- Open Columb-->
-        <ng-container matColumnDef="open">
-            <th mat-header-cell *matHeaderCellDef> Hora apertura </th>
-            <td mat-cell *matCellDef="let element"> {{element.open}} </td>
-          </ng-container>
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef> Día </th>
+                            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                        </ng-container>
 
-        <!-- Closed Column -->
-        <ng-container matColumnDef="closed">
-            <th mat-header-cell *matHeaderCellDef> Hora cierre </th>
-            <td mat-cell *matCellDef="let element"> {{element.closed}} </td>
-          </ng-container>
+                        <!-- Open Columb-->
+                        <ng-container matColumnDef="open">
+                            <th mat-header-cell *matHeaderCellDef> Hora apertura </th>
+                            <td mat-cell *matCellDef="let element"> {{element.open}} </td>
+                        </ng-container>
 
-        <!-- Checkbox Column -->
-        <ng-container matColumnDef="select">
-            <th mat-header-cell *matHeaderCellDef>
-              <mat-checkbox (change)="$event ? masterToggle() : null"
-                            [checked]="selection.hasValue() && isAllSelected()"
-                            [indeterminate]="selection.hasValue() && !isAllSelected()"
-                            [aria-label]="checkboxLabel()">
-              </mat-checkbox>
-            </th>
-            <td mat-cell *matCellDef="let row">
-              <mat-checkbox (click)="$event.stopPropagation()"
-                            (change)="$event ? selection.toggle(row) : null"
-                            [checked]="selection.isSelected(row)"
-                            [aria-label]="checkboxLabel(row)">
-              </mat-checkbox>
-            </td>
-          </ng-container>
-        
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-            (click)="selection.toggle(row)">
-        </tr>
-    </table>
-  
- 
-    <div class="button-row" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="10px">
-        <button mat-raised-button>Cancelar</button>
-        <button mat-raised-button color="primary" (click)="openDialog()">Aceptar</button>
-    </div>
+                        <!-- Closed Column -->
+                        <ng-container matColumnDef="closed">
+                            <th mat-header-cell *matHeaderCellDef> Hora cierre </th>
+                            <td mat-cell *matCellDef="let element"> {{element.closed}} </td>
+                        </ng-container>
 
-    
-  </div>
+                        <!-- Checkbox Column -->
+                        <ng-container matColumnDef="select">
+                            <th mat-header-cell *matHeaderCellDef>
+                                <mat-checkbox (change)="$event ? masterToggle() : null"
+                                    [checked]="selection.hasValue() && isAllSelected()"
+                                    [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                    [aria-label]="checkboxLabel()">
+                                </mat-checkbox>
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <mat-checkbox (click)="$event.stopPropagation()"
+                                    (change)="$event ? selection.toggle(row) : null"
+                                    [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                                </mat-checkbox>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <div class="button-row" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="10px">
+                <button mat-raised-button color="warn">Cancelar</button>
+                <button mat-raised-button color="primary">Aceptar</button>
+                <!-- (click)="openDialog()" -->
+            </div>
+        </mat-card-actions>
+    </mat-card>
 </div>

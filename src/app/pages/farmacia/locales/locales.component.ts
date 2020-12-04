@@ -20,13 +20,11 @@ const ELEMENT_DATA: LocalTable[] = [
   { position: 6, name: 'Arcangel', address: 'Sachaca', openning: '9:00', closing: '18:00' },
 ];
 
-
 @Component({
-  selector: 'app-locales',
+  selector: 'fury-locales',
   templateUrl: './locales.component.html',
   styleUrls: ['./locales.component.scss']
 })
-
 export class LocalesComponent implements OnInit {
 
   //CLASE TABLA

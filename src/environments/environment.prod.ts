@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  googleMapsApiKey: '',
+  backend: '', // Put your backend here
 };
