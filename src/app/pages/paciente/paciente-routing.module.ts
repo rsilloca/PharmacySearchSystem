@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { BusquedaComponent } from './busqueda/busqueda.component';
 
+
 const routes: Routes = [
   {
     path: '',

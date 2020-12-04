@@ -1,0 +1,76 @@
+<div class="principal_content">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Mis Productos</mat-card-title>
+        </mat-card-header>
+        <mat-card-content fxLayout="column" fxLayoutAlign="center stretch">
+            <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
+                <mat-form-field appearance="outline" fxFlex="calc(65% - 1rem)">
+                    <mat-label>Búsqueda</mat-label>
+                    <input type="text" matInput placeholder="Nombre de la Farmacia">
+                </mat-form-field>
+                <button mat-raised-button color="primary" fxFlex="calc(35% - 1rem)">Buscar</button>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="end start" fxLayoutGap="0.5rem">
+                <button mat-mini-fab color="accent">
+                    <mat-icon>update</mat-icon>
+                </button>
+                <button mat-mini-fab color="accent" (click)="subidaMasiva()">
+                    <mat-icon>cloud_upload</mat-icon>
+                </button>
+                <button mat-mini-fab color="primary" (click)="nuevoProducto()">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z2">
+
+                <!-- Columna de posicion -->
+                <ng-container matColumnDef="numero">
+                    <th mat-header-cell *matHeaderCellDef> N° </th>
+                    <td mat-cell *matCellDef="let element; let index=index"> {{index}} </td>
+                </ng-container>
+                <!-- Columna codigo -->
+                <ng-container matColumnDef="codigo">
+                    <th mat-header-cell *matHeaderCellDef> Código </th>
+                    <td mat-cell *matCellDef="let element"> {{element.codigo}} </td>
+                </ng-container>
+                <!-- Columna nombre -->
+                <ng-container matColumnDef="nombre">
+                    <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+                </ng-container>
+                <!-- Columna precio -->
+                <ng-container matColumnDef="precio">
+                    <th mat-header-cell *matHeaderCellDef> Precio </th>
+                    <td mat-cell *matCellDef="let element"> {{element.precio}} </td>
+                </ng-container>
+                <!-- Columna marca -->
+                <ng-container matColumnDef="marca">
+                    <th mat-header-cell *matHeaderCellDef> Marca </th>
+                    <td mat-cell *matCellDef="let element"> {{element.marca}} </td>
+                </ng-container>
+
+                <!-- Columna stock -->
+                <ng-container matColumnDef="stock">
+                    <th mat-header-cell *matHeaderCellDef> Stock </th>
+                    <td mat-cell *matCellDef="let element"> {{element.stock}} </td>
+                </ng-container>
+
+                <!-- Columna de acciones -->
+                <ng-container matColumnDef="acciones">
+                    <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                    <td mat-cell *matCellDef="let row">
+                        <button mat-icon-button color="primary">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button color="primary">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"> </tr>
+            </table>
+        </mat-card-content>
+    </mat-card>
+</div>
