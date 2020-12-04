@@ -1,29 +1,32 @@
-.bg-pharmacy {
-    background-image: url(/assets/svg/bg_pharmacy.svg);
+@import "var";
+
+.page {
+  display: block;
+  height: 100%;
+  width: 100%;
 }
 
-.login-card {
-    padding: 0;
-    border-radius: .7rem;
+.card {
+  width: 380px;
+
+  @include media-xs {
+    width: 300px;
+  }
+
+  .header {
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
+  }
 }
 
-.login-card-title {
-    border-top-left-radius: .7rem;
-    border-top-right-radius: .7rem;
-    margin: 0;
+
+.logo {
+  width: 80px;
+  height: 80px;
 }
 
-.main-icon {
-    width: 6rem;
-    height: 6rem;
-    padding: 1rem;
-    color: white;
-}
-
-.login-card-content {
-    padding: 1rem 1rem 0 1rem;
-}
-
-.route-link {
-    color: black;
+.logo-sbf {
+  width: 80px;
+  height: 80px;
+  color: white;
 }

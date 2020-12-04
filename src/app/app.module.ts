@@ -1,55 +1,58 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Needed for Touch functionality of Material Components
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SharedModule } from 'src/@theming/shared.module';
-import { LayoutComponent } from './layout/layout.component';
-import { LoginComponent } from './pages/authentication/login/login.component';
-import { RegisterComponent } from './pages/authentication/register/register.component';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { TranslationComponent } from './translation/translation.component';
-import { NotFoundComponent } from './pages/not-found/not-found.component';
-import { ForgotPasswordComponent } from './pages/authentication/forgot-password/forgot-password.component';
-import { MaterialComponentsModule } from 'src/@theming/shared/material-components.module';
-import { AlertComponent } from './pages/alert/alert.component';
-
-export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
+import { LayoutModule } from './layout/layout.module';
+import { AgmCoreModule } from '@agm/core';
+import { environment } from '../environments/environment';
+import { PendingInterceptorModule } from '../@fury/shared/loading-indicator/pending-interceptor.module';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LayoutComponent,
-    LoginComponent,
-    RegisterComponent,
-    TranslationComponent,
-    NotFoundComponent,
-    ForgotPasswordComponent,
-    AlertComponent
-  ],
   imports: [
+    // Angular Core Module // Don't remove!
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
-    SharedModule,
-    MaterialComponentsModule,
-    // Translation
     HttpClientModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [HttpClient],
-      }
-    })
-    // End translation
+
+    // Fury Core Modules
+    AppRoutingModule,
+
+    // Layout Module (Sidenav, Toolbar, Quickpanel, Content)
+    LayoutModule,
+
+    // Google Maps Module
+    AgmCoreModule.forRoot({
+      apiKey: environment.googleMapsApiKey
+    }),
+
+    // Displays Loading Bar when a Route Request or HTTP Request is pending
+    PendingInterceptorModule,
+
+    // Register a Service Worker (optional)
+    // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  declarations: [AppComponent],
+  bootstrap: [AppComponent],
+  providers: [
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: {
+        appearance: 'fill'
+      } as MatFormFieldDefaultOptions
+    },
+    {
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue: {
+        duration: 5000,
+        horizontalPosition: 'end',
+        verticalPosition: 'bottom'
+      } as MatSnackBarConfig
+    }
+  ]
 })
-export class AppModule { }
+export class AppModule {
+}

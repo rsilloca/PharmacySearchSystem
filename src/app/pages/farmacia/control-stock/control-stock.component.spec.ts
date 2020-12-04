@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ControlStockComponent } from './control-stock.component';
 
@@ -6,12 +6,12 @@ describe('ControlStockComponent', () => {
   let component: ControlStockComponent;
   let fixture: ComponentFixture<ControlStockComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
       declarations: [ ControlStockComponent ]
     })
     .compileComponents();
-  });
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ControlStockComponent);
