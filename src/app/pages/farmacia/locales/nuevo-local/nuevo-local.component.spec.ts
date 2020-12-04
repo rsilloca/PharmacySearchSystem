@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NuevoLocalComponent } from './nuevo-local.component';
 
@@ -6,12 +6,12 @@ describe('NuevoLocalComponent', () => {
   let component: NuevoLocalComponent;
   let fixture: ComponentFixture<NuevoLocalComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
       declarations: [ NuevoLocalComponent ]
     })
     .compileComponents();
-  });
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NuevoLocalComponent);

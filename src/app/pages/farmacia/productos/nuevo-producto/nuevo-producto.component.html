@@ -1,0 +1,86 @@
+<div mat-dialog-title fxLayout="row" fxLayoutAlign="space-between center">
+    <h3 >Nuevo producto</h3>
+    <button mat-icon-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<mat-dialog-content fxLayout="column">
+    <div fxLayout="row">
+        <mat-form-field appearance="fill" fxFlex="50%">
+            <mat-label>Código</mat-label>
+            <input matInput>
+        </mat-form-field>
+        <mat-form-field appearance="fill" fxFlex="50%">
+            <mat-label>Nombre</mat-label>
+            <input matInput>
+        </mat-form-field>
+    </div>
+    <div fxLayout="row">
+        <mat-form-field appearance="fill" fxFlex="50%">
+            <mat-label>Marca</mat-label>
+            <input matInput>
+        </mat-form-field>
+        <div fxLayout="row" fxFlex="50%">
+            <mat-form-field appearance="fill" fxFlex="50%">
+                <mat-label>Nombre</mat-label>
+                <input matInput>
+            </mat-form-field>
+            <mat-form-field appearance="fill" fxFlex="50%">
+                <mat-label>Unidad</mat-label>
+                <mat-select>
+                    <mat-option value="option">mg</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <div fxLayout="row">
+        <mat-form-field appearance="fill" fxFlex="50%">
+            <mat-label>Forma Farmacéutica</mat-label>
+            <mat-select>
+                <mat-option value="option">Option</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" fxFlex="50%">
+            <mat-label>F. Farmacéutica Personalizada</mat-label>
+            <input matInput>
+        </mat-form-field>
+    </div>
+    <div fxLayout="row">
+        <mat-form-field appearance="fill" fxFlex="50%">
+            <mat-label>Presentación</mat-label>
+            <mat-select>
+                <mat-option value="option">Option</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" fxFlex="50%">
+            <mat-label>Presentación Personalizada</mat-label>
+            <input matInput>
+        </mat-form-field>
+    </div>
+    <div fxLayout="row">
+        <mat-form-field appearance="fill" fxFlex="50%">
+            <mat-label>Registro sanitario</mat-label>
+            <input matInput>
+        </mat-form-field>
+        <mat-form-field appearance="fill" fxFlex="50%">
+            <mat-label>Fecha de vencimiento</mat-label>
+            <input matInput [matDatepicker]="picker">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+    </div>
+    <div fxLayout="row">
+        <mat-form-field appearance="fill" fxFlex="50%">
+            <mat-label>Fracciones</mat-label>
+            <input matInput>
+        </mat-form-field>
+        <mat-form-field appearance="fill" fxFlex="50%">
+            <mat-label>Stock</mat-label>
+            <input matInput>
+        </mat-form-field>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions fxLayoutAlign="center center">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Crear</button>
+</mat-dialog-actions>

@@ -1,0 +1,22 @@
+<div fxLayout="row" fxLayoutAlign="space-between start">
+    <h3>Modo de localización</h3>
+    <button mat-icon-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<div mat-dialog-content fxLayout="column">
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+        <mat-checkbox fxFlex="auto">Ubicación automática</mat-checkbox>
+        <mat-form-field fxFlex="auto" appearance="outline">
+            <input matNativeControl value="-1223874,-2539345" matInput>
+        </mat-form-field>
+    </div>
+    <!-- class="item" -->
+    <agm-map [latitude]="lat" [zoom]="zoom" [longitude]="lng">
+        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+    </agm-map>
+</div>
+<div mat-dialog-actions fxLayoutAlign="center center">
+    <button mat-raised-button mat-dialog-close color="warn" cdkFocusInitial>Cancelar</button>
+    <button mat-raised-button mat-dialog-close color="primary">Aceptar</button>
+</div>

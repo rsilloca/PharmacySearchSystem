@@ -1,87 +1,89 @@
+<fury-loading-indicator></fury-loading-indicator>
+<fury-backdrop #backdrop="furyBackdrop"></fury-backdrop>
+<fury-config-panel-toggle (openConfig)="abrirFiltro()" fxHide fxShow.xs fxShow.sm></fury-config-panel-toggle>
+
+<!-- QUICKPANEL -->
+<fury-sidebar #configPanel="furySidebar" [backdrop]="backdrop" [invisibleBackdrop]="true" position="right">
+  <fury-config-panel></fury-config-panel>
+</fury-sidebar>
+<!-- END QUICKPANEL -->
+
 <div class="container" fxLayout="column">
+  <ng-container *ngIf="(toolbarPosition$ | async) === 'above-fixed'">
+    <ng-container *ngTemplateOutlet="toolbar"></ng-container>
+  </ng-container>
 
-    <mat-sidenav-container autosize fxFlex>
+  <mat-sidenav-container autosize fxFlex>
 
-        <!-- SIDENAV -->
-        <mat-sidenav *ngIf="pharmacyUser" mode="side" [opened]="true" class="sidenav bg-primary"
-            [ngClass]=" { 'expanded': showSide } " #side>
-            <div fxLayout="column">
-                <button mat-icon-button class="icon-white" (click)="showSide = !showSide">
-                    <mat-icon>{{ showSide ? 'close' : 'menu' }}</mat-icon>
-                </button>
-                <div fxFlex="7rem"></div>
-                <div *ngIf="showSide; else navigationIcons" fxLayout="column" fxLayoutGap="0.5rem">
-                    <button mat-raised-button [routerLink]="['/pharmacy']">Home</button>
-                    <button mat-raised-button [routerLink]="['/pharmacy/locales']">Mis Locales</button>
-                    <button mat-raised-button [routerLink]="['/pharmacy/locales/nuevo']">Agregar Local</button>
-                    <button mat-raised-button [routerLink]="['/pharmacy/productos']">Productos</button>
-                    <button mat-raised-button [routerLink]="['/pharmacy/control-stock']">Control de Stock</button>
-                </div>
-                <ng-template #navigationIcons>
-                    <div fxLayout="column" fxLayoutGap="0.5rem">
-                        <button mat-icon-button class="icon-white" [routerLink]="['/pharmacy']">
-                            <mat-icon>home</mat-icon>
-                        </button>
-                        <button mat-icon-button class="icon-white" [routerLink]="['/pharmacy/locales']">
-                            <mat-icon>local_pharmacy</mat-icon>
-                        </button>
-                        <button mat-icon-button class="icon-white" [routerLink]="['/pharmacy/locales/nuevo']">
-                            <mat-icon>add_business</mat-icon>
-                        </button>
-                        <button mat-icon-button class="icon-white" [routerLink]="['/pharmacy/productos']">
-                            <mat-icon>medical_services</mat-icon>
-                        </button>
-                        <button mat-icon-button class="icon-white" [routerLink]="['/pharmacy/control-stock']">
-                            <mat-icon>shopping_basket</mat-icon>
-                        </button>
-                    </div>
-                </ng-template>
-            </div>
-        </mat-sidenav>
-        <!-- END SIDENAV -->
+    <!-- SIDENAV -->
+    <mat-sidenav (closedStart)="closeSidenav()"
+                 (openedStart)="openSidenav()"
+                 [mode]="sidenavMode$ | async"
+                 [opened]="sidenavOpen$ | async"
+                 *ngIf="sideNavigation$ | async"
+                 class="fury-collapsable-sidenav">
+      <fury-sidenav [collapsed]="sidenavCollapsed$ | async" [expanded]="sidenavExpanded$ | async"></fury-sidenav>
+    </mat-sidenav>
+    <!-- END SIDENAV -->
 
-        <mat-sidenav-content class="content-container" fxLayout="column">
+    <mat-sidenav [(opened)]="quickPanelOpen" mode="over" position="end">
+      <fury-quickpanel></fury-quickpanel>
+    </mat-sidenav>
 
-            <!-- TOOLBAR -->
-            <mat-toolbar fxLayoutAlign="space-between center" class="mat-elevation-z2">
-                <p matLine fxHide.xs="true">{{ 'nameApp' | translate }}</p>
-                <p fxHide="true" fxHide.xs="false">SBF</p>
-                <div>
-                    <app-translation></app-translation>
-                    <button mat-icon-button>
-                        <mat-icon>notifications_active</mat-icon>
-                    </button>
-                    <button mat-icon-button [matMenuTriggerFor]="menu">
-                        <mat-icon>account_circle</mat-icon>
-                    </button>
-                    <mat-menu #menu="matMenu">
-                        <button mat-menu-item>
-                            <mat-icon>settings</mat-icon>
-                            <span>Configuración</span>
-                        </button>
-                        <button mat-menu-item (click)="logout()">
-                            <mat-icon>exit_to_app</mat-icon>
-                            <span>Salir</span>
-                        </button>
-                    </mat-menu>
-                </div>
-            </mat-toolbar>
-            <!-- END TOOLBAR -->
+    <mat-sidenav-content class="content-container" fxLayout="column">
+      <ng-container *ngIf="(toolbarPosition$ | async) === 'fixed'">
+        <ng-container *ngTemplateOutlet="toolbar"></ng-container>
+      </ng-container>
 
-            <!-- CONTENT -->
-            <div cdkScrollable class="content" fxFlex="auto" fxLayout="column">
-                <div class="content-inner" fxFlex="auto">
+      <!-- CONTENT -->
+      <div [class.scroll-disabled]="scrollDisabled$ | async"
+           cdkScrollable
+           class="content"
+           fxFlex="auto"
+           fxLayout="column">
+        <ng-container *ngIf="(toolbarPosition$ | async) === 'static'">
+          <ng-container *ngTemplateOutlet="toolbar"></ng-container>
+        </ng-container>
 
-                    <!-- CONTENT INNER -->
-                    <router-outlet></router-outlet>
-                    <!-- END CONTENT INNER -->
+        <div class="content-inner" fxFlex="auto">
+          <router-outlet></router-outlet>
+        </div>
 
-                </div>
-            </div>
-            <!-- END CONTENT -->
+        <!-- <ng-container *ngIf="(footerPosition$ | async) === 'static'">
+          <ng-container *ngTemplateOutlet="footer"></ng-container>
+        </ng-container> -->
+      </div>
+      <!-- END CONTENT -->
 
-        </mat-sidenav-content>
+      <!-- <ng-container *ngIf="(footerPosition$ | async) === 'fixed'">
+        <ng-container *ngTemplateOutlet="footer"></ng-container>
+      </ng-container> -->
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 
-    </mat-sidenav-container>
-
+  <!-- <ng-container *ngIf="(footerPosition$ | async) === 'above-fixed'">
+    <ng-container *ngTemplateOutlet="footer"></ng-container>
+  </ng-container> -->
 </div>
+
+<ng-template #toolbar>
+  <!-- TOOLBAR -->
+  <fury-toolbar (openQuickPanel)="openQuickPanel()"
+                [hasNavigation]="topNavigation$ | async"
+                (openSidenav)="openSidenav()"
+                *ngIf="toolbarVisible$ | async"
+                fxFlex="none"></fury-toolbar>
+  <!-- END TOOLBAR -->
+
+  <!-- NAVIGATION -->
+  <fury-navigation *ngIf="topNavigation$ | async"
+                   fxFlex="none"></fury-navigation>
+  <!-- END NAVIGATION -->
+</ng-template>
+
+<!-- <ng-template #footer> -->
+  <!-- FOOTER -->
+  <!-- <fury-footer fxFlex="none"></fury-footer> -->
+  <!-- END FOOTER -->
+<!-- </ng-template> -->
+

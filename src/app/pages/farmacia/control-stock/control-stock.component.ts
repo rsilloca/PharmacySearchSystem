@@ -1,21 +1,19 @@
-import { AfterContentInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
-import { MatDialog } from '@angular/material/dialog';
 import { MatGridList } from '@angular/material/grid-list';
-import { AlertComponent } from '../../alert/alert.component';
 
 @Component({
-  selector: 'app-control-stock',
+  selector: 'fury-control-stock',
   templateUrl: './control-stock.component.html',
   styleUrls: ['./control-stock.component.scss']
 })
-export class ControlStockComponent implements OnInit, AfterContentInit {
+export class ControlStockComponent implements OnInit {
 
   // Componentes
   @ViewChild('gridProductos') gridProductos: MatGridList;
   gridByBreakpoint: any = [
-    { xl: 6, lg: 4, md: 3, sm: 2, xs: 1 },
-    { xl: '1.25:1', lg: '1.25:1', md: '1.5:1', sm: '2:1', xs: '3.5:1' }
+    { xl: 4, lg: 3, md: 3, sm: 2, xs: 1 },
+    { xl: '1.25:1', lg: '1:1.2', md: '1.5:1', sm: '2:1', xs: '3.5:1' }
   ];
 
   // Filtro
@@ -32,14 +30,13 @@ export class ControlStockComponent implements OnInit, AfterContentInit {
     { id: 3, codigo: 'MF001', nombre: 'Ibuprofeno 800mg', farmacia: 'Mifarma Paucarpata', stock: 3 },
     { id: 4, codigo: 'MF014', nombre: 'Talco bebé', farmacia: 'Mifarma Paucarpata', stock: 15 },
     { id: 5, codigo: 'IF101', nombre: 'Shampoo Ninet', farmacia: 'Inkafarma Ejército', stock: 5 },
-    { id: 6, codigo: 'MF201', nombre: 'Panadol Forte Tabletas', farmacia: 'Mifarma Paucarpata', stock: 100 },
-    { id: 7, codigo: 'IF301', nombre: 'Panadol Forte Jarabe', farmacia: 'Inkafarma Ejército', stock: 75 },
-    { id: 8, codigo: 'MF108', nombre: 'Termómetro', farmacia: 'Mifarma Paucarpata', stock: 10 }
+    { id: 6, codigo: 'MF201', nombre: 'Panadol Forte Tabletas', farmacia: 'Mifarma Paucarpata', stock: 100 } // ,
+    // { id: 7, codigo: 'IF301', nombre: 'Panadol Forte Jarabe', farmacia: 'Inkafarma Ejército', stock: 75 },
+    // { id: 8, codigo: 'MF108', nombre: 'Termómetro', farmacia: 'Mifarma Paucarpata', stock: 10 }
   ];
   productosSeleccionados: any[] = [];
 
-  constructor(private mediaObserver: MediaObserver,
-    private dialog: MatDialog) { }
+  constructor(private mediaObserver: MediaObserver) { }
 
   ngAfterContentInit(): void {
     this.mediaObserver.asObservable().subscribe((changes: MediaChange[]) => {
@@ -62,16 +59,6 @@ export class ControlStockComponent implements OnInit, AfterContentInit {
     if (index >= 0) {
       this.productosSeleccionados.splice(index, 1);
     }
-  }
-
-  abrirAlerta(): void {
-    const dialog = this.dialog.open(AlertComponent, {
-      width: '20rem',
-      data: { titulo: 'Error', mensaje: 'No hay ningún dato' }
-    });
-    dialog.afterClosed().subscribe( respuesta => {
-      console.log(respuesta);
-    });
   }
 
 }
