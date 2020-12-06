@@ -23,7 +23,7 @@
           <span>Ayuda</span>
         </div>
         <mat-divider></mat-divider>
-        <div class="list-item" matRipple [routerLink]="['/login']">
+        <div class="list-item" matRipple (click)="logout()">
           <mat-icon class="list-item-icon">exit_to_app</mat-icon>
           <span>Cerrar sesión</span>
         </div>
