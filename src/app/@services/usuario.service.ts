@@ -30,7 +30,7 @@ export class UsuarioService {
 
   createUsuario(usuario: Usuario): Observable<Usuario> {
     const url = this.rutaBase;
-    return this.client.post<Usuario>(url, usuario, { headers: headers });
+    return this.client.post<Usuario>(url, usuario, { headers: this.header });
   }
 
 }
