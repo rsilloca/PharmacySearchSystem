@@ -44,6 +44,7 @@ export class UsuarioService {
 
   createUsuario(usuario: Usuario): Observable<Usuario> {
     const url = this.rutaBase;
+    usuario.clave = this.encryptService.encriptAll(usuario.clave);
     return this.client.post<Usuario>(url, usuario, { headers: this.header });
   }
 
@@ -72,6 +73,11 @@ export class UsuarioService {
       var token = this.getToken();
       var payload = JSON.parse(atob(token.split('.')[1]));
       let user: Usuario = payload.scopes;
+      user.idUsuario = (user as any).IdUsuario;
+      user.usuario1 = (user as any).Usuario;
+      user.documento = (user as any).Documento;
+      user.roles = (user as any).Roles;
+      user.farmacias = (user as any).Farmacias;
       return user;
     }
     else {
