@@ -7,7 +7,7 @@
     </div>
     <mat-tab-group mat-stretch-tabs>
       <mat-tab label="Paciente">
-        <div class="padding" fxLayout="column" fxLayoutGap="16px" [formGroup]="form">
+        <form class="padding" fxLayout="column" fxLayoutGap="16px" [formGroup]="form" (ngSubmit)="login()">
           <div fxFlex="auto" fxLayout="column">
             <mat-form-field fxFlex="grow">
               <mat-label>Usuario</mat-label>
@@ -17,11 +17,10 @@
             </mat-form-field>
             <mat-form-field fxFlex="grow">
               <mat-label>Contraseña</mat-label>
-              <input matInput [type]="inputType" formControlName="password" required>
-              <button type="button" mat-icon-button matSuffix (click)="toggleVisibility()"
-                matTooltip="Toggle Visibility">
-                <mat-icon *ngIf="visible">visibility</mat-icon>
-                <mat-icon *ngIf="!visible">visibility_off</mat-icon>
+              <input matInput [type]="visible ? 'text' : 'password'" formControlName="password" required>
+              <button type="button" mat-icon-button matSuffix (click)="visible = !visible"
+                matTooltip="{{ visible ? 'Ocultar contraseña' : 'Ver contraseña' }}">
+                <mat-icon>{{visible ? 'visibility' : 'visibility_off'}}</mat-icon>
               </button>
               <mat-error *ngIf="form.get('password').hasError('required')">Ingresa tu contraseña</mat-error>
             </mat-form-field>
@@ -31,18 +30,18 @@
             <mat-checkbox class="caption">Recuérdame</mat-checkbox>
             <a class="caption" [routerLink]="['/forgot-password']">Olvidaste tu contraseña?</a>
           </div>
-          <button type="button" color="primary" mat-raised-button (click)="getUser()">
+          <button type="submit" color="primary" mat-raised-button>
             INICIAR SESIÓN
           </button>
           <p class="secondary-text text-center">
             ¿No tienes una cuenta?<br />
             <a [routerLink]="['/register']">Click aquí para crear una</a>
           </p>
-        </div>
+        </form>
       </mat-tab>
 
       <mat-tab label="Farmacia">
-        <div class="padding" fxLayout="column" fxLayoutGap="16px" [formGroup]="form">
+        <!-- <div class="padding" fxLayout="column" fxLayoutGap="16px" [formGroup]="form" (ngSubmit)="login()">
           <div fxFlex="auto" fxLayout="column">
             <mat-form-field fxFlex="grow">
               <mat-label>Usuario</mat-label>
@@ -52,11 +51,10 @@
             </mat-form-field>
             <mat-form-field fxFlex="grow">
               <mat-label>Password</mat-label>
-              <input matInput [type]="inputType" formControlName="password" required>
-              <button type="button" mat-icon-button matSuffix (click)="toggleVisibility()"
-                matTooltip="Toggle Visibility">
-                <mat-icon *ngIf="visible">visibility</mat-icon>
-                <mat-icon *ngIf="!visible">visibility_off</mat-icon>
+              <input matInput [type]="visible ? 'text' : 'password'" formControlName="password" required>
+              <button type="button" mat-icon-button matSuffix (click)="visible = !visible"
+                matTooltip="{{ visible ? 'Ocultar contraseña' : 'Ver contraseña' }}">
+                <mat-icon>{{visible ? 'visibility' : 'visibility_off'}}</mat-icon>
               </button>
               <mat-error *ngIf="form.get('password').hasError('required')">Ingresa tu contraseña</mat-error>
             </mat-form-field>
@@ -66,14 +64,14 @@
             <mat-checkbox class="caption">Recuérdame</mat-checkbox>
             <a class="caption" [routerLink]="['/forgot-password']">¿Olvidaste tu contraseña?</a>
           </div>
-          <button type="button" color="primary" mat-raised-button (click)="login()">
+          <button type="submit" color="primary" mat-raised-button>
             INICIAR SESIÓN
           </button>
           <p class="secondary-text text-center">
             ¿No tienes una cuenta?<br />
             <a [routerLink]="['/register']">Click aquí para crear una</a>
           </p>
-        </div>
+        </div> -->
       </mat-tab>
     </mat-tab-group>
   </div>

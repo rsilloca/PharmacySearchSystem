@@ -1,6 +1,6 @@
 <div class="toolbar" fxLayout="row" fxLayoutAlign="space-between">
   <div fxLayout="row" fxLayoutAlign="start center">
-    <fury-toolbar-sidenav-mobile-toggle (openSidenav)="openSidenav.emit()"></fury-toolbar-sidenav-mobile-toggle>
+    <fury-toolbar-sidenav-mobile-toggle *ngIf="isPharmacyUser" (openSidenav)="openSidenav.emit()"></fury-toolbar-sidenav-mobile-toggle>
 
     <!-- <div [fxShow.gt-sm]="topNavigation$ | async" [fxShow.xs]="false" [routerLink]="['/']" class="toolbar-logo" fxShow>
       <svg viewBox="0 0 138.16 70.27" xmlns="http://www.w3.org/2000/svg"><title>Logo</title>
