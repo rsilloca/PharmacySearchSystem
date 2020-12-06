@@ -7,6 +7,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { checkRouterChildsData } from '../../@fury/utils/check-router-childs-data';
 import { MatDialog } from '@angular/material/dialog';
 import { FiltroComponent } from '../pages/paciente/busqueda/filtro/filtro.component';
+import { UsuarioService } from '../@services/usuario.service';
 
 @Component({
   selector: 'fury-layout',
@@ -35,13 +36,18 @@ export class LayoutComponent implements OnInit, OnDestroy {
     map(() => checkRouterChildsData(this.router.routerState.root.snapshot, data => data.scrollDisabled))
   );
 
-  constructor(private sidenavService: SidenavService,
-              private themeService: ThemeService,
-              private route: ActivatedRoute,
-              private router: Router,
-              private dialog: MatDialog) {}
+  isPharmacyUser: boolean = false;
 
-  ngOnInit() {}
+  constructor(private sidenavService: SidenavService,
+    private themeService: ThemeService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private dialog: MatDialog,
+    private userService: UsuarioService) { }
+
+  ngOnInit() {
+    this.isPharmacyUser = this.userService.isPharmacyUser();
+  }
 
   openQuickPanel() {
     this.quickPanelOpen = true;
@@ -59,12 +65,13 @@ export class LayoutComponent implements OnInit, OnDestroy {
     this.sidenavService.open();
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void { }
 
   abrirFiltro() {
     let dialogFiltro = this.dialog.open(FiltroComponent, {
       width: '30rem'
     });
   }
+
 }
 
