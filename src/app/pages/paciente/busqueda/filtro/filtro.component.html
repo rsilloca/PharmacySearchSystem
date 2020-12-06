@@ -17,9 +17,9 @@
                 </mat-expansion-panel-header>
                 <mat-radio-group fxLayout="column" formControlName="categorias">
                     <mat-radio-button
-                        *ngFor="let categoria of ['Todos', 'Adulto Mayor', 'Cuidado Bucal', 'Cuidado Infantil', 'Cuidado Íntimo']"
-                        [value]="categoria">
-                        {{categoria}}
+                        *ngFor="let categoria of categorias"
+                        [value]="categoria.idCategoria">
+                        {{categoria.descripcion}}
                     </mat-radio-button>
                 </mat-radio-group>
             </mat-expansion-panel>
