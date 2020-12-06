@@ -1,5 +1,6 @@
 import { Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
 import { map } from 'rxjs/operators';
+import { UsuarioService } from 'src/app/@services/usuario.service';
 import { ThemeService } from '../../../@fury/services/theme.service';
 
 @Component({
@@ -18,10 +19,14 @@ export class ToolbarComponent implements OnInit {
 
   topNavigation$ = this.themeService.config$.pipe(map(config => config.navigation === 'top'));
 
-  constructor(private themeService: ThemeService) {
+  isPharmacyUser: boolean = false;
+
+  constructor(private themeService: ThemeService, private userService: UsuarioService) {
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.isPharmacyUser = this.userService.isPharmacyUser();
+  }
 
 
 }
