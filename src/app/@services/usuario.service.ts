@@ -44,6 +44,7 @@ export class UsuarioService {
 
   createUsuario(usuario: Usuario): Observable<Usuario> {
     const url = this.rutaBase;
+    usuario.clave = this.encryptService.encriptAll(usuario.clave);
     return this.client.post<Usuario>(url, usuario, { headers: this.header });
   }
 
