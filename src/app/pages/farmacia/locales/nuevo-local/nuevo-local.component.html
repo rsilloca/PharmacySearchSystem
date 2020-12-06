@@ -51,7 +51,7 @@
                     </div>
                     <!-- class="item" -->
                     <agm-map [latitude]="lat" [zoom]="zoom" [longitude]="lng">
-                        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+                        <agm-marker (dragEnd)="markerDragEnd($event)" [markerDraggable]="true" [latitude]="lat" [longitude]="lng"></agm-marker>
                     </agm-map>
                 </div>
 

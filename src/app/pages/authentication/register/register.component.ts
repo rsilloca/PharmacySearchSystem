@@ -1,6 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TYPE_PATIENT, TYPE_PHARMACY } from 'src/app/@constants/constantes';
+import { Rol } from 'src/app/@models/rol';
 import { Usuario } from 'src/app/@models/usuario';
 import { UsuarioService } from 'src/app/@services/usuario.service';
 import { fadeInUpAnimation } from '../../../../@fury/animations/fade-in-up.animation';
@@ -41,8 +43,10 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  registrar() {
+  registrar(patient: boolean = true) {
     if (this.form.invalid) return;
+    let rol: Rol = new Rol();
+    rol.idRol = patient ? +TYPE_PATIENT : +TYPE_PHARMACY;
     let usuario: Usuario = new Usuario();
     usuario.nombre = this.form.controls['name'].value;
     let apellidos: string = this.form.controls['lastName'].value;
@@ -54,6 +58,8 @@ export class RegisterComponent implements OnInit {
     usuario.documento = this.form.controls['numDoc'].value;
     usuario.correo = this.form.controls['email'].value;
     usuario.clave = this.form.controls['password'].value;
+    usuario.roles = [rol];
+    usuario.usuario1 = this.form.controls['email'].value;
     console.log('enviando usuario', usuario);
     this.userService.createUsuario(usuario).subscribe(response => {
       console.log('response crear usuario', response);
