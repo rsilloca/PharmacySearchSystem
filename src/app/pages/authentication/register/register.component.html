@@ -12,21 +12,21 @@
 
         <mat-form-field fxFlex="grow">
           <mat-label>Apellidos</mat-label>
-          <input matInput required>
+          <input matInput required formControlName="lastName">
         </mat-form-field>
 
         <div fxLayout="row">
           <mat-form-field fxFlex="50">
             <mat-label>Tipo de documento</mat-label>
             <mat-select>
-              <mat-option *ngFor="let doc of ['DNI', 'Pasaporte']" [value]="doc">
-                {{doc}}
+              <mat-option *ngFor="let doc of tiposDocumento" [value]="doc.id">
+                {{doc.value}}
               </mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field fxFlex="50">
             <mat-label>Número de documento</mat-label>
-            <input matInput required>
+            <input matInput required formControlName="numDoc">
           </mat-form-field>
         </div>
 
@@ -55,7 +55,7 @@
         </mat-form-field>
       </div>
 
-      <button type="button" color="primary" mat-raised-button (click)="send()">
+      <button type="button" color="primary" mat-raised-button (click)="registrar()">
         CREAR CUENTA
       </button>
       <p class="secondary-text text-center">

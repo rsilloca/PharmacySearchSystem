@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Categoria } from 'src/app/@models/categoria';
+import { ConfiguracionService } from 'src/app/@services/configuracion.service';
 
 @Component({
   selector: 'app-filtro',
@@ -10,6 +12,7 @@ export class FiltroComponent implements OnInit {
 
   @Input('expandableMultiple') expandableMultiple: boolean = false;
   @Output() eventFiltro = new EventEmitter<any>();
+  categorias: Categoria[];
 
   formatLabel(value: number) {
     if (value >= 1000) {
@@ -20,9 +23,10 @@ export class FiltroComponent implements OnInit {
 
   formFiltro: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private configuracionService: ConfiguracionService) { }
 
   ngOnInit(): void {
+    this.listarCategorias();
     this.formFiltro = this.formBuilder.group({
       radio: new FormControl(50, [Validators.required]),
       categorias: new FormControl(null, [Validators.required]),
@@ -39,6 +43,15 @@ export class FiltroComponent implements OnInit {
       presentacion: 'blister'
     }
     this.eventFiltro.emit(filtro);
+  }
+
+  listarCategorias() {
+    this.configuracionService.getCategorias().subscribe(response => {
+      console.log("respuesta categorias", response);
+      this.categorias = response;
+    }, error => {
+      console.log('ha ocurrido un error al obtener categorias' + error);
+    });
   }
 
 }
