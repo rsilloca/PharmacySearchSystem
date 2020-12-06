@@ -20,7 +20,7 @@
                  (openedStart)="openSidenav()"
                  [mode]="sidenavMode$ | async"
                  [opened]="sidenavOpen$ | async"
-                 *ngIf="sideNavigation$ | async"
+                 *ngIf="isPharmacyUser && sideNavigation$ | async"
                  class="fury-collapsable-sidenav">
       <fury-sidenav [collapsed]="sidenavCollapsed$ | async" [expanded]="sidenavExpanded$ | async"></fury-sidenav>
     </mat-sidenav>
