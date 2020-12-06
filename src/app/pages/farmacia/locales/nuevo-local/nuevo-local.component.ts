@@ -1,6 +1,8 @@
+import { GoogleMapsAPIWrapper, MapsAPILoader, MouseEvent } from '@agm/core';
+import { google } from '@agm/core/services/google-maps-types';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 
 export interface TimeTable {
@@ -32,11 +34,14 @@ export class NuevoLocalComponent implements OnInit {
   lat = 19.290950;
   lng = -99.653015;
   zoom = 9;
+  
 
-  constructor() { }
+  constructor(private formBuilder: FormBuilder, private mapsApi: MapsAPILoader) { }
 
 
-  ngOnInit(): void { }
+  ngOnInit(): void { 
+    this.getCurrentLocation();
+  }
 
   displayedColumns: string[] = ['position', 'name', 'open', 'closed', 'select'];
   dataSource = new MatTableDataSource<TimeTable>(ELEMENT_DATA);
@@ -64,7 +69,27 @@ export class NuevoLocalComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
+  getCurrentLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        this.lat = position.coords.latitude;
+        this.lng = position.coords.longitude;
+        this.zoom = 8;
+       // console.log("cordenadas actuales ", this.lat, this.lng);
+      });
+    }
+    else {
+      console.log("Geolocation is not supported by this browser.")
+    }
+  }
 
+  markerDragEnd(evt: MouseEvent) {
+    this.lat = evt.coords.lat;
+    this.lng = evt.coords.lng;
+    console.log("lat" + this.lat);
+    console.log("lng" + this.lng);
+  }
+  
   // openDialog(): void {
   //   const dialog = this.dialog.open(AlertComponent, {
   //     width: '20rem',

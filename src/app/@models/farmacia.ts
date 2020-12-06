@@ -10,7 +10,7 @@ export class Farmacia extends Generico {
     longitud: number;
     distancia: number;
     idMoneda: number;
-    monedas: Moneda[];
+    monedas: Moneda;
     horarios: Horario[];
     productos: Producto[];
     usuarioFarmacia: Usuario[];
@@ -23,7 +23,7 @@ export class Farmacia extends Generico {
         this.longitud = obj && obj.longitud ? obj.longitud : 0;
         this.distancia = obj && obj.distancia ? obj.distancia : 0;
         this.idMoneda = obj && obj.idMoneda ? obj.idMoneda : 0;
-        this.monedas = obj && obj.monedas ? obj.monedas : [];
+        this.monedas = obj && obj.monedas ? obj.monedas : new Moneda();
         this.horarios = obj && obj.horarios ? obj.horarios : [];
         this.productos= obj && obj.productos ? obj.productos : [];
         this.usuarioFarmacia = obj && obj.usuarioFarmacia ? obj.usuarioFarmacia : [];
