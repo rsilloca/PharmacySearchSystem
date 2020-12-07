@@ -1,9 +1,15 @@
 import { GoogleMapsAPIWrapper, MapsAPILoader, MouseEvent } from '@agm/core';
-import { google } from '@agm/core/services/google-maps-types';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
+import { Farmacia } from 'src/app/@models/farmacia';
+import { Horario } from 'src/app/@models/horario';
+import { Moneda } from 'src/app/@models/moneda';
+import { Producto } from 'src/app/@models/producto';
+import { Usuario } from 'src/app/@models/usuario';
+import { FarmaciaService } from 'src/app/@services/farmacia.service';
+import { UsuarioService } from 'src/app/@services/usuario.service';
 
 export interface TimeTable {
   name: string;
@@ -28,19 +34,28 @@ const ELEMENT_DATA: TimeTable[] = [
   styleUrls: ['./nuevo-local.component.scss']
 })
 export class NuevoLocalComponent implements OnInit {
+  //Objetos
+  formGroupData: FormGroup;
 
-  disableSelect = new FormControl(false);
-
-  lat = 19.290950;
-  lng = -99.653015;
+  //Var globales
+  lat = 0.0;
+  lng = 0.0;
   zoom = 9;
-  
+  //FormsControl
+  disableSelect = new FormControl(false);
+  coordenadasF: FormControl = new FormControl('');
 
-  constructor(private formBuilder: FormBuilder, private mapsApi: MapsAPILoader) { }
-
+  constructor(private formBuilder: FormBuilder,
+              private farmaciaService: FarmaciaService,
+              private mapsApi: MapsAPILoader,
+              private usuarioService: UsuarioService) { }
 
   ngOnInit(): void { 
-    this.getCurrentLocation();
+    this.getCurrentLocation();//depende a checkbox
+    this.formGroupData = this.formBuilder.group({
+      name: ['', Validators.required],
+      address: ['', Validators.required],
+    });
   }
 
   displayedColumns: string[] = ['position', 'name', 'open', 'closed', 'select'];
@@ -75,7 +90,7 @@ export class NuevoLocalComponent implements OnInit {
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
         this.zoom = 8;
-       // console.log("cordenadas actuales ", this.lat, this.lng);
+        this.verCoordenadas();
       });
     }
     else {
@@ -86,8 +101,50 @@ export class NuevoLocalComponent implements OnInit {
   markerDragEnd(evt: MouseEvent) {
     this.lat = evt.coords.lat;
     this.lng = evt.coords.lng;
-    console.log("lat" + this.lat);
-    console.log("lng" + this.lng);
+    this.verCoordenadas();
+    //console.log("lat" + this.lat);
+    //console.log("lng" + this.lng);
+  }
+
+  verCoordenadas(){
+    this.coordenadasF.setValue(this.lat + ', ' + this.lng);
+  }
+  deshabilitarCaja(){
+    if(this.disableSelect.value){
+      this.coordenadasF.enable();
+    }else{
+      this.coordenadasF.disable();
+    }
+  }
+  registrarFarmacia(){
+    let farmacia:Farmacia = new Farmacia();
+    let moneda: Moneda = new Moneda();
+    moneda.idMoneda = 1;
+    let horario:Horario[] = [];
+   // let producto:Producto = new Producto() ;
+    let usuario:Usuario = this.usuarioService.currentUserSBF();
+
+    for(let i=0; i<3; i++){
+      let haux=new Horario();
+      haux.diaSemana=i;
+      haux.horaApertura="9:00";
+      haux.horaCierre="18:00";
+      horario.push(haux);
+    }
+
+    farmacia.nombre = this.formGroupData.controls['name'].value;
+    farmacia.direccion = this.formGroupData.controls['address'].value;
+    farmacia.latitud = this.lat;
+    farmacia.longitud = this.lng;
+    farmacia.usuarioFarmacia = [usuario];
+    farmacia.horarios = horario;
+    farmacia.monedas = moneda;
+    farmacia.idMoneda = moneda.idMoneda;
+    console.log('farmacia enviado', farmacia);
+    console.log('usuario enviado', usuario);
+    this.farmaciaService.createFarmacia([farmacia]).subscribe(response => {
+     console.log('response crear farmacia', response);
+    });
   }
   
   // openDialog(): void {
@@ -99,5 +156,6 @@ export class NuevoLocalComponent implements OnInit {
   //     console.log(respuesta);
   //   });
   // }
+  
 
 }
