@@ -3,8 +3,8 @@
         <mat-card-header>
             <mat-card-title>Nuevo Local Farmacia</mat-card-title>
         </mat-card-header>
-        <mat-card-content fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10px" fxLayoutGap.xs="0">
-            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1rem" fxLayoutGap.xs="0">
+        <mat-card-content fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10px" fxLayoutGap.xs="0" >
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1rem" fxLayoutGap.xs="0" [formGroup]="formGroupData">
                 <!-- class="item" -->
                 <!-- <div class="center">
                     <h1 class="title">Nuevo Local Farmacia</h1>
@@ -16,14 +16,14 @@
                 <mat-form-field appearance="outline" fxFlex="calc(50% - 1rem)">
                     <!-- class="input-name-direction" -->
                     <mat-label>Nombre</mat-label>
-                    <input matInput required formControlName="name">
+                    <input type="text" matInput required formControlName="name">
                 </mat-form-field>
                 <!-- </td>
                         <td> -->
                 <mat-form-field appearance="outline" fxFlex="calc(50% - 1rem)">
                     <!-- class="input-name-direction" -->
                     <mat-label>Dirección</mat-label>
-                    <input matInput required formControlName="address">
+                    <input type="text" matInput required formControlName="address">
                 </mat-form-field>
                 <!-- </td>
                     </tr>
@@ -44,9 +44,9 @@
                 <!-- class="container" -->
                 <div fxFlex="calc(50% - 1rem)" fxFlex.xs="auto" fxLayout="column">
                     <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="space-around stretch">
-                        <mat-checkbox fxFlex="auto" [formControl]="disableSelect">Ubicación automática</mat-checkbox>
-                        <mat-form-field fxFlex="auto" appearance="outline">
-                            <input matNativeControl [disabled]="disableSelect.value" value="-1223874,-2539345" matInput>
+                        <mat-checkbox fxFlex="auto" [formControl]="disableSelect" (click)="deshabilitarCaja()">Ubicación automática</mat-checkbox>
+                        <mat-form-field fxFlex="auto" appearance="outline" >
+                            <input matNativeControl type="text" matInput [formControl]="coordenadasF" >
                         </mat-form-field>
                     </div>
                     <!-- class="item" -->
@@ -114,7 +114,7 @@
         <mat-card-actions>
             <div class="button-row" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="10px">
                 <button mat-raised-button color="warn">Cancelar</button>
-                <button mat-raised-button color="primary">Aceptar</button>
+                <button mat-raised-button color="primary" (click)="registrarFarmacia()" type="submit">Aceptar</button>
                 <!-- (click)="openDialog()" -->
             </div>
         </mat-card-actions>
