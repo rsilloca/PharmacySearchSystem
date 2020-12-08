@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Categoria } from 'src/app/@models/categoria';
 import { Farmacia } from 'src/app/@models/farmacia';
+import { FiltroLocales } from 'src/app/@models/filtro-locales';
+import { FormaFarmaceutica } from 'src/app/@models/formaFarmaceutica';
+import { ConfiguracionService } from 'src/app/@services/configuracion.service';
+import { FarmaciaService } from 'src/app/@services/farmacia.service';
+import { UsuarioService } from 'src/app/@services/usuario.service';
+import { SpinnerService } from 'src/app/shared/spinner.service';
 import { NuevoProductoComponent } from './nuevo-producto/nuevo-producto.component';
 import { SubidaMasivaComponent } from './subida-masiva/subida-masiva.component';
 
@@ -39,9 +45,13 @@ export class ProductosComponent implements OnInit {
   // Datos agregar producto
   farmacias: Farmacia[];
   categorias: Categoria[];
-  
+  formasFarmaceuticas: FormaFarmaceutica[];
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog,
+    private farmaciaService: FarmaciaService,
+    private configuracionService: ConfiguracionService,
+    private usuarioService: UsuarioService,
+    private spinnerService: SpinnerService) { }
 
   ngOnInit(): void {
   }
@@ -53,8 +63,35 @@ export class ProductosComponent implements OnInit {
   }
 
   nuevoProducto(producto?: Producto): void {
-    let dialogProducto = this.dialog.open(NuevoProductoComponent, {
-      width: '50rem'
+    let spinner = this.spinnerService.start();
+    let dialogProducto: MatDialogRef<NuevoProductoComponent>;
+    let filtro = new FiltroLocales();
+    filtro.idUsuario = +this.usuarioService.getIdUsuario();
+    filtro.pagina = 0;
+    filtro.regxpag = 1000;
+    filtro.radio = 10000;
+    this.farmaciaService.getFarmaciaFiltros(filtro).subscribe(respFarmacias => {
+      this.farmacias = (respFarmacias as any).data;
+      this.configuracionService.getCategorias().subscribe(respCategorias => {
+        this.categorias = respCategorias;
+        this.configuracionService.getFormasFarmaceuticas().subscribe(respFormas => {
+          this.formasFarmaceuticas = respFormas;
+          this.spinnerService.stop(spinner);
+          dialogProducto = this.dialog.open(NuevoProductoComponent, {
+            width: '50rem',
+            data: {
+              farmacias: this.farmacias,
+              categorias: this.categorias,
+              formasFarmaceuticas: this.formasFarmaceuticas
+            }
+          });
+          dialogProducto.afterClosed().subscribe(response => {
+            if (response) {
+              // guardar producto
+            }
+          });
+        });
+      });
     });
   }
 

@@ -62,7 +62,11 @@ export class UsuarioService {
   }
 
   getRol(): string {
-    return this.currentUser().roles[0].toString();
+    return (this.currentUser() as any).Roles[0].toString();
+  }
+
+  getIdUsuario(): string {
+    return (this.currentUser() as any).IdUsuario;
   }
 
   isLoggedIn(): boolean {
