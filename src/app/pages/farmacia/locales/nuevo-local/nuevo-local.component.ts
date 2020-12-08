@@ -1,7 +1,7 @@
 import { GoogleMapsAPIWrapper, MapsAPILoader, MouseEvent } from '@agm/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Farmacia } from 'src/app/@models/farmacia';
@@ -48,6 +48,9 @@ export class NuevoLocalComponent implements OnInit {
   //FormsControl
   disableSelect = new FormControl(false);
   coordenadasF: FormControl = new FormControl('');
+  formHoraApertura: FormArray = new FormArray([]);
+  formHoraCierre: FormArray = new FormArray([]);
+  horarios: Horario[]=[];
 
   constructor(private formBuilder: FormBuilder,
               private farmaciaService: FarmaciaService,
@@ -61,6 +64,14 @@ export class NuevoLocalComponent implements OnInit {
       name: ['', Validators.required],
       address: ['', Validators.required],
     });
+    for(let i=0; i<7; i++){
+      this.formHoraApertura.push(new FormControl());
+      this.formHoraCierre.push(new FormControl());
+      let auxHora = new Horario();
+      auxHora.idHorario=i;
+      this.horarios.push(auxHora);
+    }
+    
     this.idFarmacia = this.activatedRoute.snapshot.params.id || 0;
     this.isEditar = this.idFarmacia!=0;
     if(this.isEditar){
@@ -70,8 +81,8 @@ export class NuevoLocalComponent implements OnInit {
   }
 
   displayedColumns: string[] = ['position', 'name', 'open', 'closed', 'select'];
-  dataSource = new MatTableDataSource<TimeTable>(ELEMENT_DATA);
-  selection = new SelectionModel<TimeTable>(true, []);
+  dataSource = new MatTableDataSource<Horario>(this.horarios);
+  selection = new SelectionModel<Horario>(true, []);
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -87,14 +98,14 @@ export class NuevoLocalComponent implements OnInit {
       this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: TimeTable): string {
+  /** The label for the checkbox on the passed row 
+  checkboxLabel(row?: Horario): string {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
-
+  */
   getCurrentLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
@@ -135,11 +146,20 @@ export class NuevoLocalComponent implements OnInit {
    // let producto:Producto = new Producto() ;
     let usuario:Usuario = this.usuarioService.currentUserSBF();
 
-    for(let i=0; i<3; i++){
+    for(let i=0; i<this.formHoraApertura.value.length; i++){
       let haux=new Horario();
       haux.diaSemana=i;
-      haux.horaApertura="9:00";
-      haux.horaCierre="18:00";
+      if(this.formHoraApertura.value[i]==null){
+        haux.horaApertura="00:00";
+      }else{
+        haux.horaApertura= this.formHoraApertura.value[i];
+      }
+      if(this.formHoraCierre.value[i]==null){
+        haux.horaCierre="23:59";
+      }else{
+        haux.horaCierre= this.formHoraCierre.value[i];
+      }
+      haux.logEstado=this.selection.isSelected(this.horarios[i])?1:0;
       horario.push(haux);
     }
 
@@ -151,10 +171,15 @@ export class NuevoLocalComponent implements OnInit {
     farmacia.horarios = horario;
     farmacia.monedas = moneda;
     farmacia.idMoneda = moneda.idMoneda;
-    console.log('farmacia enviado', farmacia);
-    console.log('usuario enviado', usuario);
-    this.farmaciaService.createFarmacia([farmacia]).subscribe(response => {
-     console.log('response crear farmacia', response);
+    console.log('farmacia enviada',farmacia);
+    for(let i=0; i<this.formHoraApertura.value.length; i++){
+      console.log('dia',i+1, 'hora', this.formHoraApertura.value[i]);
+    }
+    for(let i=0; i<this.formHoraCierre.value.length; i++){
+      console.log('dia',i+1, 'hora', this.formHoraCierre.value[i]);
+    }
+    this.farmaciaService.createFarmacia(farmacia).subscribe(response => {
+    console.log('response crear farmacia', response);
     });
   }
   
