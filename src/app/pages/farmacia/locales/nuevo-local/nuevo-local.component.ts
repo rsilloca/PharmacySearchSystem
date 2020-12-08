@@ -3,6 +3,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute } from '@angular/router';
 import { Farmacia } from 'src/app/@models/farmacia';
 import { Horario } from 'src/app/@models/horario';
 import { Moneda } from 'src/app/@models/moneda';
@@ -41,6 +42,9 @@ export class NuevoLocalComponent implements OnInit {
   lat = 0.0;
   lng = 0.0;
   zoom = 9;
+
+  idFarmacia: number = 0;
+  isEditar: boolean=false;
   //FormsControl
   disableSelect = new FormControl(false);
   coordenadasF: FormControl = new FormControl('');
@@ -48,7 +52,8 @@ export class NuevoLocalComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private farmaciaService: FarmaciaService,
               private mapsApi: MapsAPILoader,
-              private usuarioService: UsuarioService) { }
+              private usuarioService: UsuarioService,
+              private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void { 
     this.getCurrentLocation();//depende a checkbox
@@ -56,6 +61,12 @@ export class NuevoLocalComponent implements OnInit {
       name: ['', Validators.required],
       address: ['', Validators.required],
     });
+    this.idFarmacia = this.activatedRoute.snapshot.params.id || 0;
+    this.isEditar = this.idFarmacia!=0;
+    if(this.isEditar){
+      console.log("Modo Edicion");
+      this.obtenerDatos();
+    }
   }
 
   displayedColumns: string[] = ['position', 'name', 'open', 'closed', 'select'];
@@ -157,5 +168,10 @@ export class NuevoLocalComponent implements OnInit {
   //   });
   // }
   
+  obtenerDatos(): void{
+    this.farmaciaService.getFarmacia(this.idFarmacia).subscribe(response => {
+      console.log("Farmacia Encontrada", response);
+    });
+  }
 
 }
