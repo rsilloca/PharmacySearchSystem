@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TOKEN_NAME, TYPE_PHARMACY, TYPE_USER_NAME } from '../@constants/constantes';
 import { PATHSERVICE_USUARIO } from '../@constants/rutas';
+import { Rol } from '../@models/rol';
 import { Token } from '../@models/token';
 import { Usuario } from '../@models/usuario';
 import { EncryptService } from './encrypt.service';
@@ -64,6 +65,10 @@ export class UsuarioService {
     return (this.currentUser() as any).Roles[0].toString();
   }
 
+  getIdUsuario(): string {
+    return (this.currentUser() as any).IdUsuario;
+  }
+
   isLoggedIn(): boolean {
     return this.getToken() != null;
   }
@@ -73,11 +78,11 @@ export class UsuarioService {
       var token = this.getToken();
       var payload = JSON.parse(atob(token.split('.')[1]));
       let user: Usuario = payload.scopes;
-      user.idUsuario = (user as any).IdUsuario;
-      user.usuario1 = (user as any).Usuario;
-      user.documento = (user as any).Documento;
-      user.roles = (user as any).Roles;
-      user.farmacias = (user as any).Farmacias;
+      // user.idUsuario = (user as any).IdUsuario;
+      // user.usuario1 = (user as any).Usuario;
+      // user.documento = (user as any).Documento;
+      // user.roles = (user as any).Roles;
+      // user.farmacias = (user as any).Farmacias;
       return user;
     }
     else {
@@ -85,6 +90,25 @@ export class UsuarioService {
     }
   }
 
+  currentUserSBF(): Usuario {
+    if (this.isLoggedIn()) {
+      var token = this.getToken();
+      var payload = JSON.parse(atob(token.split('.')[1]));
+      let user: Usuario = payload.scopes;
+      let currentUser: Usuario = new Usuario();
+      let rol: Rol = new Rol();
+      rol.idRol = +this.getRol();
+      currentUser.idUsuario = (user as any).IdUsuario;
+      currentUser.usuario1 = (user as any).Usuario;
+      currentUser.documento = (user as any).Documento;
+      currentUser.roles = [rol];
+      //currentUser.farmacias = (user as any).Farmacias;
+      return currentUser;
+    }
+    else {
+      return null;
+    }
+  }
   logout() {
     localStorage.clear();
   }
