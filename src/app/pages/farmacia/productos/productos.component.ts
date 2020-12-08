@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { Categoria } from 'src/app/@models/categoria';
+import { Farmacia } from 'src/app/@models/farmacia';
 import { NuevoProductoComponent } from './nuevo-producto/nuevo-producto.component';
 import { SubidaMasivaComponent } from './subida-masiva/subida-masiva.component';
 
@@ -34,6 +36,11 @@ export class ProductosComponent implements OnInit {
   displayedColumns: string[] = ['numero', 'codigo', 'nombre', 'precio', 'marca', 'stock', 'acciones'];
   dataSource = new MatTableDataSource<Producto>(ELEMENT_DATA);
 
+  // Datos agregar producto
+  farmacias: Farmacia[];
+  categorias: Categoria[];
+  
+
   constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -47,7 +54,7 @@ export class ProductosComponent implements OnInit {
 
   nuevoProducto(producto?: Producto): void {
     let dialogProducto = this.dialog.open(NuevoProductoComponent, {
-      width: '30rem'
+      width: '50rem'
     });
   }
 
