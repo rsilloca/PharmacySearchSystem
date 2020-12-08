@@ -24,7 +24,7 @@ export class FarmaciaService {
     return this.client.get<Farmacia>(url, {headers: this.header, params: parametros});
   }
 
-  createFarmacia(farmacia: Farmacia[]): Observable<Farmacia>{
+  createFarmacia(farmacia: Farmacia): Observable<Farmacia>{
     const url = this.rutaBase;
     let headerF = new HttpHeaders({Authorization:"Bearer "+this.userService.getToken(), 'Content-Type': 'application/json'});
     return this.client.post<Farmacia>(url, farmacia, {headers: headerF});
