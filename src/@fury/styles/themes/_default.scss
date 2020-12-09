@@ -18,23 +18,23 @@ $sidebar-box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .40);
 @import "../../shared/sidebar/sidebar.directive.theme";
 
 // Sidenav
-$sidenav-background: #002f6c !default; // #283144 !default;
-$sidenav-color: white !default;
+$sidenav-background: white !default; // #283144 !default;
+$sidenav-color: #99abb4 !default; // white !default;
 $sidenav-box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .40) !default;
-$sidenav-toolbar-background: darken($sidenav-background, 3.5) !default;
+$sidenav-toolbar-background: rgba(0, 0, 0, .40) !default; // darken($sidenav-background, 3.5) !default;
 $sidenav-logo-color: white !default;
-$sidenav-secondary-text: $light-secondary-text !default;
+$sidenav-secondary-text: white !default; // $light-secondary-text !default;
 $sidenav-collapsed-hover-box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .40) !default;
 
 @import "../../../app/layout/sidenav/sidenav.component.theme";
 
 // Sidenav Item
 $sidenav-item-color: $sidenav-color !default;
-$sidenav-item-color-hover: white !default;
+$sidenav-item-color-hover: black !default; // white !default;
 $sidenav-item-color-active: $theme-color-primary-contrast !default;
 
 $sidenav-item-background-hover: darken($sidenav-background, 2.5) !default;
-$sidenav-item-background-active: $theme-color-primary !default;
+$sidenav-item-background-active: $theme-color-accent !default;
 $sidenav-item-text-icon-color: rgba(white, 0.5) !default;
 
 $sidenav-item-typography-font-family: var(--font-family) !default;
@@ -52,12 +52,12 @@ $sidenav-item-dropdown-level4: darken($sidenav-background, 10) !default;
 @import "../../../app/layout/sidenav/sidenav-item/sidenav-item.component.theme";
 
 // Toolbar
-$toolbar-background: $theme-card !default;
-$toolbar-color: $theme-text !default;
+$toolbar-background: $theme-color-primary !default; // $theme-card !default;
+$toolbar-color: white !default; // $theme-text !default;
 $toolbar-elevation: 1 !default;
 $toolbar-logo-color: $theme-text;
 
-$toolbar-button-separator-color: rgba(0, 0, 0, 0.08) !default;
+$toolbar-button-separator-color: transparent !default; // rgba(0, 0, 0, 0.08) !default;
 
 $toolbar-user-dropdown-elevation: $elevation !default;
 $toolbar-notification-elevation: $elevation !default;

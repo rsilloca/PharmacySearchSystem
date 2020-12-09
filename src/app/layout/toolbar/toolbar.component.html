@@ -18,7 +18,7 @@
 
     <fury-toolbar-fullscreen-toggle class="toolbar-button"></fury-toolbar-fullscreen-toggle>
     
-    <fury-toolbar-location class="toolbar-button"></fury-toolbar-location>
+    <fury-toolbar-location class="toolbar-button" *ngIf="!isPharmacyUser"></fury-toolbar-location>
 
     <!-- <app-translation class="toolbar-button"></app-translation> -->
 

@@ -6,11 +6,11 @@
 // $theme-accent:  mat-palette($mat-light-blue, 500, 200, 700);
 
 $theme-primary-hue: 600;
-$theme-accent-hue: 900;
+$theme-accent-hue: 400;
 $theme-warn-hue: 500;
 
-$theme-primary: mat-palette($mat-light-blue, $theme-primary-hue);
-$theme-accent: mat-palette($mat-light-blue, $theme-accent-hue);
+$theme-primary: mat-palette($mat-blue, $theme-primary-hue);
+$theme-accent: mat-palette($mat-cyan, $theme-accent-hue);
 $theme-warn: mat-palette($mat-red, $theme-warn-hue);
 
 .fury-default {

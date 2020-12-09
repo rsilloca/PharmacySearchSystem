@@ -17,7 +17,7 @@
                     <!-- <mat-icon matPrefix>search</mat-icon> -->
                 </mat-form-field>
                 <!-- </form> -->
-                <button mat-raised-button color="primary" fxFlex="calc(35% - 1rem)">Buscar</button>
+                <button mat-raised-button color="primary" fxFlex="calc(35% - 1rem)"(click)="buscarLocales()">Buscar</button>
                 <!-- </div> -->
             </div>
             <div fxLayout="row" fxLayoutAlign="end start" fxLayoutGap="0.5rem">
@@ -39,49 +39,49 @@
             <!-- Tabla -->
             <!-- <div> -->
             <!-- style=" overflow-y: scroll;" -->
-            <table mat-table [dataSource]="dataSource" class="mat-elevation-z2">
+            <table mat-table [dataSource]="locales" class="mat-elevation-z2">
 
                 <!-- Position Column -->
                 <ng-container matColumnDef="position">
                     <th mat-header-cell *matHeaderCellDef> No. </th>
-                    <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                    <td mat-cell *matCellDef="let element; let index=index;"> {{index}} </td>
                 </ng-container>
                 <!-- Name Column -->
                 <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef> Nombre </th>
-                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
                 </ng-container>
                 <!-- Name Column -->
                 <ng-container matColumnDef="address">
                     <th mat-header-cell *matHeaderCellDef> Dirección </th>
-                    <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.direccion}} </td>
                 </ng-container>
                 <!-- Opennig time Column -->
-                <ng-container matColumnDef="openning">
-                    <th mat-header-cell *matHeaderCellDef> Hora de Apertura </th>
-                    <td mat-cell *matCellDef="let element"> {{element.openning}} </td>
+                <ng-container matColumnDef="opening">
+                    <th mat-header-cell *matHeaderCellDef> Hora Apertura</th>
+                    <td mat-cell *matCellDef="let element"> {{element.horario}} </td>
                 </ng-container>
                 <!-- Closing time Column -->
-                <ng-container matColumnDef="closing">
-                    <th mat-header-cell *matHeaderCellDef> Hora de cierre </th>
-                    <td mat-cell *matCellDef="let element"> {{element.closing}} </td>
+                <ng-container matColumnDef="closed">
+                    <th mat-header-cell *matHeaderCellDef> Hora Cierre </th>
+                    <td mat-cell *matCellDef="let element"> {{element.radio}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
                 <ng-container matColumnDef="action">
                     <th mat-header-cell *matHeaderCellDef> Acciones </th>
-                    <td mat-cell *matCellDef="let row">
+                    <td mat-cell *matCellDef="let row; let element">
 
                         <!-- <div class="example-button-row">
               <div class="example-flex-container">
                 <div class="example-button-container"> -->
                         <button mat-icon-button color="primary">
-                            <mat-icon>edit</mat-icon>
+                            <mat-icon [routerLink]="['/pharmacy/locales/local/', element.idFarmacia]">edit</mat-icon>
                         </button>
                         <!-- </div>
                 <div class="example-button-container"> -->
                         <button mat-icon-button color="primary">
-                            <mat-icon>delete</mat-icon>
+                            <mat-icon >delete</mat-icon>
                         </button>
                         <!-- </div>
               </div>

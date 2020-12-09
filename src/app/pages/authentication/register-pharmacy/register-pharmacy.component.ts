@@ -3,21 +3,19 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { DOC_DNI, TYPE_PATIENT } from 'src/app/@constants/constantes';
+import { DOC_DNI, TYPE_PHARMACY } from 'src/app/@constants/constantes';
 import { Rol } from 'src/app/@models/rol';
 import { Usuario } from 'src/app/@models/usuario';
 import { UsuarioService } from 'src/app/@services/usuario.service';
 import { AlertService } from 'src/app/shared/alert/alert.service';
 import { SpinnerService } from 'src/app/shared/spinner.service';
-import { fadeInUpAnimation } from '../../../../@fury/animations/fade-in-up.animation';
 
 @Component({
-  selector: 'fury-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
-  animations: [fadeInUpAnimation]
+  selector: 'fury-register-pharmacy',
+  templateUrl: './register-pharmacy.component.html',
+  styleUrls: ['./register-pharmacy.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterPharmacyComponent implements OnInit {
 
   form: FormGroup;
   visible = false;
@@ -54,7 +52,7 @@ export class RegisterComponent implements OnInit {
     if (this.form.invalid) return;
     let spinner = this.spinnerService.start("Registrando...");
     let rol: Rol = new Rol();
-    rol.idRol = +TYPE_PATIENT;
+    rol.idRol = +TYPE_PHARMACY;
     let usuario: Usuario = new Usuario(this.form.value);
     usuario.idTipoDocumento = DOC_DNI;
     usuario.documento = "00000000";
@@ -64,7 +62,8 @@ export class RegisterComponent implements OnInit {
       this.spinnerService.stop(spinner);
       this.router.navigate(['/']);
     }, error => {
-      this.alertService.error("Ocurrió un error al registrarte. :c");
+      this.alertService.error("Ocurrió un error al registrar tu Farmacia. :c");
     });
   }
+
 }
