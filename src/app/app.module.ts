@@ -26,8 +26,7 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from '@angular/mater
 
     // Google Maps Module
     AgmCoreModule.forRoot({
-      apiKey: environment.googleMapsApiKey,
-      libraries: ['places']
+      apiKey: environment.googleMapsApiKey
     }),
 
     // Displays Loading Bar when a Route Request or HTTP Request is pending
@@ -42,7 +41,7 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from '@angular/mater
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: {
-        appearance: 'fill'
+        appearance: 'legacy'
       } as MatFormFieldDefaultOptions
     },
     {

@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Categoria } from 'src/app/@models/categoria';
+import { FormaFarmaceutica } from 'src/app/@models/formaFarmaceutica';
 import { Producto } from 'src/app/@models/producto';
 
 @Component({

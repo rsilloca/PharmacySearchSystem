@@ -4,12 +4,48 @@
             <mat-card-title>Mis Productos</mat-card-title>
         </mat-card-header>
         <mat-card-content fxLayout="column" fxLayoutAlign="center stretch">
-            <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
-                <mat-form-field appearance="outline" fxFlex="calc(65% - 1rem)">
-                    <mat-label>Búsqueda</mat-label>
-                    <input type="text" matInput placeholder="Nombre de la Farmacia">
-                </mat-form-field>
-                <button mat-raised-button color="primary" fxFlex="calc(35% - 1rem)">Buscar</button>
+            <div fxLayout="column">
+                <div fxLayout="row" fxLayoutGap="1rem">
+                    <mat-form-field appearance="outline" fxFlex="calc(33% - 2rem)">
+                        <mat-label>Farmacia</mat-label>
+                        <mat-select formControlName="idFarmacia">
+                            <mat-option [value]="farmacia.idFarmacia" *ngFor="let farmacia of farmacias">{{farmacia.nombre}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" fxFlex="calc(33% - 2rem)">
+                        <mat-label>Categoría</mat-label>
+                        <mat-select formControlName="idCategoria">
+                            <mat-option [value]="categoria.idCategoria" *ngFor="let categoria of categorias">
+                                {{categoria.descripcion}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" fxFlex="calc(33% - 2rem)">
+                        <mat-label>Forma Farmacéutica</mat-label>
+                        <mat-select formControlName="idFormaFarmaceutica">
+                            <mat-option [value]="forma.idFormaFarmaceutica" *ngFor="let forma of formasFarmaceuticas">
+                                {{forma.descripcion}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div fxLayout="row" fxLayoutGap="1rem">
+                    <mat-form-field appearance="outline" fxFlex="calc(33% - 2rem)">
+                        <mat-label>Nombre</mat-label>
+                        <input matInput formControlName="nombre">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" fxFlex="calc(33% - 2rem)">
+                        <mat-label>Descripción</mat-label>
+                        <input matInput formControlName="descripcion">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" fxFlex="calc(33% - 2rem)">
+                        <mat-label>Marca</mat-label>
+                        <input matInput formControlName="marca">
+                    </mat-form-field>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="end center">
+                    <button mat-raised-button color="primary" fxFlex="32%">Buscar</button>
+                </div>
+                
             </div>
             <div fxLayout="row" fxLayoutAlign="end start" fxLayoutGap="0.5rem">
                 <button mat-mini-fab color="accent">

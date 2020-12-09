@@ -51,8 +51,8 @@
   user-select: none;
   white-space: nowrap;
   text-decoration: none;
-  border-top-right-radius: $sidenav-item-height / 2;
-  border-bottom-right-radius: $sidenav-item-height / 2;
+  // border-top-right-radius: $sidenav-item-height / 2;
+  // border-bottom-right-radius: $sidenav-item-height / 2;
   margin-right: $sidenav-item-margin-right;
   transition: background-color $swift-ease-out-duration $swift-ease-out-timing-function;
 

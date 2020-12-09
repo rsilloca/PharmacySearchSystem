@@ -7,6 +7,7 @@ import { FiltroLocales } from 'src/app/@models/filtro-locales';
 import { FormaFarmaceutica } from 'src/app/@models/formaFarmaceutica';
 import { ConfiguracionService } from 'src/app/@services/configuracion.service';
 import { FarmaciaService } from 'src/app/@services/farmacia.service';
+import { ProductoService } from 'src/app/@services/producto.service';
 import { UsuarioService } from 'src/app/@services/usuario.service';
 import { SpinnerService } from 'src/app/shared/spinner.service';
 import { NuevoProductoComponent } from './nuevo-producto/nuevo-producto.component';
@@ -51,9 +52,35 @@ export class ProductosComponent implements OnInit {
     private farmaciaService: FarmaciaService,
     private configuracionService: ConfiguracionService,
     private usuarioService: UsuarioService,
-    private spinnerService: SpinnerService) { }
+    private productoService: ProductoService) { }
 
   ngOnInit(): void {
+    this.getFarmacias();
+    this.getCategorias();
+    this.getFormasFarmaceuticas();
+  }
+
+  getFarmacias() {
+    let filtro = new FiltroLocales();
+    filtro.idUsuario = +this.usuarioService.getIdUsuario();
+    filtro.pagina = 0;
+    filtro.regxpag = 1000;
+    filtro.radio = 10000;
+    this.farmaciaService.getFarmaciaFiltros(filtro).subscribe(respFarmacias => {
+      this.farmacias = (respFarmacias as any).data;
+    });
+  }
+
+  getCategorias() {
+    this.configuracionService.getCategorias().subscribe(respCategorias => {
+      this.categorias = respCategorias;
+    });
+  }
+
+  getFormasFarmaceuticas() {
+    this.configuracionService.getFormasFarmaceuticas().subscribe(respFormas => {
+      this.formasFarmaceuticas = respFormas;
+    });
   }
 
   subidaMasiva(): void {
@@ -63,35 +90,22 @@ export class ProductosComponent implements OnInit {
   }
 
   nuevoProducto(producto?: Producto): void {
-    let spinner = this.spinnerService.start();
     let dialogProducto: MatDialogRef<NuevoProductoComponent>;
-    let filtro = new FiltroLocales();
-    filtro.idUsuario = +this.usuarioService.getIdUsuario();
-    filtro.pagina = 0;
-    filtro.regxpag = 1000;
-    filtro.radio = 10000;
-    this.farmaciaService.getFarmaciaFiltros(filtro).subscribe(respFarmacias => {
-      this.farmacias = (respFarmacias as any).data;
-      this.configuracionService.getCategorias().subscribe(respCategorias => {
-        this.categorias = respCategorias;
-        this.configuracionService.getFormasFarmaceuticas().subscribe(respFormas => {
-          this.formasFarmaceuticas = respFormas;
-          this.spinnerService.stop(spinner);
-          dialogProducto = this.dialog.open(NuevoProductoComponent, {
-            width: '50rem',
-            data: {
-              farmacias: this.farmacias,
-              categorias: this.categorias,
-              formasFarmaceuticas: this.formasFarmaceuticas
-            }
-          });
-          dialogProducto.afterClosed().subscribe(response => {
-            if (response) {
-              // guardar producto
-            }
-          });
+    dialogProducto = this.dialog.open(NuevoProductoComponent, {
+      width: '50rem',
+      data: {
+        farmacias: this.farmacias,
+        categorias: this.categorias,
+        formasFarmaceuticas: this.formasFarmaceuticas
+      }
+    });
+    dialogProducto.afterClosed().subscribe(response => {
+      if (response) {
+        // guardar producto
+        this.productoService.createProducto([response]).subscribe(respProducto => {
+          console.log('guardado', respProducto);
         });
-      });
+      }
     });
   }
 
