@@ -1,11 +1,129 @@
-<div class="principal_content" fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="1rem">
+<fury-page fxLayoutGap="1rem" class="dashboard" fxLayout="column">
+    <div fxLayout="row" fxLayoutGap="1rem" fxLayout.sm="column" fxLayout.xs="column">
+        <div fxLayout="row" fxLayoutGap="1rem" fxFlex="calc(50% - 1rem)" fxLayout.xs="column" fxFlex.xs="auto">
+            <fury-quick-info-widget class="route-animations-elements" value="256" label="Cuadro 1"
+                [background]="'#fb8c00'" color="white" icon="people" fxFlex="calc(50% - 1rem)" fxFlex.xs="auto">
+            </fury-quick-info-widget>
+            <fury-quick-info-widget class="route-animations-elements" value="20" label="Cuadro 2"
+                [background]="'#43a047'" color="white" icon="info" fxFlex="calc(50% - 1rem)" fxFlex.xs="auto">
+            </fury-quick-info-widget>
+        </div>
+        <div fxLayout="row" fxLayoutGap="1rem" fxFlex="calc(50% - 1rem)" fxLayout.xs="column" fxFlex.xs="auto">
+            <fury-quick-info-widget class="route-animations-elements" value="112" label="Cuadro 3"
+                [background]="'#e53935'" color="white" icon="storefront" fxFlex="calc(50% - 1rem)" fxFlex.xs="auto">
+            </fury-quick-info-widget>
+            <fury-quick-info-widget class="route-animations-elements" value="54" label="Cuadro 4"
+                [background]="'#00acc1'" color="white" icon="local_offer" fxFlex="calc(50% - 1rem)" fxFlex.xs="auto">
+            </fury-quick-info-widget>
+        </div>
+    </div>
+    <div fxLayout="row" fxLayoutGap="1rem">
+        <div fxFlex="calc(50% - 1rem)">
+            <fury-card>
+                <fury-card-header>
+                    <fury-card-header-heading> Estado de stock </fury-card-header-heading>
+                    <fury-card-header-actions>
+                        <button mat-icon-button>
+                            <mat-icon>refresh</mat-icon>
+                        </button>
+                    </fury-card-header-actions>
+                </fury-card-header>
+                <fury-card-content>
+                    <mat-form-field>
+                        <mat-label>Mi Farmacia</mat-label>
+                        <mat-select>
+                            <mat-option *ngFor="let farmacia of farmacias" [value]="farmacia.value">
+                                {{farmacia.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </fury-card-content>
+                <fury-card-actions fxLayout="row" fxLayoutAlign="center center">
+                    <a [routerLink]="['/pharmacy/control-stock']">Actualizar ahora</a>
+                </fury-card-actions>
+            </fury-card>
+        </div>
+        <div fxFlex="calc(50% - 1rem)">
+            <fury-card>
+                <fury-card-header>
+                    <fury-card-header-heading> Estado de stock </fury-card-header-heading>
+                    <fury-card-header-actions>
+                        <button mat-icon-button>
+                            <mat-icon>refresh</mat-icon>
+                        </button>
+                    </fury-card-header-actions>
+                </fury-card-header>
+                <fury-card-content>
+                    <mat-form-field>
+                        <mat-label>Mi Farmacia</mat-label>
+                        <mat-select>
+                            <mat-option *ngFor="let farmacia of farmacias" [value]="farmacia.value">
+                                {{farmacia.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <fury-list name="Horarios" [hideHeader]="true">
+                        <table mat-table [dataSource]="dataSource" class="mat-elevation-z2">
+
+                            <!-- Position Column -->
+                            <ng-container matColumnDef="position">
+                                <th mat-header-cell *matHeaderCellDef> No. </th>
+                                <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                            </ng-container>
+                            <!-- DAY Column -->
+                            <ng-container matColumnDef="day">
+                                <th mat-header-cell *matHeaderCellDef> Día </th>
+                                <td mat-cell *matCellDef="let element"> {{element.day}} </td>
+                            </ng-container>
+            
+                            <!-- Opennig time Column -->
+                            <ng-container matColumnDef="openning">
+                                <th mat-header-cell *matHeaderCellDef> Hora de apertura </th>
+                                <td mat-cell *matCellDef="let element"> {{element.openning}} </td>
+                            </ng-container>
+            
+                            <!-- Closing time Column -->
+                            <ng-container matColumnDef="closing">
+                                <th mat-header-cell *matHeaderCellDef> Hora de cierre </th>
+                                <td mat-cell *matCellDef="let element"> {{element.closing}} </td>
+                            </ng-container>
+            
+                            <!-- Checkbox Column -->
+                            <ng-container matColumnDef="select">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    <mat-checkbox (change)="$event ? masterToggle() : null"
+                                        [checked]="selection.hasValue() && isAllSelected()"
+                                        [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+                                    </mat-checkbox>
+                                </th>
+                                <td mat-cell *matCellDef="let row">
+                                    <mat-checkbox (click)="$event.stopPropagation()"
+                                        (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"
+                                        [aria-label]="checkboxLabel(row)">
+                                    </mat-checkbox>
+                                </td>
+                            </ng-container>
+            
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+                            </tr>
+                        </table>
+                    </fury-list>
+                </fury-card-content>
+                <fury-card-actions fxLayout="row" fxLayoutAlign="center center">
+                    <a [routerLink]="['/pharmacy/control-stock']">Actualizar ahora</a>
+                </fury-card-actions>
+            </fury-card>
+        </div>
+    </div>
+</fury-page>
+
+<!-- <div class="principal_content" fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="1rem">
 
     <mat-card fxFlex="50%">
-        <!-- id="content_1" -->
         <mat-card-header>
             <mat-card-title>Acceso rápido</mat-card-title>
         </mat-card-header>
-        <!-- <h2 id="title"></h2> -->
         <mat-card-content fxLayout="column" fxLayoutAlign="start stretch">
 
             <mat-form-field>
@@ -25,75 +143,18 @@
             </div>
 
             <div div fxLayout="row" fxLayoutAlign="space-between center">
-                <!-- <div> -->
                 <h3 id="title">Horario de Atención</h3>
-                <!-- </div> -->
-                <!-- <div class="button-container"> -->
                 <button mat-mini-fab color="primary">
                     <mat-icon>edit</mat-icon>
                 </button>
-                <!-- </div> -->
             </div>
-
-            <!-- <div style=" overflow-y: scroll;"> -->
-            <table mat-table [dataSource]="dataSource" class="mat-elevation-z2">
-
-                <!-- Position Column -->
-                <ng-container matColumnDef="position">
-                    <th mat-header-cell *matHeaderCellDef> No. </th>
-                    <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-                </ng-container>
-                <!-- DAY Column -->
-                <ng-container matColumnDef="day">
-                    <th mat-header-cell *matHeaderCellDef> Día </th>
-                    <td mat-cell *matCellDef="let element"> {{element.day}} </td>
-                </ng-container>
-
-                <!-- Opennig time Column -->
-                <ng-container matColumnDef="openning">
-                    <th mat-header-cell *matHeaderCellDef> Hora de apertura </th>
-                    <td mat-cell *matCellDef="let element"> {{element.openning}} </td>
-                </ng-container>
-
-                <!-- Closing time Column -->
-                <ng-container matColumnDef="closing">
-                    <th mat-header-cell *matHeaderCellDef> Hora de cierre </th>
-                    <td mat-cell *matCellDef="let element"> {{element.closing}} </td>
-                </ng-container>
-
-                <!-- Checkbox Column -->
-                <ng-container matColumnDef="select">
-                    <th mat-header-cell *matHeaderCellDef>
-                        <mat-checkbox (change)="$event ? masterToggle() : null"
-                            [checked]="selection.hasValue() && isAllSelected()"
-                            [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
-                        </mat-checkbox>
-                    </th>
-                    <td mat-cell *matCellDef="let row">
-                        <mat-checkbox (click)="$event.stopPropagation()"
-                            (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"
-                            [aria-label]="checkboxLabel(row)">
-                        </mat-checkbox>
-                    </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
-                </tr>
-            </table>
-            <!-- </div> -->
         </mat-card-content>
     </mat-card>
 
-
-    <!-- Panel de notificaciones -->
-
-    <mat-card>
-        <!-- id="content_2" -->
+    <mat-card fxFlex="50%">
         <mat-card-header>
             <mat-card-title>Notificaciones</mat-card-title>
         </mat-card-header>
-        <!-- <h2 id="title"></h2> -->
         <mat-card-content fxLayout="column" fxLayoutAlign="start stretch">
             <div fxLayout="row">
                 <mat-form-field color="primary" appearance="outline" fxFlex="50%">
@@ -112,14 +173,12 @@
             </div>
             <div class="notifications-sms" style="overflow-y: scroll;" fxLayout="column" fxLayoutAlign="end end">
                 <div fxLayout="row" fxLayoutAlign="end end">
-                    <!-- class="notif-item" -->
                     <p>Tu local Inkafarma Ejército no ha sido actualizado desde hace dos semanas.
                         <a [routerLink]="['/pharmacy/control-stock']">Actualizar ahora</a>
                     </p>
                     <mat-icon> message</mat-icon>
                 </div>
                 <div fxLayout="row" fxLayoutAlign="end end">
-                    <!-- class="notif-item" -->
                     <p>Tu opinión nos importa. <br> Agrega un comentario para ayudarnos a mejorar.
                         <a href="/pharmacy/control-stock">Agregar comentario</a>
                     </p>
@@ -128,4 +187,4 @@
             </div>
         </mat-card-content>
     </mat-card>
-</div>
+</div> -->

@@ -9,9 +9,9 @@
 <!-- END QUICKPANEL -->
 
 <div class="container" fxLayout="column">
-  <!-- <ng-container *ngIf="(toolbarPosition$ | async) === 'above-fixed'"> -->
+  <ng-container *ngIf="(toolbarPosition$ | async) === 'above-fixed'">
     <ng-container *ngTemplateOutlet="toolbar"></ng-container>
-  <!-- </ng-container> -->
+  </ng-container>
 
   <mat-sidenav-container autosize fxFlex>
 
@@ -31,9 +31,9 @@
     </mat-sidenav>
 
     <mat-sidenav-content class="content-container" fxLayout="column">
-      <!-- <ng-container *ngIf="(toolbarPosition$ | async) === 'fixed'">
+      <ng-container *ngIf="(toolbarPosition$ | async) === 'fixed'">
         <ng-container *ngTemplateOutlet="toolbar"></ng-container>
-      </ng-container> -->
+      </ng-container>
 
       <!-- CONTENT -->
       <div [class.scroll-disabled]="scrollDisabled$ | async"
@@ -41,9 +41,9 @@
            class="content"
            fxFlex="auto"
            fxLayout="column">
-        <!-- <ng-container *ngIf="(toolbarPosition$ | async) === 'static'">
+        <ng-container *ngIf="(toolbarPosition$ | async) === 'static'">
           <ng-container *ngTemplateOutlet="toolbar"></ng-container>
-        </ng-container> -->
+        </ng-container>
 
         <div class="content-inner" fxFlex="auto">
           <router-outlet></router-outlet>

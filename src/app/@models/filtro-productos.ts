@@ -8,6 +8,7 @@ export class FiltroProductos {
     presentacion: number;
     precioMinimo: number;
     precioMaximo: number;
+    idFarmacia: number;
     pagina: number;
     regxpag: number;
     constructor(obj?: FiltroProductos) {
@@ -20,6 +21,7 @@ export class FiltroProductos {
         this.presentacion = obj && obj.presentacion ? obj.presentacion : 0;
         this.precioMinimo = obj && obj.precioMinimo ? obj.precioMinimo : 0;
         this.precioMaximo = obj && obj.precioMaximo ? obj.precioMaximo : 0;
+        this.idFarmacia = obj && obj.idFarmacia ? obj.idFarmacia : 0;
         this.pagina = obj && obj.pagina ? obj.pagina : 0;
         this.regxpag = obj && obj.regxpag ? obj.regxpag : 0;
     }

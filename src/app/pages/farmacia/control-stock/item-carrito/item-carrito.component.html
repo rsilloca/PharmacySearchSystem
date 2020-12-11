@@ -1,0 +1,19 @@
+<div fxLayout="row" style="margin: 2px; background: white; padding: 0 1rem;" fxLayoutAlign="center center">
+    <div fxFlex="3rem" fxLayout="column" fxLayoutAlign="center center">
+        <button mat-icon-button style="width: 24px; height: 24px; line-height: 24px;"
+            (click)="item.stock = item.stock + 1;">
+            <mat-icon>arrow_drop_up</mat-icon>
+        </button>
+        <input style="width: 2rem; border-radius: 5px; text-align: center; border-style: none;" [value]="item.stock">
+        <button mat-icon-button style="width: 24px; height: 24px; line-height: 24px;"
+            (click)="item.stock = item.stock - 1;">
+            <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+    </div>
+    <div fxFlex="calc(100% - 8rem)" fxLayout="column" style="padding: 1rem;">
+        <span>{{ item.codigo }} - {{ item.nombre }}</span>
+    </div>
+    <button fxFlex="3rem" mat-icon-button (click)="onEliminar.emit(item)">
+        <mat-icon color="warn">delete</mat-icon>
+    </button>
+</div>

@@ -8,6 +8,7 @@ import { checkRouterChildsData } from '../../@fury/utils/check-router-childs-dat
 import { MatDialog } from '@angular/material/dialog';
 import { FiltroComponent } from '../pages/paciente/busqueda/filtro/filtro.component';
 import { UsuarioService } from '../@services/usuario.service';
+import { MediaChange, MediaObserver } from '@angular/flex-layout';
 
 @Component({
   selector: 'fury-layout',
@@ -37,16 +38,29 @@ export class LayoutComponent implements OnInit, OnDestroy {
   );
 
   isPharmacyUser: boolean = false;
+  isMobile: boolean;
 
   constructor(private sidenavService: SidenavService,
     private themeService: ThemeService,
     private route: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog,
-    private userService: UsuarioService) { }
+    private userService: UsuarioService,
+    private mediaObserver: MediaObserver) { }
 
   ngOnInit() {
     this.isPharmacyUser = this.userService.isPharmacyUser();
+  }
+
+  ngAfterContentInit(): void {
+    this.mediaObserver.asObservable().subscribe((changes: MediaChange[]) => {
+      this.isMobile = changes[0].mqAlias == 'sm' || changes[0].mqAlias == 'xs';
+      if (this.isMobile) {
+        this.themeService.setToolbarPosition("fixed");
+      } else {
+        this.themeService.setToolbarPosition("above-fixed");
+      }
+    });
   }
 
   openQuickPanel() {
@@ -62,7 +76,11 @@ export class LayoutComponent implements OnInit, OnDestroy {
   }
 
   openSidenav() {
-    this.sidenavService.open();
+    if (this.isMobile) {
+      this.sidenavService.open();
+    } else {
+      this.sidenavService.toggleCollapsed();
+    }
   }
 
   ngOnDestroy(): void { }

@@ -27,8 +27,6 @@ export class NuevoProductoComponent implements OnInit {
       marca: [""],
       idCategoria: [null, Validators.required],
       idFormaFarmaceutica: [null, Validators.required],
-      presentacion: [""],
-      concentracion: [""],
       fechaVencimiento: [new Date(), Validators.required],
       fraccion: [0, Validators.required],
       stock: [0, Validators.required],
@@ -37,6 +35,7 @@ export class NuevoProductoComponent implements OnInit {
   }
 
   guardarProducto() {
+    if (this.formProducto.invalid) return;
     let producto = new Producto(this.formProducto.value);
     this.dialogRef.close(producto);
   }
