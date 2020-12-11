@@ -1,97 +1,93 @@
-<div class="principal_content">
-    <mat-card>
-        <!-- id="content_1" -->
-        <mat-card-header>
-            <mat-card-title>Mis Locales Farmacia</mat-card-title>
-        </mat-card-header>
-        <!-- <h2 id="title"></h2> -->
-        <mat-card-content fxLayout="column" fxLayoutAlign="center stretch">
-            <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
-                <!-- class="subcontents" -->
-                <!-- <div class="subcontents" fxLayout="row" fxLayoutAlign="space-around center">
-          <form class="search-form"> -->
-                <mat-form-field appearance="outline" fxFlex="calc(65% - 1rem)">
-                    <!-- class="search-full-width" -->
-                    <mat-label>Búsqueda</mat-label>
-                    <input type="text" matInput placeholder="Nombre de la Farmacia">
-                    <!-- <mat-icon matPrefix>search</mat-icon> -->
-                </mat-form-field>
-                <!-- </form> -->
-                <button mat-raised-button color="primary" fxFlex="calc(35% - 1rem)"(click)="buscarLocales()">Buscar</button>
-                <!-- </div> -->
-            </div>
-            <div fxLayout="row" fxLayoutAlign="end start" fxLayoutGap="0.5rem">
-                <!-- id="content_3" -->
-                <!-- <div class="example-button-row">
-          <div class="example-flex-container">
-            <div class="example-button-container"> -->
-                <button mat-mini-fab color="accent">
-                    <mat-icon>update</mat-icon>
-                </button>
-                <button mat-mini-fab color="primary" [routerLink]="['/pharmacy/locales/local']">
-                    <mat-icon>add</mat-icon>
-                </button>
-                <!-- </div>
-          </div>
-        </div> -->
-            </div>
+<fury-page-layout mode="simple">
 
-            <!-- Tabla -->
-            <!-- <div> -->
-            <!-- style=" overflow-y: scroll;" -->
-            <table mat-table [dataSource]="locales" class="mat-elevation-z2">
+    <fury-page-layout-header>
+        <fury-breadcrumbs current="Locales"></fury-breadcrumbs>
+    </fury-page-layout-header>
 
-                <!-- Position Column -->
-                <ng-container matColumnDef="position">
-                    <th mat-header-cell *matHeaderCellDef> No. </th>
-                    <td mat-cell *matCellDef="let element; let index=index;"> {{index}} </td>
-                </ng-container>
-                <!-- Name Column -->
-                <ng-container matColumnDef="name">
-                    <th mat-header-cell *matHeaderCellDef> Nombre </th>
-                    <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
-                </ng-container>
-                <!-- Name Column -->
-                <ng-container matColumnDef="address">
-                    <th mat-header-cell *matHeaderCellDef> Dirección </th>
-                    <td mat-cell *matCellDef="let element"> {{element.direccion}} </td>
-                </ng-container>
-                <!-- Opennig time Column -->
-                <ng-container matColumnDef="opening">
-                    <th mat-header-cell *matHeaderCellDef> Hora Apertura</th>
-                    <td mat-cell *matCellDef="let element"> {{element.horario}} </td>
-                </ng-container>
-                <!-- Closing time Column -->
-                <ng-container matColumnDef="closed">
-                    <th mat-header-cell *matHeaderCellDef> Hora Cierre </th>
-                    <td mat-cell *matCellDef="let element"> {{element.radio}} </td>
-                </ng-container>
+    <fury-page-layout-content fxLayout="column" fxLayoutGap="1rem">
+        <fury-card>
+            <fury-card-header>
+                <fury-card-header-heading> Filtro de Búsqueda </fury-card-header-heading>
+            </fury-card-header>
+            <fury-card-content>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1rem" fxLayoutGap.xs="0"
+                    fxLayoutAlign="space-between center" fxLayoutAlign.xs="space-between stretch" [formGroup]="formFiltro">
+                    <mat-form-field fxFlex="calc(37% - 3rem)">
+                        <mat-label>Nombre</mat-label>
+                        <input matInput formControlName="nombre">
+                    </mat-form-field>
+                    <mat-form-field fxFlex="calc(37% - 2rem)">
+                        <mat-label>Dirección</mat-label>
+                        <input matInput formControlName="direccion">
+                    </mat-form-field>
+                    <button mat-raised-button color="primary" fxFlex="calc(26% - 2rem)"
+                        (click)="buscarLocales()" type="submit">Buscar</button>
+                </div>
+            </fury-card-content>
+        </fury-card>
+        <fury-card>
+            <fury-card-header>
+                <fury-card-header-heading> Tus Locales </fury-card-header-heading>
+                <fury-card-header-subheading> Lista de tus locales </fury-card-header-subheading>
+                <fury-card-header-actions>
+                    <button mat-icon-button>
+                        <mat-icon>refresh</mat-icon>
+                    </button>
+                    <button mat-icon-button [routerLink]="['/pharmacy/locales/local']">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </fury-card-header-actions>
+            </fury-card-header>
+            <fury-card-content>
+                <fury-list name="Locales" [hideHeader]="true">
+                    <table mat-table [dataSource]="locales" class="mat-elevation-z2">
 
-                <!-- Actions Column -->
-                <ng-container matColumnDef="action">
-                    <th mat-header-cell *matHeaderCellDef> Acciones </th>
-                    <td mat-cell *matCellDef="let row; let element">
+                        <!-- Position Column -->
+                        <ng-container matColumnDef="position">
+                            <th mat-header-cell *matHeaderCellDef> No. </th>
+                            <td mat-cell *matCellDef="let element; let index=index;"> {{index}} </td>
+                        </ng-container>
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                            <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+                        </ng-container>
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="address">
+                            <th mat-header-cell *matHeaderCellDef> Dirección </th>
+                            <td mat-cell *matCellDef="let element"> {{element.direccion}} </td>
+                        </ng-container>
+                        <!-- Opennig time Column -->
+                        <ng-container matColumnDef="opening">
+                            <th mat-header-cell *matHeaderCellDef> Hora Apertura</th>
+                            <td mat-cell *matCellDef="let element"> {{element.horario}} </td>
+                        </ng-container>
+                        <!-- Closing time Column -->
+                        <ng-container matColumnDef="closed">
+                            <th mat-header-cell *matHeaderCellDef> Hora Cierre </th>
+                            <td mat-cell *matCellDef="let element"> {{element.radio}} </td>
+                        </ng-container>
 
-                        <!-- <div class="example-button-row">
-              <div class="example-flex-container">
-                <div class="example-button-container"> -->
-                        <button mat-icon-button color="primary">
-                            <mat-icon [routerLink]="['/pharmacy/locales/local/', element.idFarmacia]">edit</mat-icon>
-                        </button>
-                        <!-- </div>
-                <div class="example-button-container"> -->
-                        <button mat-icon-button color="primary">
-                            <mat-icon >delete</mat-icon>
-                        </button>
-                        <!-- </div>
-              </div>
-            </div> -->
-                    </td>
-                </ng-container>
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns"> </tr>
-            </table>
-            <!-- </div> -->
-        </mat-card-content>
-    </mat-card>
-</div>
+                        <!-- Actions Column -->
+                        <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                            <td mat-cell *matCellDef="let row; let element">
+                                <button mat-icon-button color="accent">
+                                    <mat-icon [routerLink]="['/pharmacy/locales/local/', element.idFarmacia]">edit
+                                    </mat-icon>
+                                </button>
+                                <button mat-icon-button color="warn">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns"> </tr>
+                    </table>
+                    <mat-paginator [length]="100" [pageSize]="10"></mat-paginator>
+                </fury-list>
+            </fury-card-content>
+        </fury-card>
+    </fury-page-layout-content>
+
+</fury-page-layout>

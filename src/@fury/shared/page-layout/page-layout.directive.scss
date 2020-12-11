@@ -28,6 +28,9 @@
   flex-direction: row;
   place-content: center flex-start;
   align-items: center;
+  @include layout-bp(lt-sm) {
+    height: 7rem;
+  }
 }
 
 .fury-page-layout-content {

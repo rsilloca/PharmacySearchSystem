@@ -8,6 +8,8 @@ import { FurySharedModule } from 'src/@fury/fury-shared.module';
 import { AgmCoreModule } from '@agm/core';
 import { NuevoLocalComponent } from './nuevo-local/nuevo-local.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ListModule } from 'src/@fury/shared/list/list.module';
+import { FuryCardModule } from 'src/@fury/shared/card/card.module';
 
 
 @NgModule({
@@ -18,7 +20,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
     MaterialModule,
     FurySharedModule,
     AgmCoreModule,
-    SharedModule
+    SharedModule,
+    ListModule,
+    FuryCardModule
   ]
 })
 export class LocalesModule { }
