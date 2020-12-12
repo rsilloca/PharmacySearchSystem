@@ -1,0 +1,26 @@
+<fury-card [style.background]="background">
+    <fury-card-header>
+        <fury-card-header-subheading>{{ producto ? producto.formaFarmaceutica.descripcion : 'def' }} x {{ producto ?
+            producto.fraccion : 'def' }} unidades
+        </fury-card-header-subheading>
+        <fury-card-header-heading>{{ producto ? producto.nombre : 'def'}}</fury-card-header-heading>
+    </fury-card-header>
+    <fury-card-content fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxLayout="column">
+            <span> {{ farmacia ? farmacia.nombre : 'def' }} </span>
+            <span> {{ farmacia ? farmacia.direccion : 'def'}} </span>
+        </div>
+        <img src="/assets/svg/categorias/{{icon}}.svg" class="icon">
+    </fury-card-content>
+    <fury-card-actions fxLayout="row" fxLayoutAlign="space-between center">
+        <span> {{ farmacia ? farmacia.monedas.descripcion : 'def' }} {{ producto ? producto.precioUnitario : '0' }}</span>
+        <div fxLayout="row">
+            <button mat-icon-button>
+                <mat-icon>visibility</mat-icon>
+            </button>
+            <button mat-icon-button>
+                <mat-icon>near_me</mat-icon>
+            </button>
+        </div>
+    </fury-card-actions>
+</fury-card>

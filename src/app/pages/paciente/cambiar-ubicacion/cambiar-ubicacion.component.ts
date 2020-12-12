@@ -1,7 +1,10 @@
 import { GoogleMapsAPIWrapper, MapsAPILoader, MouseEvent } from '@agm/core';
 import { google } from '@agm/core/services/google-maps-types';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
+import { LATITUD_DEFAULT, LOCATION_NAME, LONGITUD_DEFAULT, TYPE_LOCATION_AUTOMATIC } from 'src/app/@constants/constantes';
+import { UsuarioService } from 'src/app/@services/usuario.service';
 
 @Component({
   selector: 'fury-cambiar-ubicacion',
@@ -10,37 +13,65 @@ import { FormBuilder } from '@angular/forms';
 })
 export class CambiarUbicacionComponent implements OnInit {
 
-  lat = 19.290950;
-  lng = -99.653015;
-  zoom = 9;
+  lat = LATITUD_DEFAULT;
+  lng = LONGITUD_DEFAULT;
+  zoom = 17;
+  form: FormGroup;
 
-  constructor(private fromBuilder: FormBuilder, private mapsApi: MapsAPILoader) { }
+  constructor(private fromBuilder: FormBuilder, private mapsApi: MapsAPILoader, private fb: FormBuilder,
+    private userService: UsuarioService, private dialogRef: MatDialogRef<CambiarUbicacionComponent>) { }
 
   ngOnInit(): void {
-    this.getCurrentLocation();
+    let ubicacionAutomatica = +this.userService.getTypeLocation() == TYPE_LOCATION_AUTOMATIC;
+    console.log('tipo', ubicacionAutomatica);
+    this.form = this.fb.group({
+      tipo: [ubicacionAutomatica],
+      coords: ['']
+    });
+    this.setLocation();
+    this.form.controls['tipo'].valueChanges.subscribe(change => {
+      if (change) this.getCurrentLocation();
+    });
+  }
+
+  setLocation() {
+    if (this.form.controls['tipo'].value) {
+      this.getCurrentLocation();
+    } else {
+      let location = this.userService.getLocation();
+      this.lat = location[0];
+      this.lng = location[1];
+      this.updateCoordsForm();
+    }
   }
 
   getCurrentLocation() {
-    if(navigator.geolocation){
-      navigator.geolocation.getCurrentPosition(position =>{
-        this.lat = position.coords.latitude;
-        this.lng = position.coords.longitude;
-        this.zoom = 8;
-        // console.log("cordenadas actuales ", this.lat, this.lng);
-       });
-    }
-    else {
-      console.log("Geolocation is not supported by this browser.")
-    }
+    this.userService.getNavigatorGeolocation().then(location => {
+      this.lat = location.latitud;
+      this.lng = location.longitud;
+      this.updateCoordsForm();
+    });
   }
 
   markerDragEnd(evt: MouseEvent) {
     this.lat = evt.coords.lat;
     this.lng = evt.coords.lng;
-    console.log("lat" + this.lat);
-    console.log("lng" + this.lng);
+    this.updateCoordsForm();
   }
 
+  saveLocation() {
+    if (!this.form.controls['tipo'].value) {
+      this.userService.saveLocation(this.lat, this.lng);
+    } else {
+      localStorage.removeItem(LOCATION_NAME);
+      this.userService.setTypeLocation(TYPE_LOCATION_AUTOMATIC);
+    }
+    this.dialogRef.close();
+  }
+
+  updateCoordsForm() {
+    this.form.controls['coords'].setValue(this.lat + ", " + this.lng);
+  }
 
 }
 

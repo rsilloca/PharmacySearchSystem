@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LATITUD_DEFAULT, LONGITUD_DEFAULT } from 'src/app/@constants/constantes';
 import { Farmacia } from 'src/app/@models/farmacia';
 import { Horario } from 'src/app/@models/horario';
 import { Moneda } from 'src/app/@models/moneda';
@@ -41,8 +42,8 @@ export class NuevoLocalComponent implements OnInit {
   form: FormGroup;
 
   //Var globales
-  lat = 0.0;
-  lng = 0.0;
+  lat = LATITUD_DEFAULT;
+  lng = LONGITUD_DEFAULT;
   zoom = 17;
 
   idFarmacia: number = 0;

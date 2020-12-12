@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { PRECIO_MAXIMO_DEFAULT, PRECIO_MINIMO_DEFAULT, RADIO_DEFAULT } from 'src/app/@constants/constantes';
 import { Categoria } from 'src/app/@models/categoria';
+import { FormaFarmaceutica } from 'src/app/@models/formaFarmaceutica';
 import { ConfiguracionService } from 'src/app/@services/configuracion.service';
 
 @Component({
@@ -13,45 +15,63 @@ export class FiltroComponent implements OnInit {
   @Input('expandableMultiple') expandableMultiple: boolean = false;
   @Output() eventFiltro = new EventEmitter<any>();
   categorias: Categoria[];
-
-  formatLabel(value: number) {
-    if (value >= 1000) {
-      return Math.round(value / 1000) + 'm';
-    }
-    return value;
-  }
-
+  presentaciones: FormaFarmaceutica[];
   formFiltro: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private configuracionService: ConfiguracionService) { }
 
   ngOnInit(): void {
     this.listarCategorias();
+    this.listarPresentaciones();
     this.formFiltro = this.formBuilder.group({
-      radio: new FormControl(50, [Validators.required]),
-      categorias: new FormControl(null, [Validators.required]),
-      precio: new FormControl(30, [Validators.required]),
-      presentacion: new FormControl(null, [Validators.required])
+      radio: [RADIO_DEFAULT],
+      categoria: [0],
+      precioMinimo: [PRECIO_MINIMO_DEFAULT],
+      precioMaximo: [PRECIO_MAXIMO_DEFAULT],
+      presentacion: [0]
+    });
+    this.formFiltro.valueChanges.subscribe(changes => {
+      this.eventFiltro.emit(this.formFiltro.value);
     });
   }
 
   enviarFiltro(): void {
-    let filtro = {
-      radio: '30',
-      categorias: 'Todos',
-      precio: [10, 50],
-      presentacion: 'blister'
-    }
-    this.eventFiltro.emit(filtro);
+    this.eventFiltro.emit(this.formFiltro.value);
   }
 
   listarCategorias() {
     this.configuracionService.getCategorias().subscribe(response => {
-      console.log("respuesta categorias", response);
       this.categorias = response;
     }, error => {
       console.log('ha ocurrido un error al obtener categorias' + error);
     });
+  }
+
+  listarPresentaciones() {
+    this.configuracionService.getFormasFarmaceuticas().subscribe(response => {
+      this.presentaciones = response;
+    });
+  }
+
+  formatLabelRadio(value: number) {
+    if (value >= 1) {
+      return value + 'm';
+    }
+    return value;
+  }
+
+  formatLabelPrecioMinimo(value: number) {
+    if (value >= 1) {
+      return 'S/.' + value;
+    }
+    return value;
+  }
+
+  formatLabelPrecioMaximo(value: number) {
+    if (value >= 1) {
+      return 'S/.' + value;
+    }
+    return value;
   }
 
 }

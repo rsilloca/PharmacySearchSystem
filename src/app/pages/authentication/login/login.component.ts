@@ -5,7 +5,7 @@ import { MatSpinner } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { TYPE_PATIENT, TYPE_PHARMACY } from 'src/app/@constants/constantes';
+import { TYPE_LOCATION_AUTOMATIC, TYPE_PATIENT, TYPE_PHARMACY } from 'src/app/@constants/constantes';
 import { ConfiguracionService } from 'src/app/@services/configuracion.service';
 import { UsuarioService } from 'src/app/@services/usuario.service';
 import { AlertService } from 'src/app/shared/alert/alert.service';
@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
 
   form: FormGroup;
   visible = false;
+  location: any[] = [0, 0];
 
   constructor(private router: Router,
     private fb: FormBuilder,
@@ -51,10 +52,11 @@ export class LoginComponent implements OnInit {
     let spinner = this.spinnerService.start('Iniciando sesión');
     this.userService.login(usuario, pass).subscribe(res => {
       console.log("response login", res);
-      this.spinnerService.stop(spinner);
       if (this.userService.isPharmacyUser()) {
+        this.spinnerService.stop(spinner);
         this.router.navigate(['/pharmacy']);
       } else {
+        this.spinnerService.stop(spinner);
         this.router.navigate(['/']);
       }
     }, error => {
@@ -63,4 +65,5 @@ export class LoginComponent implements OnInit {
       this.alertService.error('Error', 'El usuario ingresado no es válido');
     });
   }
+
 }

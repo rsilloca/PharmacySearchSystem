@@ -10,16 +10,20 @@ import { FurySharedModule } from 'src/@fury/fury-shared.module';
 import { VerRutaComponent } from './busqueda/ver-ruta/ver-ruta.component';
 import { CambiarUbicacionComponent } from './cambiar-ubicacion/cambiar-ubicacion.component';
 import { AgmCoreModule } from '@agm/core';
+import { FuryCardModule } from 'src/@fury/shared/card/card.module';
+import { ItemBusquedaComponent } from './busqueda/item-busqueda/item-busqueda.component';
+import { FiltroMobileComponent } from './busqueda/filtro-mobile/filtro-mobile.component';
 
 
 @NgModule({
-  declarations: [BusquedaComponent, FiltroComponent, DetallesProductoComponent, VerRutaComponent, CambiarUbicacionComponent],
+  declarations: [BusquedaComponent, FiltroComponent, DetallesProductoComponent, VerRutaComponent, CambiarUbicacionComponent, ItemBusquedaComponent, FiltroMobileComponent],
   imports: [
     CommonModule,
     PacienteRoutingModule,
     MaterialModule,
     FurySharedModule,
-    AgmCoreModule
+    AgmCoreModule,
+    FuryCardModule
   ]
 })
 export class PacienteModule { }

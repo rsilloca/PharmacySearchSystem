@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { TOKEN_NAME, TYPE_PHARMACY, TYPE_USER_NAME } from '../@constants/constantes';
+import { LOCATION_NAME, LOCATION_TYPE_NAME, TOKEN_NAME, TYPE_LOCATION_AUTOMATIC, TYPE_LOCATION_MANUAL, TYPE_PHARMACY, TYPE_USER_NAME } from '../@constants/constantes';
 import { PATHSERVICE_USUARIO } from '../@constants/rutas';
 import { Rol } from '../@models/rol';
 import { Token } from '../@models/token';
@@ -50,7 +50,7 @@ export class UsuarioService {
   }
 
   public isPharmacyUser(): boolean {
-    return this.getRol() == this.typePharmacy;
+    return this.getRol() == this.typePharmacy.toString();
   }
 
   saveToken(token: string): void {
@@ -111,6 +111,46 @@ export class UsuarioService {
   }
   logout() {
     localStorage.clear();
+  }
+  saveLocation(lat: number, lng: number) {
+    let location = JSON.stringify([lat, lng]);
+    localStorage.setItem(LOCATION_NAME, location.toString());
+    this.setTypeLocation(TYPE_LOCATION_MANUAL);
+  }
+  getLocation() {
+    let location = localStorage.getItem(LOCATION_NAME);
+    return location ? JSON.parse(location) : null;
+  }
+  setTypeLocation(type: number){
+    localStorage.setItem(LOCATION_TYPE_NAME, type.toString());
+  }
+  getTypeLocation() {
+    let type = localStorage.getItem(LOCATION_TYPE_NAME);
+    if (!type) {
+      type = TYPE_LOCATION_AUTOMATIC.toString();
+      this.setTypeLocation(+type);
+    }
+    return type;
+  }
+  getNavigatorGeolocation(): Promise<any> {
+    if (navigator.geolocation) {
+      return new Promise<any>(resolve => {
+        navigator.geolocation.getCurrentPosition(position => {
+          resolve({
+            latitud: position.coords.latitude,
+            longitud: position.coords.longitude
+          });
+        });
+      });
+    } else {
+      return new Promise<any>(resolve => {
+        console.log('Error', 'La geolocalización no es soportada en este navegador');
+        resolve({
+          latitud: 0,
+          longitud: 0
+        });
+      });
+    }
   }
 
 }
