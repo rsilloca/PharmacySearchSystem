@@ -13,6 +13,7 @@ import { ListModule } from 'src/@fury/shared/list/list.module';
 import { FuryCardModule } from 'src/@fury/shared/card/card.module';
 import { QuickInfoWidgetModule } from '../dashboard/widgets/quick-info-widget/quick-info-widget.module';
 import { ItemCarritoComponent } from './control-stock/item-carrito/item-carrito.component';
+import { LoadingOverlayModule } from 'src/@fury/shared/loading-overlay/loading-overlay.module';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { ItemCarritoComponent } from './control-stock/item-carrito/item-carrito.
     FurySharedModule,
     ListModule,
     FuryCardModule,
-    QuickInfoWidgetModule
+    QuickInfoWidgetModule,
+    LoadingOverlayModule
   ]
 })
 export class FarmaciaModule { }

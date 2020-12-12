@@ -1,18 +1,17 @@
-<form [formGroup]="formFiltro" (ngSubmit)="enviarFiltro()" fxLayout="column" fxLayoutAlign="center stretch">
-    <fury-card>
-        <fury-card-header>
-            <fury-card-header-heading>Filtros avanzados</fury-card-header-heading>
-        </fury-card-header>
-        <fury-card-content fxLayout="column" fxLayoutGap="15px">
+<form [formGroup]="formFiltro" fxLayout="column" fxLayoutGap="1rem" fxLayoutAlign="center stretch">
+
+    <h2>Filtros avanzados</h2>
+    <!-- <div fxLayout="column" fxLayoutGap="15px"> -->
+        <mat-accordion>
             <mat-expansion-panel>
                 <mat-expansion-panel-header>
                     <mat-panel-title> Radio de localización </mat-panel-title>
                 </mat-expansion-panel-header>
-                <mat-slider fxFlex="100%" thumbLabel [displayWith]="formatLabelRadio" tickInterval="1" min="1"
-                    max="1000" formControlName="radio">
+                <mat-slider fxFlex="100%" thumbLabel [displayWith]="formatLabelRadio" tickInterval="1" min="1" max="1000"
+                    formControlName="radio">
                 </mat-slider>
             </mat-expansion-panel>
-
+    
             <mat-expansion-panel>
                 <mat-expansion-panel-header>
                     <mat-panel-title> Categorias ({{ categorias ? categorias.length : '0' }}) </mat-panel-title>
@@ -24,7 +23,7 @@
                     </mat-radio-button>
                 </mat-radio-group>
             </mat-expansion-panel>
-
+    
             <mat-expansion-panel>
                 <mat-expansion-panel-header>
                     <mat-panel-title> Precio </mat-panel-title>
@@ -38,7 +37,7 @@
                     </mat-slider>
                 </div>
             </mat-expansion-panel>
-
+    
             <mat-expansion-panel>
                 <mat-expansion-panel-header>
                     <mat-panel-title> Presentación ({{ presentaciones ? presentaciones.length : '0' }}) </mat-panel-title>
@@ -51,7 +50,8 @@
                     </mat-radio-button>
                 </mat-radio-group>
             </mat-expansion-panel>
-            <!-- <button mat-raised-button color="primary" type="submit">Aplicar Filtros</button> -->
-        </fury-card-content>
-    </fury-card>
+        </mat-accordion>
+        <button mat-raised-button color="warn" type="button" mat-dialog-close>Cancelar</button>
+        <button mat-raised-button color="primary" [mat-dialog-close]="formFiltro.value">Aplicar Filtros</button>
+    <!-- </div> -->
 </form>

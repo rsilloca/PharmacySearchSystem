@@ -47,7 +47,6 @@ export class ControlStockComponent implements OnInit {
 
   ngAfterContentInit(): void {
     this.mediaObserver.asObservable().subscribe((changes: MediaChange[]) => {
-      console.log('changes', changes, this.gridProductos);
       this.gridProductos.cols = this.gridByBreakpoint[0][changes[0].mqAlias];
     });
   }

@@ -16,7 +16,7 @@ export class ToolbarLocationComponent implements OnInit {
 
   abrirCambiarUbicacion(): void {
     const dialog = this.dialog.open(CambiarUbicacionComponent, {
-      width: '30rem'
+      width: '40rem'
     });
   }
 

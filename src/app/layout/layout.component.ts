@@ -9,6 +9,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { FiltroComponent } from '../pages/paciente/busqueda/filtro/filtro.component';
 import { UsuarioService } from '../@services/usuario.service';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
+import { FilterSubject } from '../@models/filter-subject';
+import { FilterObserver } from '../@models/filter-observer';
+import { FiltroMobileComponent } from '../pages/paciente/busqueda/filtro-mobile/filtro-mobile.component';
+import { FilterObserverService } from '../@services/filter-observer.service';
+import { Categoria } from '../@models/categoria';
+import { FormaFarmaceutica } from '../@models/formaFarmaceutica';
+import { ConfiguracionService } from '../@services/configuracion.service';
 
 @Component({
   selector: 'fury-layout',
@@ -39,6 +46,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   isPharmacyUser: boolean = false;
   isMobile: boolean;
+  categorias: Categoria[];
+  presentaciones: FormaFarmaceutica[];
 
   constructor(private sidenavService: SidenavService,
     private themeService: ThemeService,
@@ -46,10 +55,14 @@ export class LayoutComponent implements OnInit, OnDestroy {
     private router: Router,
     private dialog: MatDialog,
     private userService: UsuarioService,
-    private mediaObserver: MediaObserver) { }
+    private mediaObserver: MediaObserver,
+    private filterObserverService: FilterObserverService,
+    private configuracionService: ConfiguracionService) { }
 
   ngOnInit() {
     this.isPharmacyUser = this.userService.isPharmacyUser();
+    this.listarCategorias();
+    this.listarPresentaciones();
   }
 
   ngAfterContentInit(): void {
@@ -86,8 +99,29 @@ export class LayoutComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void { }
 
   abrirFiltro() {
-    let dialogFiltro = this.dialog.open(FiltroComponent, {
-      width: '30rem'
+    let dialogFiltro = this.dialog.open(FiltroMobileComponent, {
+      width: '30rem',
+      data: { categorias: this.categorias, presentaciones: this.presentaciones }
+    });
+    dialogFiltro.afterClosed().subscribe(response => {
+      if (response) {
+        localStorage.setItem('filtro', JSON.stringify(response));
+        this.filterObserverService.notify();
+      }
+    });
+  }
+
+  listarCategorias() {
+    this.configuracionService.getCategorias().subscribe(response => {
+      this.categorias = response;
+    }, error => {
+      console.log('ha ocurrido un error al obtener categorias' + error);
+    });
+  }
+
+  listarPresentaciones() {
+    this.configuracionService.getFormasFarmaceuticas().subscribe(response => {
+      this.presentaciones = response;
     });
   }
 
