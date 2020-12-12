@@ -15,13 +15,13 @@ export interface TimeTable {
   closing: string;
 }
 const ELEMENT_DATA: TimeTable[] = [
-  { position: 1, day: 'Lunes', openning: '9:00', closing: '18:00' },
-  { position: 2, day: 'Martes', openning: '9:00', closing: '18:00' },
-  { position: 3, day: 'Miercoles', openning: '9:00', closing: '18:00' },
-  { position: 4, day: 'Jueves', openning: '9:00', closing: '18:00' },
-  { position: 5, day: 'Viernes', openning: '9:00', closing: '18:00' },
-  { position: 6, day: 'Sábado', openning: '9:00', closing: '18:00' },
-  { position: 7, day: 'Domingo', openning: '9:00', closing: '18:00' },
+  { position: 1, day: 'Lun', openning: '9:00', closing: '18:00' },
+  { position: 2, day: 'Mar', openning: '9:00', closing: '18:00' },
+  { position: 3, day: 'Mie', openning: '9:00', closing: '18:00' },
+  { position: 4, day: 'Jue', openning: '9:00', closing: '18:00' },
+  { position: 5, day: 'Vie', openning: '9:00', closing: '18:00' },
+  { position: 6, day: 'Sáb', openning: '9:00', closing: '18:00' },
+  { position: 7, day: 'Dom', openning: '9:00', closing: '18:00' },
 ];
 
 @Component({
@@ -30,6 +30,9 @@ const ELEMENT_DATA: TimeTable[] = [
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+
+  isLoadingStock = false;
+  isLoadingHorario = false;
 
   constructor() { }
 
@@ -44,7 +47,7 @@ export class DashboardComponent implements OnInit {
   ];
 
   //CLASE TABLA
-  displayedColumns: string[] = ['position', 'day', 'openning', 'closing', 'select'];
+  displayedColumns: string[] = ['day', 'openning', 'closing', 'select'];
   dataSource = new MatTableDataSource<TimeTable>(ELEMENT_DATA);
   selection = new SelectionModel<TimeTable>(true, []);
 
@@ -68,6 +71,20 @@ export class DashboardComponent implements OnInit {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+  }
+
+  reloadStock() {
+    this.isLoadingStock = true;
+    setTimeout(() => {
+      this.isLoadingStock = false;
+    }, 2000);
+  }
+
+  reloadHorario() {
+    this.isLoadingHorario = true;
+    setTimeout(() => {
+      this.isLoadingHorario = false;
+    }, 2000);
   }
 
 }

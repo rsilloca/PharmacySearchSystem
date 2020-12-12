@@ -43,7 +43,7 @@
                 </fury-card-header-actions>
             </fury-card-header>
             <fury-card-content fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
-                <div fxLayout="column" fxFlex.xs="auto" fxFlex.sm="auto" fxFlex="70%" style="padding-right: 1rem;">
+                <div fxLayout="column" fxFlex.xs="auto" fxFlex.sm="auto" fxFlex="70%" class="contenedor-items">
                     <mat-grid-list #gridProductos cols="2" rowHeight="8rem" gutterSize="1rem">
                         <mat-grid-tile *ngFor="let producto of productos">
                             <fury-quick-info-widget fxFlex="auto" class="route-animations-elements"
@@ -60,16 +60,16 @@
                 <mat-divider [vertical]="true" fxHide.xs="true" fxHide.sm="true"></mat-divider>
                 <mat-divider [vertical]="false" fxHide="true" fxHide.xs="false" fxHide.sm="false"></mat-divider>
 
-                <div fxLayout="column" fxFlex.xs="15rem" fxFlex.sm="15rem" fxFlex="30%">
-                    <div fxFlex="calc(100% - 4rem)" style="padding-left: 1rem;">
-                        <cdk-virtual-scroll-viewport itemSize="50" style="height: 100%; width: 100%; background: gray;">
+                <div fxLayout="column" fxFlex.xs="auto" fxFlex.sm="auto" fxFlex="30%" fxLayoutGap.xs="1rem">
+                    <div fxFlex="calc(100% - 4rem)" fxFlex.sm="35rem" fxFlex.xs="35rem" class="contenedor-scroll">
+                        <cdk-virtual-scroll-viewport itemSize="50" class="scroll-view">
                             <item-carrito *ngFor="let producto of productosSeleccionados; let i = index"
                                 [item]="producto" (onEliminar)="eliminarProductoSeleccionado($event)">
                             </item-carrito>
                         </cdk-virtual-scroll-viewport>
                     </div>
-                    <div fxFlex="4rem" fxLayout="row" fxLayout.xs="column" fxLayoutAlign.xs="start stretch"
-                        fxLayoutAlign="space-evenly center">
+                    <div fxFlex="4rem" fxFlex.xs="auto" fxLayout="row" fxLayout.xs="column"
+                        fxLayoutAlign.xs="start stretch" fxLayoutAlign="space-evenly center" fxLayoutGap.xs="1rem">
                         <button mat-raised-button color="warn" (click)="productosSeleccionados = [];">Limpiar</button>
                         <button mat-raised-button color="primary">Actualizar Stock</button>
                     </div>

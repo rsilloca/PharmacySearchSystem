@@ -17,45 +17,21 @@
             </fury-quick-info-widget>
         </div>
     </div>
-    <div fxLayout="row" fxLayoutGap="1rem">
-        <div fxFlex="calc(50% - 1rem)">
+    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="1rem">
+        <div fxFlex="calc(50% - 1rem)" fxFlex.sm="auto" fxFlex.xs="auto">
             <fury-card>
                 <fury-card-header>
-                    <fury-card-header-heading> Estado de stock </fury-card-header-heading>
+                    <fury-card-header-heading> Horario de atención </fury-card-header-heading>
+                    <fury-card-header-subheading> Horario de atención de tus farmacias </fury-card-header-subheading>
                     <fury-card-header-actions>
-                        <button mat-icon-button>
+                        <button mat-icon-button (click)="reloadHorario()">
                             <mat-icon>refresh</mat-icon>
                         </button>
                     </fury-card-header-actions>
                 </fury-card-header>
                 <fury-card-content>
                     <mat-form-field>
-                        <mat-label>Mi Farmacia</mat-label>
-                        <mat-select>
-                            <mat-option *ngFor="let farmacia of farmacias" [value]="farmacia.value">
-                                {{farmacia.viewValue}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </fury-card-content>
-                <fury-card-actions fxLayout="row" fxLayoutAlign="center center">
-                    <a [routerLink]="['/pharmacy/control-stock']">Actualizar ahora</a>
-                </fury-card-actions>
-            </fury-card>
-        </div>
-        <div fxFlex="calc(50% - 1rem)">
-            <fury-card>
-                <fury-card-header>
-                    <fury-card-header-heading> Estado de stock </fury-card-header-heading>
-                    <fury-card-header-actions>
-                        <button mat-icon-button>
-                            <mat-icon>refresh</mat-icon>
-                        </button>
-                    </fury-card-header-actions>
-                </fury-card-header>
-                <fury-card-content>
-                    <mat-form-field>
-                        <mat-label>Mi Farmacia</mat-label>
+                        <mat-label>Farmacia</mat-label>
                         <mat-select>
                             <mat-option *ngFor="let farmacia of farmacias" [value]="farmacia.value">
                                 {{farmacia.viewValue}}
@@ -66,53 +42,91 @@
                         <table mat-table [dataSource]="dataSource" class="mat-elevation-z2">
 
                             <!-- Position Column -->
-                            <ng-container matColumnDef="position">
+                            <!-- <ng-container matColumnDef="position">
                                 <th mat-header-cell *matHeaderCellDef> No. </th>
                                 <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-                            </ng-container>
+                            </ng-container> -->
                             <!-- DAY Column -->
                             <ng-container matColumnDef="day">
                                 <th mat-header-cell *matHeaderCellDef> Día </th>
                                 <td mat-cell *matCellDef="let element"> {{element.day}} </td>
                             </ng-container>
-            
+
                             <!-- Opennig time Column -->
                             <ng-container matColumnDef="openning">
-                                <th mat-header-cell *matHeaderCellDef> Hora de apertura </th>
+                                <th mat-header-cell *matHeaderCellDef> Apertura </th>
                                 <td mat-cell *matCellDef="let element"> {{element.openning}} </td>
                             </ng-container>
-            
+
                             <!-- Closing time Column -->
                             <ng-container matColumnDef="closing">
-                                <th mat-header-cell *matHeaderCellDef> Hora de cierre </th>
+                                <th mat-header-cell *matHeaderCellDef> Cierre </th>
                                 <td mat-cell *matCellDef="let element"> {{element.closing}} </td>
                             </ng-container>
-            
+
                             <!-- Checkbox Column -->
                             <ng-container matColumnDef="select">
                                 <th mat-header-cell *matHeaderCellDef>
                                     <mat-checkbox (change)="$event ? masterToggle() : null"
                                         [checked]="selection.hasValue() && isAllSelected()"
-                                        [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+                                        [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                        [aria-label]="checkboxLabel()">
                                     </mat-checkbox>
                                 </th>
                                 <td mat-cell *matCellDef="let row">
                                     <mat-checkbox (click)="$event.stopPropagation()"
-                                        (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"
-                                        [aria-label]="checkboxLabel(row)">
+                                        (change)="$event ? selection.toggle(row) : null"
+                                        [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
                                     </mat-checkbox>
                                 </td>
                             </ng-container>
-            
+
                             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                                (click)="selection.toggle(row)">
                             </tr>
                         </table>
                     </fury-list>
                 </fury-card-content>
                 <fury-card-actions fxLayout="row" fxLayoutAlign="center center">
-                    <a [routerLink]="['/pharmacy/control-stock']">Actualizar ahora</a>
+                    <button mat-button color="primary" type="button">GUARDAR CAMBIOS</button>
                 </fury-card-actions>
+                <fury-loading-overlay [isLoading]="isLoadingHorario"></fury-loading-overlay>
+            </fury-card>
+        </div>
+        <div fxFlex="calc(50% - 1rem)" fxFlex.sm="auto" fxFlex.xs="auto">
+            <fury-card>
+                <fury-card-header>
+                    <fury-card-header-heading> Estado de stock </fury-card-header-heading>
+                    <fury-card-header-subheading>Estado de stock de tus farmacias
+                    </fury-card-header-subheading>
+                    <fury-card-header-actions>
+                        <button mat-icon-button (click)="reloadStock()">
+                            <mat-icon>refresh</mat-icon>
+                        </button>
+                        <button mat-icon-button [matMenuTriggerFor]="menuEstadoStock">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menuEstadoStock="matMenu">
+                            <button mat-menu-item [routerLink]="['/pharmacy/control-stock']">Actualizar ahora</button>
+                        </mat-menu>
+                    </fury-card-header-actions>
+                </fury-card-header>
+                <fury-card-content>
+                    <mat-form-field>
+                        <mat-label>Farmacia</mat-label>
+                        <mat-select>
+                            <mat-option *ngFor="let farmacia of farmacias" [value]="farmacia.value">
+                                {{farmacia.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
+                        <h4> Desactualizado</h4>
+                        <mat-icon>sentiment_very_dissatisfied</mat-icon>
+                    </div>
+                </fury-card-content>
+                <fury-loading-overlay [isLoading]="isLoadingStock"></fury-loading-overlay>
             </fury-card>
         </div>
     </div>
