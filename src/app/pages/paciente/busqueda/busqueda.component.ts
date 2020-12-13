@@ -73,7 +73,7 @@ export class BusquedaComponent implements OnInit, FilterObserver {
       nombre: [''],
       orden: [0]
     });
-    this.filtrarProductos();
+    // this.filtrarProductos();
   }
 
   ngAfterContentInit(): void {
@@ -120,6 +120,8 @@ export class BusquedaComponent implements OnInit, FilterObserver {
       if (response.count > 0) this.gridProductos.rowHeight = '16rem';
       else this.gridProductos.rowHeight = '0';
       this.spinnerService.stop(spinner);
+    }, error => {
+      console.log('ocurrio un error', error);
     });
   }
 

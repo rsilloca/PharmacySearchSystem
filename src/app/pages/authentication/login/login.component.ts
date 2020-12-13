@@ -51,7 +51,6 @@ export class LoginComponent implements OnInit {
     let pass = this.form.controls['password'].value;
     let spinner = this.spinnerService.start('Iniciando sesión');
     this.userService.login(usuario, pass).subscribe(res => {
-      console.log("response login", res);
       if (this.userService.isPharmacyUser()) {
         this.spinnerService.stop(spinner);
         this.router.navigate(['/pharmacy']);
