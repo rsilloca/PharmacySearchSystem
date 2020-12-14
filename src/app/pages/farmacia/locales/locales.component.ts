@@ -5,6 +5,8 @@ import { Farmacia } from 'src/app/@models/farmacia';
 import { FiltroLocales } from 'src/app/@models/filtro-locales';
 import { FarmaciaService } from 'src/app/@services/farmacia.service';
 import { UsuarioService } from 'src/app/@services/usuario.service';
+import { AlertService } from 'src/app/shared/alert/alert.service';
+import { SpinnerService } from 'src/app/shared/spinner.service';
 
 //Tabla de horarios
 export interface LocalTable {
@@ -40,7 +42,7 @@ export class LocalesComponent implements OnInit {
   dataSource = new MatTableDataSource<LocalTable>(ELEMENT_DATA);
 
   constructor(private userService: UsuarioService, private farmaciaService: FarmaciaService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder, private spinnerService: SpinnerService, private alertService: AlertService) { }
 
   ngOnInit(): void {
     this.formFiltro = this.fb.group({
@@ -49,6 +51,7 @@ export class LocalesComponent implements OnInit {
     });
   }
   buscarLocales(): void {
+    let spinner = this.spinnerService.start('Buscando...');
     let filtros = new FiltroLocales(this.formFiltro.value);
     filtros.idUsuario = (this.userService.currentUser() as any).IdUsuario;
     filtros.pagina = 0;
@@ -57,6 +60,10 @@ export class LocalesComponent implements OnInit {
     this.farmaciaService.getFarmaciaFiltros(filtros).subscribe(response => {
       // console.log("Locales", response);
       this.locales = (response as any).data;
+      this.spinnerService.stop(spinner);
+    }, error => {
+      this.spinnerService.stop(spinner);
+      this.alertService.error();
     });
   }
 }

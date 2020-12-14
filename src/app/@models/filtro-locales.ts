@@ -1,6 +1,7 @@
 export class FiltroLocales {
     idUsuario: number;
     nombre: string;
+    direccion: string;
     radio: number;
     ordenamiento: number;
     latitud: number;
@@ -11,6 +12,7 @@ export class FiltroLocales {
     constructor(objeto?: FiltroLocales) {
         this.idUsuario = objeto && objeto.idUsuario ? objeto.idUsuario : 0;
         this.nombre = objeto && objeto.nombre ? objeto.nombre : "";
+        this.direccion = objeto && objeto.direccion ? objeto.direccion : "";
         this.radio = objeto && objeto.radio ? objeto.radio : 0;
         this.ordenamiento = objeto && objeto.ordenamiento ? objeto.ordenamiento : 0;
         this.latitud = objeto && objeto.latitud ? objeto.latitud : 0;

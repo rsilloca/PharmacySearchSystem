@@ -9,6 +9,7 @@ import { FilterObserver } from 'src/app/@models/filter-observer';
 import { FilterSubject } from 'src/app/@models/filter-subject';
 import { FiltroProductos } from 'src/app/@models/filtro-productos';
 import { Producto } from 'src/app/@models/producto';
+import { Usuario } from 'src/app/@models/usuario';
 import { FilterObserverService } from 'src/app/@services/filter-observer.service';
 import { ProductoService } from 'src/app/@services/producto.service';
 import { UsuarioService } from 'src/app/@services/usuario.service';
@@ -33,6 +34,7 @@ export class BusquedaComponent implements OnInit, FilterObserver {
   };
   productos: any[] = [];
   selected = 'option3';
+  usuario: Usuario;
 
   // Componentes
   @ViewChild('gridProductos') gridProductos: MatGridList;
@@ -62,7 +64,7 @@ export class BusquedaComponent implements OnInit, FilterObserver {
 
   update(subject: FilterSubject): void {
     let filtro = JSON.parse(localStorage.getItem('filtro'));
-    console.log( 'filtro recibido', filtro)
+    console.log('filtro recibido', filtro)
     this.filtroAvanzado = filtro;
     this.filtrarProductos();
   }
@@ -73,7 +75,8 @@ export class BusquedaComponent implements OnInit, FilterObserver {
       nombre: [''],
       orden: [0]
     });
-    this.filtrarProductos();
+    this.getUsuario();
+    // this.filtrarProductos();
   }
 
   ngAfterContentInit(): void {
@@ -120,24 +123,22 @@ export class BusquedaComponent implements OnInit, FilterObserver {
       if (response.count > 0) this.gridProductos.rowHeight = '16rem';
       else this.gridProductos.rowHeight = '0';
       this.spinnerService.stop(spinner);
+    }, error => {
+      console.log('ocurrio un error', error);
     });
   }
 
-  abrirDetalles(): void {
+  abrirDetalles($event): void {
     const dialog = this.dialog.open(DetallesProductoComponent, {
       width: '30rem',
-      data: {
-        titulo: 'Detalles de búsqueda', nombreMedicamento: 'Ibuprofeno 800mg.- TABLETA',
-        marca: 'Blister x100 uni.', nombreLab: 'FARMAINDUSTRIA', precio: 'S/.20.00',
-        nombreFarmacia: 'Inkafarma Ejercito - Inkafarma', ubicacion: 'Av. Ejercito 123 ',
-        distancia: 'A 0.5km. aproximadamente', horario: 'Atiende de 9:00hrs a 18:00hrs'
-      }
+      data: $event
     });
   }
 
-  abrirVerRuta(): void {
+  abrirVerRuta($event): void {
     const dialog = this.dialog.open(VerRutaComponent, {
-      width: '30rem'
+      width: '30rem',
+      data: { farmacia: $event, usuario: this.usuario }
     });
   }
 
@@ -147,6 +148,13 @@ export class BusquedaComponent implements OnInit, FilterObserver {
 
   getColor(idCategoria: number) {
     return this.colores[idCategoria - 1];
+  }
+
+  getUsuario() {
+    let idUser = this.userService.getIdUsuario();
+    this.userService.getUsuario(+idUser).subscribe(response => {
+      this.usuario = response;
+    });
   }
 
 }

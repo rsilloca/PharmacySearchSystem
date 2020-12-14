@@ -179,6 +179,9 @@ export class NuevoLocalComponent implements OnInit {
       this.spinnerService.stop(spinner);
       this.alertService.success('¡Éxito!', 'Local registrado correctamente.');
       this.router.navigate(['/pharmacy/locales']);
+    }, error => {
+      this.spinnerService.stop(spinner);
+      this.alertService.error();
     });
   }
 

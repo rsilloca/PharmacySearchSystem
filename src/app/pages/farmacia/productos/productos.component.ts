@@ -11,6 +11,7 @@ import { ConfiguracionService } from 'src/app/@services/configuracion.service';
 import { FarmaciaService } from 'src/app/@services/farmacia.service';
 import { ProductoService } from 'src/app/@services/producto.service';
 import { UsuarioService } from 'src/app/@services/usuario.service';
+import { AlertService } from 'src/app/shared/alert/alert.service';
 import { SpinnerService } from 'src/app/shared/spinner.service';
 import { NuevoProductoComponent } from './nuevo-producto/nuevo-producto.component';
 import { SubidaMasivaComponent } from './subida-masiva/subida-masiva.component';
@@ -38,7 +39,8 @@ export class ProductosComponent implements OnInit {
     private usuarioService: UsuarioService,
     private productoService: ProductoService,
     private fb: FormBuilder,
-    private spinnerService: SpinnerService) { }
+    private spinnerService: SpinnerService,
+    private alertService: AlertService) { }
 
   ngOnInit(): void {
     this.getFarmacias();
@@ -95,9 +97,15 @@ export class ProductosComponent implements OnInit {
     });
     dialogProducto.afterClosed().subscribe(response => {
       if (response) {
+        let spinner = this.spinnerService.start('Guardando...');
         // guardar producto
         this.productoService.createProducto([response]).subscribe(respProducto => {
           console.log('guardado', respProducto);
+          this.spinnerService.stop(spinner);
+          this.alertService.success('¡Éxito!', 'Se ha guardado el producto');
+        }, error => {
+          this.spinnerService.stop(spinner);
+          this.alertService.error();
         });
       }
     });
@@ -113,6 +121,9 @@ export class ProductosComponent implements OnInit {
       // console.log('response', response);
       this.spinnerService.stop(spinner);
       this.productos = response.data.length > 0 ? response.data[0].productos : [];
+    }, error => {
+      this.spinnerService.stop(spinner);
+      this.alertService.error();
     });
   }
 
