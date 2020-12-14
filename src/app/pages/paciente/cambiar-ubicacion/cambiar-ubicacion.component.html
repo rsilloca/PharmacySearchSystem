@@ -1,11 +1,12 @@
-<div fxLayout="row" fxLayoutAlign="space-between start">
+<div fxLayout="row" fxLayoutAlign="space-between center">
     <h3>Modo de localización</h3>
-    <button mat-icon-button mat-dialog-close>
+    <button mat-icon-button>
+        <!-- mat-dialog-close -->
         <mat-icon>close</mat-icon>
     </button>
 </div>
 <div mat-dialog-content fxLayout="column" [formGroup]="form">
-    <div fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayout.xs="column" fxLayoutAlign.xs="center stretch" fxLayoutGap.xs="1rem">
         <mat-checkbox fxFlex="50%" formControlName="tipo">Ubicación automática</mat-checkbox>
         <mat-form-field fxFlex="40%">
             <mat-label>Coordenadas</mat-label>
@@ -18,6 +19,7 @@
     </agm-map>
 </div>
 <div mat-dialog-actions fxLayoutAlign="center center">
-    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+    <button mat-raised-button color="warn">Cancelar</button>
+    <!-- mat-dialog-close -->
     <button mat-raised-button color="primary" (click)="saveLocation()">Aceptar</button>
 </div>

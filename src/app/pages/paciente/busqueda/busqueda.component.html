@@ -33,7 +33,8 @@
         <mat-grid-list #gridProductos cols="1" rowHeight="0" gutterSize="1rem">
           <mat-grid-tile *ngFor="let producto of productos" style="border-radius: 0.5rem;">
             <item-busqueda fxFlex="100%" [producto]="producto[0]" [farmacia]="producto[1]"
-              [background]="getColor(producto[0].idCategoria)" [icon]="getIcon(producto[0].idCategoria)">
+              [background]="getColor(producto[0].idCategoria)" [icon]="getIcon(producto[0].idCategoria)"
+              (onVerDetalles)="abrirDetalles($event)" (onVerRuta)="abrirVerRuta($event)">
             </item-busqueda>
           </mat-grid-tile>
         </mat-grid-list>

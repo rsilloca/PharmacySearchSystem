@@ -1,12 +1,16 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { Farmacia } from 'src/app/@models/farmacia';
+import { FiltroLocales } from 'src/app/@models/filtro-locales';
+import { FarmaciaService } from 'src/app/@services/farmacia.service';
+import { UsuarioService } from 'src/app/@services/usuario.service';
 
 //Select del Acceso directo
-interface Farmacia {
-  value: string;
-  viewValue: string;
-}
+// interface Farmacia {
+//   value: string;
+//   viewValue: string;
+// }
 //Tabla de horarios
 export interface TimeTable {
   position: number;
@@ -33,18 +37,20 @@ export class DashboardComponent implements OnInit {
 
   isLoadingStock = false;
   isLoadingHorario = false;
+  farmacias: Farmacia[] = [];
 
-  constructor() { }
+  constructor(private farmaciaService: FarmaciaService, private userService: UsuarioService) { }
 
   ngOnInit(): void {
+    this.listarFarmacias();
   }
 
-  farmacias: Farmacia[] = [
-    { value: 'far-0', viewValue: 'Farmacia - Paucarpata' },
-    { value: 'far-1', viewValue: 'Farmacia - Cayma' },
-    { value: 'far-2', viewValue: 'Farmacia - Yanahuara' },
-    { value: 'far-3', viewValue: 'Inkafarma - Ejército' }
-  ];
+  // farmacias: Farmacia[] = [
+  //   { value: 'far-0', viewValue: 'Farmacia - Paucarpata' },
+  //   { value: 'far-1', viewValue: 'Farmacia - Cayma' },
+  //   { value: 'far-2', viewValue: 'Farmacia - Yanahuara' },
+  //   { value: 'far-3', viewValue: 'Inkafarma - Ejército' }
+  // ];
 
   //CLASE TABLA
   displayedColumns: string[] = ['day', 'openning', 'closing', 'select'];
@@ -85,6 +91,16 @@ export class DashboardComponent implements OnInit {
     setTimeout(() => {
       this.isLoadingHorario = false;
     }, 2000);
+  }
+
+  listarFarmacias() {
+    let filtro = new FiltroLocales();
+    filtro.pagina = 0;
+    filtro.regxpag = 1000;
+    filtro.idUsuario = +this.userService.getIdUsuario();
+    this.farmaciaService.getFarmaciaFiltros(filtro).subscribe(response => {
+      this.farmacias = (response as any).data;
+    });
   }
 
 }

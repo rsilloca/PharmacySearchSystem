@@ -2,6 +2,10 @@
   <div fxLayout="row" fxLayoutAlign="start center">
     <fury-toolbar-sidenav-mobile-toggle *ngIf="isPharmacyUser" (openSidenav)="openSidenav.emit()"></fury-toolbar-sidenav-mobile-toggle>
 
+    <div *ngIf="isPharmacyUser" fxHide.xs="true" [routerLink]="['/pharmacy']" class="toolbar-logo">
+      <h2 style="font-weight: 700;">{{usuario ? usuario.nombre : ''}}</h2>
+    </div>
+
     <!-- <div [fxShow.gt-sm]="topNavigation$ | async" [fxShow.xs]="false" [routerLink]="['/']" class="toolbar-logo" fxShow>
       <svg viewBox="0 0 138.16 70.27" xmlns="http://www.w3.org/2000/svg"><title>Logo</title>
         <polygon points="0 54.1 11.05 54.1 11.03 32 28.82 32 30.83 23.22 11.07 23.22 11.03 8.8 34.48 8.8 36.85 0 0 0 0 54.1"></polygon>

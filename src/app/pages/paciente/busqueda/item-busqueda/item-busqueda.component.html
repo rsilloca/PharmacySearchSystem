@@ -15,10 +15,10 @@
     <fury-card-actions fxLayout="row" fxLayoutAlign="space-between center">
         <span> {{ farmacia ? farmacia.monedas.descripcion : 'def' }} {{ producto ? producto.precioUnitario : '0' }}</span>
         <div fxLayout="row">
-            <button mat-icon-button>
+            <button mat-icon-button (click)="onVerDetalles.emit([producto, farmacia])">
                 <mat-icon>visibility</mat-icon>
             </button>
-            <button mat-icon-button>
+            <button mat-icon-button (click)="onVerRuta.emit(farmacia)">
                 <mat-icon>near_me</mat-icon>
             </button>
         </div>

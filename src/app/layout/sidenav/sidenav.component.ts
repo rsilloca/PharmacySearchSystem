@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { SidenavItem } from './sidenav-item/sidenav-item.interface';
 import { SidenavService } from './sidenav.service';
 import { ThemeService } from '../../../@fury/services/theme.service';
+import { Usuario } from 'src/app/@models/usuario';
 
 @Component({
   selector: 'fury-sidenav',
@@ -22,6 +23,8 @@ export class SidenavComponent implements OnInit, OnDestroy {
   @Input()
   @HostBinding('class.expanded')
   expanded: boolean;
+
+  @Input() usuario: Usuario;
 
   items$: Observable<SidenavItem[]>;
 

@@ -34,7 +34,7 @@ export class ProductoService {
     .set('idFarmacia', filtros.idFarmacia.toString())
     .set('pagina', filtros.pagina.toString())
     .set('regxpag', filtros.regxpag.toString());
-    if (filtros.nombre.length > 0) parametros.append('nombre', filtros.nombre);
+    if (filtros.nombre.length > 0) parametros = parametros.set('nombre', filtros.nombre);
     return this.client.get<any>(url, {headers: this.header, params: parametros});
   }
 

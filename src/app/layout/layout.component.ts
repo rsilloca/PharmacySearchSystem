@@ -16,6 +16,7 @@ import { FilterObserverService } from '../@services/filter-observer.service';
 import { Categoria } from '../@models/categoria';
 import { FormaFarmaceutica } from '../@models/formaFarmaceutica';
 import { ConfiguracionService } from '../@services/configuracion.service';
+import { Usuario } from '../@models/usuario';
 
 @Component({
   selector: 'fury-layout',
@@ -48,6 +49,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   isMobile: boolean;
   categorias: Categoria[];
   presentaciones: FormaFarmaceutica[];
+  usuario: Usuario;
 
   constructor(private sidenavService: SidenavService,
     private themeService: ThemeService,
@@ -61,6 +63,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isPharmacyUser = this.userService.isPharmacyUser();
+    this.getInfoUsuario();
     this.listarCategorias();
     this.listarPresentaciones();
   }
@@ -122,6 +125,13 @@ export class LayoutComponent implements OnInit, OnDestroy {
   listarPresentaciones() {
     this.configuracionService.getFormasFarmaceuticas().subscribe(response => {
       this.presentaciones = response;
+    });
+  }
+
+  getInfoUsuario() {
+    let idUsuario = this.userService.getIdUsuario();
+    this.userService.getUsuario(+idUsuario).subscribe(response => {
+      this.usuario = response;
     });
   }
 

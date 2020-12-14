@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { COLOR_5, ICONO_OTROS } from 'src/app/@constants/constantes';
@@ -16,6 +16,8 @@ export class ItemBusquedaComponent implements OnInit {
   @Input() icon: string = ICONO_OTROS;
   @Input() producto: Producto;
   @Input() farmacia: Farmacia;
+  @Output() onVerDetalles = new EventEmitter<any>();
+  @Output() onVerRuta = new EventEmitter<any>();
 
   constructor() { }
 

@@ -32,8 +32,8 @@
       <div *ngIf="sidenavUserVisible$ | async" class="sidenav-user">
 
         <img class="sidenav-user-image" src="assets/img/avatars/user01.png">
-        <h4 class="sidenav-user-name">Mi Farmacia</h4>
-        <h5 class="sidenav-user-email">aqp@mfarma.com</h5>
+        <h4 class="sidenav-user-name">{{usuario ? usuario.nombre : ''}}</h4>
+        <h5 class="sidenav-user-email">{{usuario ? usuario.correo : ''}}</h5>
 
         <!-- <div class="sidenav-user-icons" fxLayout="row">
         <a [routerLink]="['/tables/all-in-one-table']" mat-icon-button>
