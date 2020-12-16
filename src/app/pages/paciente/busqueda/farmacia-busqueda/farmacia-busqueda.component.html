@@ -1,0 +1,16 @@
+<fury-card style="background-color: #A9D9FF;">
+    <fury-card-header>
+        <fury-card-header-heading>{{ farmacia ? farmacia.nombre : 'def'}}</fury-card-header-heading>
+    </fury-card-header>
+    <fury-card-content fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxLayout="column">
+            <span> {{ farmacia ? farmacia.direccion : 'def'}} </span>
+        </div>
+        <img src="/assets/svg/farmacia.svg" class="icon">
+    </fury-card-content>
+    <fury-card-actions>
+        <button mat-icon-button (click)="onVerRuta.emit(farmacia)">
+            <mat-icon>near_me</mat-icon>
+        </button>
+    </fury-card-actions>
+</fury-card>

@@ -1,9 +1,10 @@
-<form [formGroup]="formFiltro" (ngSubmit)="enviarFiltro()" fxLayout="column" fxLayoutAlign="center stretch">
-    <fury-card>
+<form [formGroup]="formFiltro" (ngSubmit)="enviarFiltro()" fxLayout="column" fxLayoutAlign="center stretch" style="padding: 2rem;">
+    <!-- <fury-card>
         <fury-card-header>
             <fury-card-header-heading>Filtros avanzados</fury-card-header-heading>
-        </fury-card-header>
-        <fury-card-content fxLayout="column" fxLayoutGap="15px">
+        </fury-card-header> -->
+        <h2>Filtros Avanzados</h2>
+        <div fxLayout="column" fxLayoutGap="15px">
             <mat-expansion-panel>
                 <mat-expansion-panel-header>
                     <mat-panel-title> Radio de localización </mat-panel-title>
@@ -52,6 +53,6 @@
                 </mat-radio-group>
             </mat-expansion-panel>
             <!-- <button mat-raised-button color="primary" type="submit">Aplicar Filtros</button> -->
-        </fury-card-content>
-    </fury-card>
+        </div>
+    <!-- </fury-card> -->
 </form>

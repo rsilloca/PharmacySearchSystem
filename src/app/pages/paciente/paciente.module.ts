@@ -13,10 +13,11 @@ import { AgmCoreModule } from '@agm/core';
 import { FuryCardModule } from 'src/@fury/shared/card/card.module';
 import { ItemBusquedaComponent } from './busqueda/item-busqueda/item-busqueda.component';
 import { FiltroMobileComponent } from './busqueda/filtro-mobile/filtro-mobile.component';
+import { FarmaciaBusquedaComponent } from './busqueda/farmacia-busqueda/farmacia-busqueda.component';
 
 
 @NgModule({
-  declarations: [BusquedaComponent, FiltroComponent, DetallesProductoComponent, VerRutaComponent, CambiarUbicacionComponent, ItemBusquedaComponent, FiltroMobileComponent],
+  declarations: [BusquedaComponent, FiltroComponent, DetallesProductoComponent, VerRutaComponent, CambiarUbicacionComponent, ItemBusquedaComponent, FiltroMobileComponent, FarmaciaBusquedaComponent],
   imports: [
     CommonModule,
     PacienteRoutingModule,

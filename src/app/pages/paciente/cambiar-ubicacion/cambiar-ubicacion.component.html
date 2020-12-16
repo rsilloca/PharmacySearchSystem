@@ -1,6 +1,6 @@
 <div fxLayout="row" fxLayoutAlign="space-between center">
     <h3>Modo de localización</h3>
-    <button mat-icon-button>
+    <button mat-icon-button mat-dialog-close>
         <!-- mat-dialog-close -->
         <mat-icon>close</mat-icon>
     </button>
@@ -19,7 +19,7 @@
     </agm-map>
 </div>
 <div mat-dialog-actions fxLayoutAlign="center center">
-    <button mat-raised-button color="warn">Cancelar</button>
+    <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
     <!-- mat-dialog-close -->
     <button mat-raised-button color="primary" (click)="saveLocation()">Aceptar</button>
 </div>
