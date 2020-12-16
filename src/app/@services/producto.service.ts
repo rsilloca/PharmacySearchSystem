@@ -38,4 +38,10 @@ export class ProductoService {
     return this.client.get<any>(url, {headers: this.header, params: parametros});
   }
 
+  updateProductos(productos: Producto[]): Observable<any> {
+    const url = this.rutaBase;
+    return this.client.put<any>(url, productos, { headers: this.header });
+
+  }
+
 }

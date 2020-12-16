@@ -50,9 +50,7 @@ export class ProductosComponent implements OnInit {
       idFarmacia: [null],
       categoria: [null],
       presentacion: [null],
-      nombre: [''],
-      descripcion: [''],
-      marca: ['']
+      nombre: ['']
     });
   }
 
