@@ -1,4 +1,7 @@
+import { Categoria } from './categoria';
+import { FormaFarmaceutica } from './formaFarmaceutica';
 import { Generico } from './generico';
+import { Parametro } from './parametro';
 
 export class Producto extends Generico {
     idProducto : number;
@@ -13,6 +16,9 @@ export class Producto extends Generico {
     marca : string;
     descripcion : string;
     fechaVencimiento : string;
+    parametros: Parametro[];
+    formaFarmaceutica: FormaFarmaceutica;
+    categoria: Categoria;
 
     constructor(obj?: Producto){
         super();
@@ -28,6 +34,10 @@ export class Producto extends Generico {
         this.marca = obj && obj.marca ? obj.marca : "";
         this.descripcion = obj && obj.descripcion ? obj.descripcion : "";
         this.fechaVencimiento = obj && obj.fechaVencimiento ? obj.fechaVencimiento : "";
+        this.parametros = obj && obj.parametros ? obj.parametros : [];
+        this.formaFarmaceutica = obj && obj.formaFarmaceutica ? obj.formaFarmaceutica : null;
+        this.categoria = obj && obj.categoria ? obj.categoria : null;
     }
 
 }
+

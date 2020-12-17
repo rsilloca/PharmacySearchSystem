@@ -1,106 +1,56 @@
-<div *ngIf="expandableMultiple; else modal">
-    <mat-card>
-        <form [formGroup]="formFiltro" (ngSubmit)="enviarFiltro()" fxLayout="column" fxLayoutAlign="center stretch">
-            <h2 mat-dialog-title>Filtros</h2>
-            <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                    <mat-panel-title> Radio de localización </mat-panel-title>
-                </mat-expansion-panel-header>
-                <mat-slider fxFlex="100%" thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="1"
-                    max="100000" formControlName="radio">
+<form [formGroup]="formFiltro" (ngSubmit)="enviarFiltro()" fxLayout="column" fxLayoutAlign="center stretch"
+    style="padding: 2rem;">
+    <h2 style="color: white;">Filtros Avanzados</h2>
+    <div fxLayout="column" fxLayoutGap="15px">
+        <mat-expansion-panel expanded>
+            <mat-expansion-panel-header>
+                <mat-panel-title> Radio de localización </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-slider thumbLabel [displayWith]="formatLabelRadio" tickInterval="500" min="500" max="10000"
+                formControlName="radio" style="padding: 0; width: 100%;" class="bold">
+            </mat-slider>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title> Categorias ({{ categorias ? categorias.length : '0' }}) </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-radio-group fxLayout="column" formControlName="categoria">
+                <mat-radio-button [value]="0">Todos</mat-radio-button>
+                <mat-radio-button *ngFor="let categoria of categorias" [value]="categoria.idCategoria">
+                    {{categoria.descripcion}}
+                </mat-radio-button>
+            </mat-radio-group>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel expanded>
+            <mat-expansion-panel-header>
+                <mat-panel-title> Precio </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div fxLayout="column">
+                <span>Precio mínimo</span>
+                <mat-slider thumbLabel [displayWith]="formatLabelPrecioMinimo" tickInterval="10" min="0" max="200"
+                    formControlName="precioMinimo" style="padding: 0; width: 100%;" class="bold">
                 </mat-slider>
-            </mat-expansion-panel>
-
-            <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                    <mat-panel-title> Categorias (4) </mat-panel-title>
-                </mat-expansion-panel-header>
-                <mat-radio-group fxLayout="column" formControlName="categorias">
-                    <mat-radio-button
-                        *ngFor="let categoria of categorias"
-                        [value]="categoria.idCategoria">
-                        {{categoria.descripcion}}
-                    </mat-radio-button>
-                </mat-radio-group>
-            </mat-expansion-panel>
-
-            <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                    <mat-panel-title> Precio </mat-panel-title>
-                </mat-expansion-panel-header>
-                <mat-slider fxFlex="100%" thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="1"
-                    max="100000" formControlName="precio">
+                <span>Precio máximo</span>
+                <mat-slider thumbLabel [displayWith]="formatLabelPrecioMaximo" tickInterval="10" min="0" max="200"
+                    formControlName="precioMaximo" style="padding: 0; width: 100%;" class="bold">
                 </mat-slider>
-            </mat-expansion-panel>
+            </div>
+        </mat-expansion-panel>
 
-            <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                    <mat-panel-title> Presentación (5) </mat-panel-title>
-                </mat-expansion-panel-header>
-                <mat-radio-group fxLayout="column" formControlName="presentacion">
-                    <mat-radio-button *ngFor="let presentacion of ['Todos', 'Caja', 'Frasco', 'Blíster', 'Tabletas']"
-                        [value]="presentacion">
-                        {{presentacion}}
-                    </mat-radio-button>
-                </mat-radio-group>
-            </mat-expansion-panel>
-
-            <button mat-raised-button color="primary" type="submit">Aplicar Filtros</button>
-        </form>
-
-    </mat-card>
-</div>
-
-<ng-template #modal>
-    <h2 mat-dialog-title>Filtros</h2>
-    <mat-dialog-content style="height: auto; padding: 1rem 0;">
-        <mat-accordion>
-            <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                    <mat-panel-title> Radio de localización </mat-panel-title>
-                </mat-expansion-panel-header>
-                <mat-slider fxFlex="100%" thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="1"
-                    max="100000">
-                </mat-slider>
-            </mat-expansion-panel>
-
-            <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                    <mat-panel-title> Categorias (4) </mat-panel-title>
-                </mat-expansion-panel-header>
-                <mat-radio-group fxLayout="column">
-                    <mat-radio-button
-                        *ngFor="let categoria of ['Todos', 'Adulto Mayor', 'Cuidado Bucal', 'Cuidado Infantil', 'Cuidado Íntimo']"
-                        [value]="categoria">
-                        {{categoria}}
-                    </mat-radio-button>
-                </mat-radio-group>
-            </mat-expansion-panel>
-
-            <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                    <mat-panel-title> Precio </mat-panel-title>
-                </mat-expansion-panel-header>
-                <mat-slider fxFlex="100%" thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="1"
-                    max="100000">
-                </mat-slider>
-            </mat-expansion-panel>
-
-            <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                    <mat-panel-title> Presentación (5) </mat-panel-title>
-                </mat-expansion-panel-header>
-                <mat-radio-group fxLayout="column">
-                    <mat-radio-button *ngFor="let presentacion of ['Todos', 'Caja', 'Frasco', 'Blíster', 'Tabletas']"
-                        [value]="presentacion">
-                        {{presentacion}}
-                    </mat-radio-button>
-                </mat-radio-group>
-            </mat-expansion-panel>
-        </mat-accordion>
-    </mat-dialog-content>
-    <mat-dialog-actions>
-        <button mat-button mat-dialog-close>Cancelar</button>
-        <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Filtrar</button>
-    </mat-dialog-actions>
-</ng-template>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title> Presentación ({{ presentaciones ? presentaciones.length : '0' }})
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-radio-group fxLayout="column" formControlName="presentacion">
+                <mat-radio-button [value]="0">Todos</mat-radio-button>
+                <mat-radio-button *ngFor="let presentacion of presentaciones"
+                    [value]="presentacion.idFormaFarmaceutica">
+                    {{presentacion.descripcion}}
+                </mat-radio-button>
+            </mat-radio-group>
+        </mat-expansion-panel>
+    </div>
+</form>

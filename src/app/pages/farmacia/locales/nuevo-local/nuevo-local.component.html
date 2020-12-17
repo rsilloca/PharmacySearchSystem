@@ -1,122 +1,110 @@
-<div class="container">
-    <mat-card>
-        <mat-card-header>
-            <mat-card-title>Nuevo Local Farmacia</mat-card-title>
-        </mat-card-header>
-        <mat-card-content fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10px" fxLayoutGap.xs="0" >
-            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1rem" fxLayoutGap.xs="0" [formGroup]="formGroupData">
-                <!-- class="item" -->
-                <!-- <div class="center">
-                    <h1 class="title">Nuevo Local Farmacia</h1>
-                </div>
-        
-                <table class="input-name-direction" cellspacing="0">
-                    <tr fxLayout.xs="column">
-                        <td> -->
-                <mat-form-field appearance="outline" fxFlex="calc(50% - 1rem)">
-                    <!-- class="input-name-direction" -->
-                    <mat-label>Nombre</mat-label>
-                    <input type="text" matInput required formControlName="name">
-                </mat-form-field>
-                <!-- </td>
-                        <td> -->
-                <mat-form-field appearance="outline" fxFlex="calc(50% - 1rem)">
-                    <!-- class="input-name-direction" -->
-                    <mat-label>Dirección</mat-label>
-                    <input type="text" matInput required formControlName="address">
-                </mat-form-field>
-                <!-- </td>
-                    </tr>
-                </table>
-        
-                <table>
-                    <tr fxLayout.xs="column">
-                        <td>
-                            <p></p>
-                        </td>
-                        <td></td>
-                    </tr>
-                </table> -->
-            </div>
-            <!-- </div> -->
+<fury-page-layout mode="simple">
 
-            <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="1rem" fxLayoutGap.xs="0">
-                <!-- class="container" -->
-                <div fxFlex="calc(50% - 1rem)" fxFlex.xs="auto" fxLayout="column">
-                    <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="space-around stretch">
-                        <mat-checkbox fxFlex="auto" [formControl]="disableSelect" (click)="deshabilitarCaja()">Ubicación automática</mat-checkbox>
-                        <mat-form-field fxFlex="auto" appearance="outline" >
-                            <input matNativeControl type="text" matInput [formControl]="coordenadasF" >
-                        </mat-form-field>
+    <fury-page-layout-header>
+        <fury-breadcrumbs [crumbs]="['Locales']" current="Nuevo local"></fury-breadcrumbs>
+    </fury-page-layout-header>
+
+    <fury-page-layout-content>
+        <form [formGroup]="form" (ngSubmit)="registrarFarmacia()">
+            <fury-card style="padding-top: 2rem;">
+                <fury-card-content>
+                    <div fxLayout="row" fxLayoutGap="3rem" fxLayout.sm="column" fxLayoutGap.sm="0" fxLayout.xs="column"
+                        fxLayoutGap.xs="0">
+                        <div fxFlex="calc(50% - 3rem)" fxLayout="column">
+                            <mat-form-field>
+                                <mat-label>Nombre</mat-label>
+                                <input type="text" matInput required formControlName="nombre">
+                                <mat-error>Debe agregar un nombre</mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>Dirección</mat-label>
+                                <input type="text" matInput required formControlName="direccion">
+                                <mat-error>Debe agregar una dirección</mat-error>
+                            </mat-form-field>
+                            <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center"
+                                fxLayoutAlign.xs="space-around stretch">
+                                <mat-checkbox formControlName="automaticLocation" (click)="deshabilitarCaja()">
+                                    Ubicación automática</mat-checkbox>
+                                <mat-form-field fxFlex="50%" fxFlex.xs="auto">
+                                    <mat-label>Coordenadas</mat-label>
+                                    <input matNativeControl type="text" matInput formControlName="location" readonly>
+                                </mat-form-field>
+                            </div>
+                            <agm-map [latitude]="lat" [zoom]="zoom" [longitude]="lng">
+                                <agm-marker (dragEnd)="markerDragEnd($event)"
+                                    [markerDraggable]="!form.controls['automaticLocation'].value" [latitude]="lat"
+                                    [longitude]="lng"></agm-marker>
+                            </agm-map>
+                        </div>
+                        <div fxFlex="calc(50% - 3rem)" fxLayout="column" fxFlex.xs="auto">
+                            <h4>Horario de Atención</h4>
+                            <fury-list name="Horarios" [hideHeader]="true">
+                                <table mat-table [dataSource]="dataSource" class="mat-elevation-z2">
+
+                                    <!-- Position Column -->
+                                    <ng-container matColumnDef="position">
+                                        <th mat-header-cell *matHeaderCellDef> N° </th>
+                                        <td mat-cell *matCellDef="let element; let index=index"> {{index + 1}} </td>
+                                    </ng-container>
+
+                                    <!-- Name Column -->
+                                    <ng-container matColumnDef="name">
+                                        <th mat-header-cell *matHeaderCellDef> Día </th>
+                                        <td mat-cell *matCellDef="let element"> {{dias[element.diaSemana]}} </td>
+                                    </ng-container>
+
+                                    <!-- Open Columb-->
+                                    <ng-container matColumnDef="open">
+                                        <th mat-header-cell *matHeaderCellDef> Hora apertura </th>
+                                        <td mat-cell *matCellDef="let element; let index = index">
+                                            <mat-form-field style="width: 6rem;">
+                                                <input matInput type="time"
+                                                    [formControl]="formHoraApertura.controls[index]">
+                                            </mat-form-field>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Closed Column -->
+                                    <ng-container matColumnDef="closed">
+                                        <th mat-header-cell *matHeaderCellDef> Hora cierre </th>
+                                        <td mat-cell *matCellDef="let element; let index = index">
+                                            <mat-form-field style="width: 6rem;">
+                                                <input matInput type="time"
+                                                    [formControl]="formHoraCierre.controls[index]">
+                                            </mat-form-field>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Checkbox Column -->
+                                    <ng-container matColumnDef="select">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            <mat-checkbox (change)="$event ? masterToggle() : null"
+                                                [checked]="selection.hasValue() && isAllSelected()"
+                                                [indeterminate]="selection.hasValue() && !isAllSelected()">
+                                            </mat-checkbox>
+                                        </th>
+                                        <td mat-cell *matCellDef="let row">
+                                            <mat-checkbox (click)="$event.stopPropagation()"
+                                                (change)="$event ? selection.toggle(row) : null"
+                                                [checked]="selection.isSelected(row)">
+                                            </mat-checkbox>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                            </fury-list>
+                        </div>
                     </div>
-                    <!-- class="item" -->
-                    <agm-map [latitude]="lat" [zoom]="zoom" [longitude]="lng">
-                        <agm-marker (dragEnd)="markerDragEnd($event)" [markerDraggable]="true" [latitude]="lat" [longitude]="lng"></agm-marker>
-                    </agm-map>
-                </div>
+                </fury-card-content>
+                <fury-card-actions fxLayout="row" fxLayoutAlign="center center">
+                    <button mat-raised-button color="warn" type="button" [routerLink]="['/pharmacy/locales']">Cancelar</button>
+                    <button mat-raised-button color="primary" type="submit">Aceptar</button>
+                </fury-card-actions>
+            </fury-card>
+        </form>
+    </fury-page-layout-content>
 
-                <div fxFlex="calc(50% - 1rem)" fxFlex.xs="auto">
-                    <!-- class="item" -->
-                    <div class="center">
-                        <h4 class="sub-title">Horario de Atención</h4>
-                    </div>
-
-                    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
-                        <!-- Position Column -->
-                        <ng-container matColumnDef="position">
-                            <th mat-header-cell *matHeaderCellDef> No. </th>
-                            <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-                        </ng-container>
-
-                        <!-- Name Column -->
-                        <ng-container matColumnDef="name">
-                            <th mat-header-cell *matHeaderCellDef> Día </th>
-                            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-                        </ng-container>
-
-                        <!-- Open Columb-->
-                        <ng-container matColumnDef="open">
-                            <th mat-header-cell *matHeaderCellDef> Hora apertura </th>
-                            <td mat-cell *matCellDef="let element"> {{element.open}} </td>
-                        </ng-container>
-
-                        <!-- Closed Column -->
-                        <ng-container matColumnDef="closed">
-                            <th mat-header-cell *matHeaderCellDef> Hora cierre </th>
-                            <td mat-cell *matCellDef="let element"> {{element.closed}} </td>
-                        </ng-container>
-
-                        <!-- Checkbox Column -->
-                        <ng-container matColumnDef="select">
-                            <th mat-header-cell *matHeaderCellDef>
-                                <mat-checkbox (change)="$event ? masterToggle() : null"
-                                    [checked]="selection.hasValue() && isAllSelected()"
-                                    [indeterminate]="selection.hasValue() && !isAllSelected()"
-                                    [aria-label]="checkboxLabel()">
-                                </mat-checkbox>
-                            </th>
-                            <td mat-cell *matCellDef="let row">
-                                <mat-checkbox (click)="$event.stopPropagation()"
-                                    (change)="$event ? selection.toggle(row) : null"
-                                    [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
-                                </mat-checkbox>
-                            </td>
-                        </ng-container>
-
-                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </mat-card-content>
-        <mat-card-actions>
-            <div class="button-row" fxLayoutAlign="center" fxLayoutGap="20px" fxLayoutGap.xs="10px">
-                <button mat-raised-button color="warn">Cancelar</button>
-                <button mat-raised-button color="primary" (click)="registrarFarmacia()" type="submit">Aceptar</button>
-                <!-- (click)="openDialog()" -->
-            </div>
-        </mat-card-actions>
-    </mat-card>
-</div>
+</fury-page-layout>

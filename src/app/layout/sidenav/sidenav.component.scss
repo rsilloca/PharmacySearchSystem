@@ -44,7 +44,7 @@
 }
 
 .sidenav-toolbar-collapse-toggle {
-  transition: transform .25s;
+  transition: transform 0.25s;
 
   .sidenav-toolbar-collapse-icon {
     width: 12px;
@@ -58,7 +58,8 @@
   }
 }
 
-.sidenav-toolbar-logo, .sidenav-toolbar-collapse-toggle {
+.sidenav-toolbar-logo,
+.sidenav-toolbar-collapse-toggle {
   will-change: opacity;
 }
 
@@ -78,7 +79,6 @@
   }
 
   .sidenav-user-icons {
-
     [mat-icon-button] {
       width: 32px;
       height: 32px;
@@ -101,4 +101,11 @@
 .sidenav-items {
   min-height: 0;
   overflow-x: hidden;
+}
+
+.background-image-sidenav {
+  background: url('/assets/img/bg_1.jpg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
 }

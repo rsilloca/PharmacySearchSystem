@@ -1,0 +1,15 @@
+<fury-card style="background-color: #A9D9FF;">
+    <fury-card-header>
+        <fury-card-header-heading style="max-width: 50%;">{{ farmacia ? subStr(farmacia.nombre) : 'def'}}</fury-card-header-heading>
+        <fury-card-header-subheading style="max-width: 50%;">{{ farmacia ? subStr(farmacia.direccion) : 'def'}}</fury-card-header-subheading>
+        <fury-card-header-actions>
+            <img src="/assets/svg/farmacia.svg" class="icon">
+        </fury-card-header-actions>
+    </fury-card-header>
+    <fury-card-actions fxLayout="row" fxLayoutAlign="space-between center">
+        <span> A {{ farmacia ? farmacia.distancia : '0' }} m. aprox.</span>
+        <button mat-icon-button (click)="onVerRuta.emit(farmacia)">
+            <mat-icon>near_me</mat-icon>
+        </button>
+    </fury-card-actions>
+</fury-card>

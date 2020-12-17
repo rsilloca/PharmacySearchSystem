@@ -1,22 +1,22 @@
-.fury-page-layout {
+// .fury-page-layout {
 
-}
+// }
 
 .fury-page-layout-header {
-  background: $theme-color-primary;
-  color: $theme-color-primary-contrast;
+  background: white; // $theme-color-primary;
+  color: $theme-color-primary; // $theme-color-primary-contrast;
 
   fury-breadcrumbs {
     .crumb, .link {
-      color: $light-secondary-text;
+      color: $dark-secondary-text; // $light-secondary-text;
 
       &:hover {
-        color: $light-primary-text;
+        color: $dark-primary-text; // $light-primary-text;
       }
     }
 
     .crumb.current, .crumb.current .link {
-      color: $light-primary-text;
+      color: $dark-primary-text; // $light-primary-text;
     }
   }
 }

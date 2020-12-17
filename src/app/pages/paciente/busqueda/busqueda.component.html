@@ -1,114 +1,108 @@
+<mat-drawer-container style="height: 100%;">
+  <mat-drawer mode="side" opened style="width: 25rem;" fxHide.sm fxHide.xs class="background-accent">
+    <app-filtro (eventFiltro)="filtrar($event)"></app-filtro>
+  </mat-drawer>
+  <mat-drawer-content style="background-color: #eef5f9;">
+    <div style="height: 100%;" cdkScrollable fxLayout="column" fxLayoutGap="1rem"
+      style="padding: 2rem; background-color: #eef5f9;">
+      <fury-card>
+        <fury-card-header>
+          <fury-card-header-heading>
+            <h2>Busca lo que necesitas</h2>
+          </fury-card-header-heading>
+        </fury-card-header>
+        <fury-card-content fxLayout="column" fxLayoutGap="1rem" [formGroup]="filtro">
+          <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem" fxLayout.xs="column"
+            fxLayoutAlign.xs="center stretch" fxLayoutGap.xs="0">
+            <mat-form-field fxFlex="34.5%" fxFlex.xs="auto">
+              <mat-label>Ordenar por</mat-label>
+              <mat-select formControlName="orden">
+                <mat-option [value]="0">Ninguno</mat-option>
+                <mat-option [value]="1">Más cercano</mat-option>
+                <mat-option [value]="2">Más económico</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field fxFlex="calc(65% - 1rem)">
+              <mat-label>Nombre o marca de producto</mat-label>
+              <input matInput formControlName="nombre">
+              <button mat-raised-button matSuffix (click)="filtrarProductos()" color="primary">
+                <mat-icon>search</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+        </fury-card-content>
+      </fury-card>
+      <mat-tab-group mat-stretch-tabs backgroundColor="primary" class="content-tabs">
 
-<div class="principal_content" fxLayout="row"  fxLayoutAlign="space-between center" fxLayoutAlign.xs=" stretch">
-  
-    <div id="filters_content" fxHide.xs="true">
-      <app-filtro expandableMultiple="true" (eventFiltro)="filtrar($event)"></app-filtro>
-    </div> 
-    
-    <!-- Panel de busqueda -->
-    <div id="search_content" fxLayout="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs=" stretch">
-        <h3>Busca lo que necesitas</h3>
-        <!-- id="title" -->
-        <div class="subcontents" fxLayout="column" fxLayoutAlign=" center" >
-            <div class="subcontents" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around center" fxLayoutAlign.xs="center stretch">
-                <div class="search-form">
-                    <mat-form-field class="search-full-width">
-                      <mat-label>Búsqueda</mat-label>
-                      <input type="text" matInput placeholder="Producto o marca" [formControl]="filtroProducto">
-                      <mat-error *ngIf="filtroProducto.hasError('pattern')">No cumple</mat-error>
-                      <mat-icon matPrefix>search</mat-icon>
-                    </mat-form-field>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <div fxLayout="column" fxLayoutAlign="center center">
+              <mat-icon>star_rate</mat-icon>
+              <span fxHide.xs> Productos </span>
+            </div>
+          </ng-template>
+          <div fxLayout="column" style="padding: 1rem 2rem;">
+            <mat-grid-list #gridProductos cols="1" rowHeight="0" gutterSize="1rem">
+              <mat-grid-tile *ngFor="let producto of productos" style="border-radius: 0.5rem;">
+                <item-busqueda fxFlex="100%" [producto]="producto[0]" [farmacia]="producto[1]"
+                  [background]="getColor(producto[0].idCategoria)" [icon]="getIcon(producto[0].idCategoria)"
+                  (onVerDetalles)="abrirDetalles($event)" (onVerRuta)="abrirVerRuta($event)">
+                </item-busqueda>
+              </mat-grid-tile>
+            </mat-grid-list>
+            <div *ngIf="productos.length == 0" fxLayout="column" fxLayoutAlign="center center"
+              style="min-height: 16rem;">
+              <img src="/assets/svg/triste.svg" width="100px" height="100px">
+              <span style="text-align: center;">No encontramos productos</span>
+              <span style="text-align: center;">Intenta cambiar los filtros de búsqueda</span>
+            </div>
+            <mat-paginator *ngIf="productos.length > 0" [length]="totalDatosProductos" [pageSize]="regxpag" class="content-tabs"></mat-paginator>
+          </div>
+        </mat-tab>
+
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <div fxLayout="column" fxLayoutAlign="center center">
+              <mat-icon>local_pharmacy</mat-icon>
+              <span fxHide.xs> Farmacias </span>
+            </div>
+          </ng-template>
+          <div fxLayout="column" style="padding: 1rem 2rem;">
+            <mat-grid-list #gridFarmacias cols="1" rowHeight="0" gutterSize="1rem">
+              <mat-grid-tile *ngFor="let farmacia of farmacias" style="border-radius: 0.5rem;">
+                <farmacia-busqueda fxFlex="100%" [farmacia]="farmacia" (onVerRuta)="abrirVerRuta($event)">
+                </farmacia-busqueda>
+              </mat-grid-tile>
+            </mat-grid-list>
+            <div *ngIf="farmacias.length == 0" fxLayout="column" fxLayoutAlign="center center"
+              style="min-height: 16rem;">
+              <img src="/assets/svg/triste.svg" width="100px" height="100px">
+              <span style="text-align: center;">No encontramos farmacias</span>
+              <span style="text-align: center;">Intenta cambiar los filtros de búsqueda</span>
+            </div>
+            <mat-paginator *ngIf="farmacias.length > 0" [length]="totalDatosFarmacias" [pageSize]="regxpag" class="content-tabs"></mat-paginator>
+          </div>
+        </mat-tab>
+
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <div fxLayout="column" fxLayoutAlign="center center">
+              <mat-icon>room</mat-icon>
+              <span fxHide.xs> Mapa </span>
+            </div>
+          </ng-template>
+          <agm-map [latitude]="lat" [zoom]="zoom" [longitude]="lng">
+            <agm-marker *ngFor="let farmacia of farmacias" [latitude]="farmacia.latitud"
+              [longitude]="farmacia.longitud">
+              <agm-info-window #infoWindow>
+                <div>
+                  {{farmacia.nombre}}
                 </div>
-                <button mat-raised-button color="primary" style="min-width: 30%;" (click)="filtrarProducto()">Buscar</button>    
-            </div>
-            <div class="subcontents"  fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5%" fxLayoutAlign.xs="space-between center">
-                <p style="font-size: 1.1em;">Ordenar por: </p>
-                <mat-form-field style="min-width: 30%;" appearance="outline">
-                    <mat-label>Selecciona una opción</mat-label>
-                    <mat-select [(value)]="selected">
-                      <mat-option>Ninguno</mat-option>
-                      <mat-option value="option1">Más cercano</mat-option>
-                      <mat-option value="option2">Más económico</mat-option>
-                      <mat-option value="option3">Más económico y cercano</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-        </div>
-       
-        <div class="subcontents" fxLayout="column" fxLayoutAlign="start center" >
-            <div  fxLayout.xs="column" fxLayoutAlign="center center" fxLayoutGap="10px" >
-                <mat-card class="example-card">
-                    <mat-card-header>
-                        <mat-card-subtitle>Blister x 100 unid.</mat-card-subtitle>
-                      <mat-card-title>Ibuprofeno 800mg</mat-card-title>
-                    </mat-card-header>
-                    <mat-card-content>
-                      <p> Inkafarma Ejército </p>
-                      <p id="direccion-Farm"> Av. Ejercito 123 </p>
-                    </mat-card-content>
-                    <mat-card-actions  fxLayout="row" fxLayoutAlign="space-around center"  >
-                        <h1 >S/.20</h1>
-                        <div>
-                          <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
-                            <mat-icon>visibility</mat-icon>
-                          </button>
-                        <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
-                            <mat-icon>near_me</mat-icon>
-                        </button>
-                        </div>
-                        
-                    </mat-card-actions>
-                </mat-card>
-                <mat-card class="example-card">
-                    <mat-card-header>
-                        <mat-card-subtitle>Inyectable x 1 unid.</mat-card-subtitle>
-                      <mat-card-title>Abanbromox 600mg</mat-card-title>
-                    </mat-card-header>
-                    <mat-card-content>
-                      <p> Mifarma Paucarpata </p>
-                      <p id="direccion-Farm"> Calle Junín 701 </p>
-                    </mat-card-content>
-                    <mat-card-actions  fxLayout="row" fxLayoutAlign="space-around center" >
-                        <h1>S/.5</h1>
-                        <div>
-                          <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
-                            <mat-icon>visibility</mat-icon>
-                          </button>
-                          <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
-                              <mat-icon>near_me</mat-icon>
-                          </button>
-                        </div>
-                    </mat-card-actions>
-                </mat-card>
-                <mat-card class="example-card">
-                    <mat-card-header>
-                        <mat-card-subtitle>Caja tubo 5g x 1 unidad</mat-card-subtitle>
-                      <mat-card-title>Aciclovir 5%</mat-card-title>
-                    </mat-card-header>
-                    <mat-card-content>
-                      <p> Botica María JLByR </p>
-                      <p id="direccion-Farm"> Jr. Castilla L-7</p>
-                    </mat-card-content>
-                    <mat-card-actions  fxLayout="row" fxLayoutAlign="space-around center" >
-                        <h1>S/.10</h1>
-                        <div>
-                          <button mat-icon-button color="primary" (click)="abrirDetalles()">
-                            <mat-icon>visibility</mat-icon>
-                          </button>
-                          <button mat-icon-button color="primary" (click)="abrirVerRuta()">
-                              <mat-icon>near_me</mat-icon>
-                          </button>
-                        </div>
-                    </mat-card-actions>
-                </mat-card>
-                
-            </div>
-        </div>
-        <div class="subcontents" fxLayoutAlign="end end"  >
-            <mat-paginator [length]="100"
-              [pageSize]="10"
-              [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons>
-            </mat-paginator >    
-        </div>
+              </agm-info-window>
+            </agm-marker>
+          </agm-map>
+        </mat-tab>
+      </mat-tab-group>
     </div>
-  </div>
+  </mat-drawer-content>
+</mat-drawer-container>

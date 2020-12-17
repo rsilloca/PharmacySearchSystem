@@ -1,6 +1,7 @@
 <fury-loading-indicator></fury-loading-indicator>
 <fury-backdrop #backdrop="furyBackdrop"></fury-backdrop>
-<fury-config-panel-toggle (openConfig)="abrirFiltro()" fxHide fxShow.xs fxShow.sm></fury-config-panel-toggle>
+<fury-config-panel-toggle *ngIf="!isPharmacyUser" (openConfig)="abrirFiltro()" fxHide fxShow.xs fxShow.sm>
+</fury-config-panel-toggle>
 
 <!-- QUICKPANEL -->
 <fury-sidebar #configPanel="furySidebar" [backdrop]="backdrop" [invisibleBackdrop]="true" position="right">
@@ -16,13 +17,11 @@
   <mat-sidenav-container autosize fxFlex>
 
     <!-- SIDENAV -->
-    <mat-sidenav (closedStart)="closeSidenav()"
-                 (openedStart)="openSidenav()"
-                 [mode]="sidenavMode$ | async"
-                 [opened]="sidenavOpen$ | async"
-                 *ngIf="isPharmacyUser && sideNavigation$ | async"
-                 class="fury-collapsable-sidenav">
-      <fury-sidenav [collapsed]="sidenavCollapsed$ | async" [expanded]="sidenavExpanded$ | async"></fury-sidenav>
+    <mat-sidenav (closedStart)="closeSidenav()" (openedStart)="openSidenav()" [mode]="sidenavMode$ | async"
+      [opened]="sidenavOpen$ | async" *ngIf="isPharmacyUser && sideNavigation$ | async"
+      class="fury-collapsable-sidenav">
+      <fury-sidenav [collapsed]="sidenavCollapsed$ | async" [expanded]="sidenavExpanded$ | async" [usuario]="usuario">
+      </fury-sidenav>
     </mat-sidenav>
     <!-- END SIDENAV -->
 
@@ -36,11 +35,8 @@
       </ng-container>
 
       <!-- CONTENT -->
-      <div [class.scroll-disabled]="scrollDisabled$ | async"
-           cdkScrollable
-           class="content"
-           fxFlex="auto"
-           fxLayout="column">
+      <div [class.scroll-disabled]="scrollDisabled$ | async" cdkScrollable class="content" fxFlex="auto"
+        fxLayout="column">
         <ng-container *ngIf="(toolbarPosition$ | async) === 'static'">
           <ng-container *ngTemplateOutlet="toolbar"></ng-container>
         </ng-container>
@@ -68,22 +64,18 @@
 
 <ng-template #toolbar>
   <!-- TOOLBAR -->
-  <fury-toolbar (openQuickPanel)="openQuickPanel()"
-                [hasNavigation]="topNavigation$ | async"
-                (openSidenav)="openSidenav()"
-                *ngIf="toolbarVisible$ | async"
-                fxFlex="none"></fury-toolbar>
+  <fury-toolbar (openQuickPanel)="openQuickPanel()" [hasNavigation]="topNavigation$ | async"
+    (openSidenav)="openSidenav()" *ngIf="toolbarVisible$ | async" fxFlex="none" [usuario]="usuario"></fury-toolbar>
   <!-- END TOOLBAR -->
 
   <!-- NAVIGATION -->
-  <fury-navigation *ngIf="topNavigation$ | async"
-                   fxFlex="none"></fury-navigation>
+  <!-- <fury-navigation *ngIf="topNavigation$ | async"
+                   fxFlex="none"></fury-navigation> -->
   <!-- END NAVIGATION -->
 </ng-template>
 
 <!-- <ng-template #footer> -->
-  <!-- FOOTER -->
-  <!-- <fury-footer fxFlex="none"></fury-footer> -->
-  <!-- END FOOTER -->
+<!-- FOOTER -->
+<!-- <fury-footer fxFlex="none"></fury-footer> -->
+<!-- END FOOTER -->
 <!-- </ng-template> -->
-
