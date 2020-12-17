@@ -63,9 +63,9 @@ export class CambiarUbicacionComponent implements OnInit {
     if (!this.form.controls['tipo'].value) {
       this.userService.saveLocation(this.lat, this.lng);
     } else {
-      return; // Temp for insecure server
-      // localStorage.removeItem(LOCATION_NAME);
-      // this.userService.setTypeLocation(TYPE_LOCATION_AUTOMATIC);
+      // return; // Temp for insecure server
+      localStorage.removeItem(LOCATION_NAME);
+      this.userService.setTypeLocation(TYPE_LOCATION_AUTOMATIC);
     }
     this.dialogRef.close();
   }

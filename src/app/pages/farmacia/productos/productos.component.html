@@ -12,7 +12,7 @@
             <fury-card-content>
                 <div fxLayout="column" [formGroup]="formFiltro">
                     <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1rem" fxLayoutGap.xs="0">
-                        <mat-form-field fxFlex="calc(33% - 2rem)">
+                        <mat-form-field fxFlex="calc(33% - 1rem)" fxFlex.xs="auto">
                             <mat-label>Farmacia</mat-label>
                             <mat-select formControlName="idFarmacia">
                                 <mat-option [value]="farmacia.idFarmacia" *ngFor="let farmacia of farmacias">
@@ -20,14 +20,14 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <mat-form-field fxFlex="calc(33% - 2rem)">
+                        <mat-form-field fxFlex="calc(33% - 1rem)" fxFlex.xs="auto">
                             <mat-label>Categoría</mat-label>
                             <mat-select formControlName="categoria">
                                 <mat-option [value]="categoria.idCategoria" *ngFor="let categoria of categorias">
                                     {{categoria.descripcion}}</mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <mat-form-field fxFlex="calc(33% - 2rem)">
+                        <mat-form-field fxFlex="calc(33% - 1rem)" fxFlex.xs="auto">
                             <mat-label>Forma Farmacéutica</mat-label>
                             <mat-select formControlName="presentacion">
                                 <mat-option [value]="forma.idFormaFarmaceutica"
@@ -36,23 +36,14 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1rem" fxLayoutGap.xs="0">
-                        <mat-form-field fxFlex="calc(33% - 2rem)">
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1rem" fxLayoutGap.xs="0"
+                        fxLayoutAlign="center center" fxLayoutAlign.xs="space-between stretch">
+                        <mat-form-field fxFlex="calc(66% - 1rem)">
                             <mat-label>Nombre</mat-label>
                             <input matInput formControlName="nombre">
                         </mat-form-field>
-                        <mat-form-field fxFlex="calc(33% - 2rem)">
-                            <mat-label>Descripción</mat-label>
-                            <input matInput formControlName="descripcion">
-                        </mat-form-field>
-                        <mat-form-field fxFlex="calc(33% - 2rem)">
-                            <mat-label>Marca</mat-label>
-                            <input matInput formControlName="marca">
-                        </mat-form-field>
-                    </div>
-                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1rem" fxLayoutGap.xs="0"
-                        fxLayoutAlign="end center" fxLayoutAlign.xs="space-between stretch">
-                        <button mat-raised-button color="primary" fxFlex="32.5%" fxFlex.xs=100% (click)="getProductos()" type="submit"
+                        <button mat-raised-button color="primary" fxFlex="calc(33% - 1rem)" fxFlex.xs="auto"
+                            (click)="getProductos()" type="submit"
                             [disabled]="formFiltro.get('idFarmacia').value == null">Buscar</button>
                     </div>
                 </div>
@@ -125,7 +116,7 @@
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns"> </tr>
                     </table>
-                    <mat-paginator [length]="100" [pageSize]="10"></mat-paginator>
+                    <mat-paginator [length]="totalDatos" [pageSize]="regxpag"></mat-paginator>
                 </fury-list>
             </fury-card-content>
         </fury-card>

@@ -24,4 +24,11 @@ export class ItemBusquedaComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  subStr(text: string, size: number) {
+    if (text.length > size) {
+      return text.substring(0, 14) + "...";
+    }
+    return text;
+  }
+
 }

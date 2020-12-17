@@ -1,24 +1,49 @@
 <div fxLayout="column" fxLayoutAlign="space-between stretch">
     <div fxLayout="row" fxLayoutAlign="space-between center">
-        <h3 mat-dialog-title> Detalles de búsqueda </h3>
+        <h3 style="font-weight: 700;"> Detalles de búsqueda </h3>
         <button mat-icon-button mat-dialog-close>
             <mat-icon>close</mat-icon>
         </button>
     </div>
     <div fxLayout="column">
-        <h4>{{ producto ? producto.nombre : 'def' }}</h4>
-        <div fxLayout="row" fxLayoutAlign="space-between center">
-            <div fxLayout="column">
-                <span>{{ producto ? producto.formaFarmaceutica.descripcion : 'def' }} x {{ producto ? producto.fraccion
-                    : '0' }} unidades</span>
-                <span>{{ producto ? producto.marca : 'def' }}</span>
+        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
+            <img src="/assets/svg/categorias/{{icon}}.svg" width="70px" height="70px">
+            <div fxLayout="column" fxFlex>
+                <h4 style="font-weight: 700;">{{ producto ? producto.nombre : 'def' }}</h4>
+                <div fxLayout="row">
+                    <span style="font-weight: 700;">Detalle:&nbsp;</span>
+                    <span>{{ producto ? producto.formaFarmaceutica.descripcion : 'def' }} x {{ producto ?
+                        producto.fraccion : '0' }} unidades</span>
+                </div>
+                <div fxLayout="row">
+                    <span style="font-weight: 700;">Marca:&nbsp;</span>
+                    <span>{{ producto ? producto.marca : 'def' }}</span>
+                </div>
+                <div fxLayout="row">
+                    <span style="font-weight: 700;">Precio:&nbsp;</span>
+                    <span>{{ farmacia ? farmacia.monedas.descripcion : 'def' }} {{ producto ? producto.precioUnitario :
+                        '0' }}
+                    </span>
+                </div>
+                <div fxLayout="row">
+                    <span style="font-weight: 700;">Stock:&nbsp;</span>
+                    <span>{{ producto ? ( producto.stock > 10 ? '+10' : producto.stock ) : '0' }}</span>
+                </div>
             </div>
-            <h2>{{ farmacia ? farmacia.monedas.descripcion : 'def' }} {{ producto ? producto.precioUnitario : '0' }}
-            </h2>
         </div>
         <h2 style="text-align: center;">Lo encuentras en:</h2>
-        <span>{{ farmacia ? farmacia.nombre : 'def' }}</span>
-        <span>{{ farmacia ? farmacia.direccion : 'def' }}</span>
+        <div fxLayout="row">
+            <span style="font-weight: 700;">Farmacia:&nbsp;</span>
+            <span>{{ farmacia ? farmacia.nombre : 'def' }}</span>
+        </div>
+        <div fxLayout="row">
+            <span style="font-weight: 700;">Dirección:&nbsp;</span>
+            <span>{{ farmacia ? farmacia.direccion : 'def' }}</span>
+        </div>
+        <div fxLayout="row">
+            <span style="font-weight: 700;">Distancia:&nbsp;</span>
+            <span>A {{ farmacia ? farmacia.distancia : '0' }}m. aprox.</span>
+        </div>
     </div>
-    <button mat-raised-button mat-dialog-close color="primary">Aceptar</button>
+    <button mat-raised-button mat-dialog-close color="primary" style="margin-top: 1rem;">Aceptar</button>
 </div>

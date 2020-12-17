@@ -40,6 +40,9 @@ export class LocalesComponent implements OnInit {
   //CLASE TABLA
   displayedColumns: string[] = ['position', 'name', 'address', 'opening', 'closed', 'action'];
   dataSource = new MatTableDataSource<LocalTable>(ELEMENT_DATA);
+  totalDatos: number = 0;
+  pagina: number = 0;
+  regxpag: number = 10;
 
   constructor(private userService: UsuarioService, private farmaciaService: FarmaciaService,
     private fb: FormBuilder, private spinnerService: SpinnerService, private alertService: AlertService) { }
@@ -59,6 +62,7 @@ export class LocalesComponent implements OnInit {
     filtros.radio = 1000000000;
     this.farmaciaService.getFarmaciaFiltros(filtros).subscribe(response => {
       // console.log("Locales", response);
+      this.totalDatos = (response as any).count;
       this.locales = (response as any).data;
       this.spinnerService.stop(spinner);
     }, error => {

@@ -33,9 +33,17 @@ export class ProductoService {
     .set('precioMaximo', filtros.precioMaximo.toString())
     .set('idFarmacia', filtros.idFarmacia.toString())
     .set('pagina', filtros.pagina.toString())
-    .set('regxpag', filtros.regxpag.toString());
+    .set('regxpag', filtros.regxpag.toString())
+    .set('estado', filtros.estado.toString())
+    .set('stock', filtros.stock.toString());
     if (filtros.nombre.length > 0) parametros = parametros.set('nombre', filtros.nombre);
     return this.client.get<any>(url, {headers: this.header, params: parametros});
+  }
+
+  updateProductos(productos: Producto[]): Observable<any> {
+    const url = this.rutaBase;
+    return this.client.put<any>(url, productos, { headers: this.header });
+
   }
 
 }

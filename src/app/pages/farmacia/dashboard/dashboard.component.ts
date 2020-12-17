@@ -1,6 +1,7 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { LATITUD_DEFAULT, LONGITUD_DEFAULT } from 'src/app/@constants/constantes';
 import { Farmacia } from 'src/app/@models/farmacia';
 import { FiltroLocales } from 'src/app/@models/filtro-locales';
 import { FarmaciaService } from 'src/app/@services/farmacia.service';
@@ -37,7 +38,11 @@ export class DashboardComponent implements OnInit {
 
   isLoadingStock = false;
   isLoadingHorario = false;
+  isLoadingMap = false;
   farmacias: Farmacia[] = [];
+  lat = LATITUD_DEFAULT;
+  lng = LONGITUD_DEFAULT;
+  zoom = 12;
 
   constructor(private farmaciaService: FarmaciaService, private userService: UsuarioService) { }
 
@@ -90,6 +95,13 @@ export class DashboardComponent implements OnInit {
     this.isLoadingHorario = true;
     setTimeout(() => {
       this.isLoadingHorario = false;
+    }, 2000);
+  }
+
+  reloadMap() {
+    this.isLoadingMap = true;
+    setTimeout(() => {
+      this.isLoadingMap = false;
     }, 2000);
   }
 

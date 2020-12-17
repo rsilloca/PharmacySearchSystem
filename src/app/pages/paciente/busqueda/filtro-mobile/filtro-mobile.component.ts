@@ -37,24 +37,19 @@ export class FiltroMobileComponent implements OnInit {
   }
 
   formatLabelRadio(value: number) {
-    if (value >= 1) {
-      return value + 'm';
+    if (value >= 1000) {
+      value = value / 1000;
+      return Math.round(value * 10) / 10 + 'km';
     }
-    return value;
+    return value + 'm';
   }
 
   formatLabelPrecioMinimo(value: number) {
-    if (value >= 1) {
-      return 'S/.' + value;
-    }
-    return value;
+    return 'S/' + value;
   }
 
   formatLabelPrecioMaximo(value: number) {
-    if (value >= 1) {
-      return 'S/.' + value;
-    }
-    return value;
+    return 'S/' + value;
   }
 
 }

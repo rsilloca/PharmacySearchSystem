@@ -14,9 +14,9 @@ export class ToolbarLocationComponent implements OnInit {
   constructor(private dialog: MatDialog, private userService: UsuarioService) { }
 
   ngOnInit(): void {
-    if (+this.userService.getRol() == TYPE_PATIENT) {
-      this.abrirCambiarUbicacion();
-    }
+    // if (+this.userService.getRol() == TYPE_PATIENT) {
+    //   this.abrirCambiarUbicacion();
+    // }
   }
 
   abrirCambiarUbicacion(): void {

@@ -3,7 +3,8 @@ import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatGridList } from '@angular/material/grid-list';
-import { COLOR_1, COLOR_2, COLOR_3, COLOR_4, COLOR_5, ICONO_ADULTO_MAYOR, ICONO_CUIDADO_BUCAL, ICONO_CUIDADO_PERSONAL, ICONO_INFANTIL, ICONO_OTROS, PRECIO_MAXIMO_DEFAULT, PRECIO_MINIMO_DEFAULT, RADIO_DEFAULT, TYPE_LOCATION_AUTOMATIC, TYPE_LOCATION_MANUAL } from 'src/app/@constants/constantes';
+import { MatPaginator } from '@angular/material/paginator';
+import { COLOR_1, COLOR_2, COLOR_3, COLOR_4, COLOR_5, ICONO_ADULTO_MAYOR, ICONO_CUIDADO_BUCAL, ICONO_CUIDADO_PERSONAL, ICONO_INFANTIL, ICONO_OTROS, LATITUD_DEFAULT, LONGITUD_DEFAULT, PRECIO_MAXIMO_DEFAULT, PRECIO_MINIMO_DEFAULT, RADIO_DEFAULT, TYPE_LOCATION_AUTOMATIC, TYPE_LOCATION_MANUAL } from 'src/app/@constants/constantes';
 import { Farmacia } from 'src/app/@models/farmacia';
 import { FilterObserver } from 'src/app/@models/filter-observer';
 import { FilterSubject } from 'src/app/@models/filter-subject';
@@ -35,11 +36,22 @@ export class BusquedaComponent implements OnInit, FilterObserver {
   productos: any[] = [];
   selected = 'option3';
   usuario: Usuario;
+  lat = LATITUD_DEFAULT;
+  lng = LONGITUD_DEFAULT;
+  zoom = 12;
+  farmacias: Farmacia[] = [];
+  totalDatosProductos: number = 0;
+  totalDatosFarmacias: number = 0;
+  pagina: number = 0;
+  regxpag: number = 12;
 
   // Componentes
   @ViewChild('gridProductos') gridProductos: MatGridList;
+  @ViewChild('gridFarmacias') gridFarmacias: MatGridList;
+  @ViewChild('paginatorProductos') paginatorProductos: MatPaginator;
+  @ViewChild('paginatorFarmacias') paginatorFarmacias: MatPaginator;
   gridByBreakpoint: any = [
-    { xl: 6, lg: 4, md: 3, sm: 3, xs: 1 }
+    { xl: 6, lg: 3, md: 2, sm: 2, xs: 1 }
   ];
 
   iconos = [
@@ -83,12 +95,13 @@ export class BusquedaComponent implements OnInit, FilterObserver {
     this.mediaObserver.asObservable().subscribe((changes: MediaChange[]) => {
       if (this.gridProductos == undefined) return;
       this.gridProductos.cols = this.gridByBreakpoint[0][changes[0].mqAlias];
+      this.gridFarmacias.cols = this.gridByBreakpoint[0][changes[0].mqAlias];
     });
   }
 
   filtrar($event: any) {
     this.filtroAvanzado = $event;
-    // this.filtrarProductos();
+    this.filtrarProductos();
   }
 
   filtrarProductos(): void {
@@ -96,6 +109,7 @@ export class BusquedaComponent implements OnInit, FilterObserver {
     let filtro = new FiltroProductos(this.filtroAvanzado);
     filtro.nombre = this.filtro.controls['nombre'].value;
     filtro.ordenamiento = this.filtro.controls['orden'].value;
+    filtro.stock = 1;
     filtro.regxpag = 12;
     let typeLocation = this.userService.getTypeLocation();
     if (+typeLocation == TYPE_LOCATION_MANUAL) {
@@ -114,14 +128,23 @@ export class BusquedaComponent implements OnInit, FilterObserver {
 
   buscarProductos(spinner: any, filtro: FiltroProductos) {
     this.productoService.getProductos(filtro).subscribe(response => {
+      this.totalDatosProductos = response.count;
+      this.totalDatosFarmacias = response.data.length;
       this.productos = [];
+      this.farmacias = response.data;
       response.data.forEach((farmacia: Farmacia) => {
         farmacia.productos.forEach((producto: Producto) => {
           this.productos.push([producto, farmacia]);
         });
       });
-      if (response.count > 0) this.gridProductos.rowHeight = '16rem';
-      else this.gridProductos.rowHeight = '0';
+      if (response.count > 0) {
+        this.gridProductos.rowHeight = '16rem';
+        this.gridFarmacias.rowHeight = '10rem';
+      }
+      else {
+        this.gridProductos.rowHeight = '0';
+        this.gridFarmacias.rowHeight = '0';
+      }
       this.spinnerService.stop(spinner);
     }, error => {
       console.log('ocurrio un error', error);
@@ -131,7 +154,7 @@ export class BusquedaComponent implements OnInit, FilterObserver {
   abrirDetalles($event): void {
     const dialog = this.dialog.open(DetallesProductoComponent, {
       width: '30rem',
-      data: $event
+      data: { customData: $event, icon: this.getIcon($event[0].idCategoria) }
     });
   }
 

@@ -14,6 +14,7 @@ import { FuryCardModule } from 'src/@fury/shared/card/card.module';
 import { QuickInfoWidgetModule } from '../dashboard/widgets/quick-info-widget/quick-info-widget.module';
 import { ItemCarritoComponent } from './control-stock/item-carrito/item-carrito.component';
 import { LoadingOverlayModule } from 'src/@fury/shared/loading-overlay/loading-overlay.module';
+import { AgmCoreModule } from '@agm/core';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { LoadingOverlayModule } from 'src/@fury/shared/loading-overlay/loading-o
     ListModule,
     FuryCardModule,
     QuickInfoWidgetModule,
-    LoadingOverlayModule
+    LoadingOverlayModule,
+    AgmCoreModule
   ]
 })
 export class FarmaciaModule { }
