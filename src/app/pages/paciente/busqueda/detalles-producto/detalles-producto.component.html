@@ -27,7 +27,7 @@
                 </div>
                 <div fxLayout="row">
                     <span style="font-weight: 700;">Stock:&nbsp;</span>
-                    <span>{{ producto ? producto.stock : '0' }}</span>
+                    <span>{{ producto ? ( producto.stock > 10 ? '+10' : producto.stock ) : '0' }}</span>
                 </div>
             </div>
         </div>
