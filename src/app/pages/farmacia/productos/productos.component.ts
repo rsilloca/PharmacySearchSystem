@@ -32,6 +32,9 @@ export class ProductosComponent implements OnInit {
   productos: Producto[] = []; // new MatTableDataSource<Producto>([]);
 
   formFiltro: FormGroup;
+  totalDatos: number = 0;
+  pagina: number = 0;
+  regxpag: number = 10;
 
   constructor(private dialog: MatDialog,
     private farmaciaService: FarmaciaService,
@@ -118,6 +121,7 @@ export class ProductosComponent implements OnInit {
     this.productoService.getProductos(filtro).subscribe(response => {
       // console.log('response', response);
       this.spinnerService.stop(spinner);
+      this.totalDatos = response.count;
       this.productos = response.data.length > 0 ? response.data[0].productos : [];
     }, error => {
       this.spinnerService.stop(spinner);

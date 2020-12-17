@@ -44,3 +44,13 @@ agm-map {
     width: 100%;
     height: 30rem;
 }
+
+.content-tabs {
+    background: white;
+    border-radius: 0.5rem
+}
+
+::ng-deep .content-tabs .mat-tab-header {
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}

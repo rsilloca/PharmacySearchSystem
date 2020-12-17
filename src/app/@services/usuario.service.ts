@@ -133,9 +133,11 @@ export class UsuarioService {
     return type;
   }
   getNavigatorGeolocation(): Promise<any> {
+    console.log('ubicación automática');
     if (navigator.geolocation) {
       return new Promise<any>(resolve => {
         navigator.geolocation.getCurrentPosition(position => {
+          console.log('ubicación obtenida', position);
           if (position) {
             resolve({
               latitud: position.coords.latitude,
@@ -154,8 +156,8 @@ export class UsuarioService {
       return new Promise<any>(resolve => {
         console.log('Error', 'La geolocalización no es soportada en este navegador');
         resolve({
-          latitud: 0,
-          longitud: 0
+          latitud: LATITUD_DEFAULT,
+          longitud: LONGITUD_DEFAULT
         });
       });
     }

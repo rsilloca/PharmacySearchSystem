@@ -1,14 +1,14 @@
 <fury-card [style.background]="background">
     <fury-card-header>
-        <fury-card-header-subheading>{{ producto ? producto.formaFarmaceutica.descripcion : 'def' }} x {{ producto ?
+        <fury-card-header-heading>{{ producto ? subStr(producto.nombre, 20) : 'def'}}</fury-card-header-heading>
+        <fury-card-header-subheading>{{ producto ? subStr(producto.formaFarmaceutica.descripcion, 22) : 'def' }} x {{ producto ?
             producto.fraccion : 'def' }} unidades
         </fury-card-header-subheading>
-        <fury-card-header-heading>{{ producto ? producto.nombre : 'def'}}</fury-card-header-heading>
     </fury-card-header>
     <fury-card-content fxLayout="row" fxLayoutAlign="space-between center">
         <div fxLayout="column">
-            <span> {{ farmacia ? farmacia.nombre : 'def' }} </span>
-            <span> {{ farmacia ? farmacia.direccion : 'def'}} </span>
+            <span> {{ farmacia ? subStr(farmacia.nombre, 15) : 'def' }} </span>
+            <span> {{ farmacia ? subStr(farmacia.direccion, 15) : 'def'}} </span>
         </div>
         <img src="/assets/svg/categorias/{{icon}}.svg" class="icon">
     </fury-card-content>

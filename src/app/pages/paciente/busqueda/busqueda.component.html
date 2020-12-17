@@ -1,40 +1,47 @@
 <mat-drawer-container style="height: 100%;">
-  <mat-drawer mode="side" opened style="width: 25rem;" fxHide.sm fxHide.xs>
-    <app-filtro expandableMultiple="true" (eventFiltro)="filtrar($event)"></app-filtro>
+  <mat-drawer mode="side" opened style="width: 25rem;" fxHide.sm fxHide.xs class="background-accent">
+    <app-filtro (eventFiltro)="filtrar($event)"></app-filtro>
   </mat-drawer>
-  <mat-drawer-content fxLayout="column" fxLayoutGap="1rem" style="padding: 2rem; background-color: #eef5f9;">
-    <fury-card>
-      <fury-card-header>
-        <fury-card-header-heading>
-          <h2>Busca lo que necesitas</h2>
-        </fury-card-header-heading>
-      </fury-card-header>
-      <fury-card-content fxLayout="column" fxLayoutGap="1rem" [formGroup]="filtro">
-        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem" fxLayout.xs="column"
-          fxLayoutAlign.xs="center stretch" fxLayoutGap.xs="0">
-          <mat-form-field fxFlex="34.5%" fxFlex.xs="auto" appearance="outline">
-            <mat-label>Ordenar por</mat-label>
-            <mat-select formControlName="orden">
-              <mat-option [value]="0">Ninguno</mat-option>
-              <mat-option [value]="1">Más cercano</mat-option>
-              <mat-option [value]="2">Más económico</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field fxFlex="calc(65% - 1rem)" appearance="outline">
-            <mat-label>Búsqueda</mat-label>
-            <input matInput formControlName="nombre" placeholder="Nombre o marca de producto">
-            <button mat-icon-button matSuffix (click)="filtrarProductos()" color="primary">
-              <mat-icon>search</mat-icon>
-            </button>
-          </mat-form-field>
-        </div>
-      </fury-card-content>
-    </fury-card>
-    <fury-card>
-      <fury-card-content>
-        <mat-tab-group mat-stretch-tabs>
+  <mat-drawer-content style="background-color: #eef5f9;">
+    <div style="height: 100%;" cdkScrollable fxLayout="column" fxLayoutGap="1rem"
+      style="padding: 2rem; background-color: #eef5f9;">
+      <fury-card>
+        <fury-card-header>
+          <fury-card-header-heading>
+            <h2>Busca lo que necesitas</h2>
+          </fury-card-header-heading>
+        </fury-card-header>
+        <fury-card-content fxLayout="column" fxLayoutGap="1rem" [formGroup]="filtro">
+          <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem" fxLayout.xs="column"
+            fxLayoutAlign.xs="center stretch" fxLayoutGap.xs="0">
+            <mat-form-field fxFlex="34.5%" fxFlex.xs="auto">
+              <mat-label>Ordenar por</mat-label>
+              <mat-select formControlName="orden">
+                <mat-option [value]="0">Ninguno</mat-option>
+                <mat-option [value]="1">Más cercano</mat-option>
+                <mat-option [value]="2">Más económico</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field fxFlex="calc(65% - 1rem)">
+              <mat-label>Nombre o marca de producto</mat-label>
+              <input matInput formControlName="nombre">
+              <button mat-raised-button matSuffix (click)="filtrarProductos()" color="primary">
+                <mat-icon>search</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+        </fury-card-content>
+      </fury-card>
+      <mat-tab-group mat-stretch-tabs backgroundColor="primary" class="content-tabs">
 
-          <mat-tab label="Productos">
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <div fxLayout="column" fxLayoutAlign="center center">
+              <mat-icon>star_rate</mat-icon>
+              <span fxHide.xs> Productos </span>
+            </div>
+          </ng-template>
+          <div fxLayout="column" style="padding: 1rem 2rem;">
             <mat-grid-list #gridProductos cols="1" rowHeight="0" gutterSize="1rem">
               <mat-grid-tile *ngFor="let producto of productos" style="border-radius: 0.5rem;">
                 <item-busqueda fxFlex="100%" [producto]="producto[0]" [farmacia]="producto[1]"
@@ -46,13 +53,21 @@
             <div *ngIf="productos.length == 0" fxLayout="column" fxLayoutAlign="center center"
               style="min-height: 16rem;">
               <img src="/assets/svg/triste.svg" width="100px" height="100px">
-              <span>No encontramos productos</span>
-              <span>Intenta cambiar los filtros de búsqueda</span>
+              <span style="text-align: center;">No encontramos productos</span>
+              <span style="text-align: center;">Intenta cambiar los filtros de búsqueda</span>
             </div>
-            <mat-paginator [length]="100" [pageSize]="12"></mat-paginator>
-          </mat-tab>
+            <mat-paginator *ngIf="productos.length > 0" [length]="totalDatosProductos" [pageSize]="regxpag" class="content-tabs"></mat-paginator>
+          </div>
+        </mat-tab>
 
-          <mat-tab label="Farmacias">
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <div fxLayout="column" fxLayoutAlign="center center">
+              <mat-icon>local_pharmacy</mat-icon>
+              <span fxHide.xs> Farmacias </span>
+            </div>
+          </ng-template>
+          <div fxLayout="column" style="padding: 1rem 2rem;">
             <mat-grid-list #gridFarmacias cols="1" rowHeight="0" gutterSize="1rem">
               <mat-grid-tile *ngFor="let farmacia of farmacias" style="border-radius: 0.5rem;">
                 <farmacia-busqueda fxFlex="100%" [farmacia]="farmacia" (onVerRuta)="abrirVerRuta($event)">
@@ -62,26 +77,32 @@
             <div *ngIf="farmacias.length == 0" fxLayout="column" fxLayoutAlign="center center"
               style="min-height: 16rem;">
               <img src="/assets/svg/triste.svg" width="100px" height="100px">
-              <span>No encontramos farmacias</span>
-              <span>Intenta cambiar los filtros de búsqueda</span>
+              <span style="text-align: center;">No encontramos farmacias</span>
+              <span style="text-align: center;">Intenta cambiar los filtros de búsqueda</span>
             </div>
-            <mat-paginator [length]="100" [pageSize]="12"></mat-paginator>
-          </mat-tab>
+            <mat-paginator *ngIf="farmacias.length > 0" [length]="totalDatosFarmacias" [pageSize]="regxpag" class="content-tabs"></mat-paginator>
+          </div>
+        </mat-tab>
 
-          <mat-tab label="Mapa">
-            <agm-map [latitude]="lat" [zoom]="zoom" [longitude]="lng">
-              <agm-marker *ngFor="let farmacia of farmacias" [latitude]="farmacia.latitud"
-                [longitude]="farmacia.longitud">
-                <agm-info-window #infoWindow>
-                  <div>
-                    {{farmacia.nombre}}
-                  </div>
-                </agm-info-window>
-              </agm-marker>
-            </agm-map>
-          </mat-tab>
-        </mat-tab-group>
-      </fury-card-content>
-    </fury-card>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <div fxLayout="column" fxLayoutAlign="center center">
+              <mat-icon>room</mat-icon>
+              <span fxHide.xs> Mapa </span>
+            </div>
+          </ng-template>
+          <agm-map [latitude]="lat" [zoom]="zoom" [longitude]="lng">
+            <agm-marker *ngFor="let farmacia of farmacias" [latitude]="farmacia.latitud"
+              [longitude]="farmacia.longitud">
+              <agm-info-window #infoWindow>
+                <div>
+                  {{farmacia.nombre}}
+                </div>
+              </agm-info-window>
+            </agm-marker>
+          </agm-map>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
   </mat-drawer-content>
 </mat-drawer-container>

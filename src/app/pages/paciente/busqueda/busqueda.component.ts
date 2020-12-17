@@ -3,6 +3,7 @@ import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatGridList } from '@angular/material/grid-list';
+import { MatPaginator } from '@angular/material/paginator';
 import { COLOR_1, COLOR_2, COLOR_3, COLOR_4, COLOR_5, ICONO_ADULTO_MAYOR, ICONO_CUIDADO_BUCAL, ICONO_CUIDADO_PERSONAL, ICONO_INFANTIL, ICONO_OTROS, LATITUD_DEFAULT, LONGITUD_DEFAULT, PRECIO_MAXIMO_DEFAULT, PRECIO_MINIMO_DEFAULT, RADIO_DEFAULT, TYPE_LOCATION_AUTOMATIC, TYPE_LOCATION_MANUAL } from 'src/app/@constants/constantes';
 import { Farmacia } from 'src/app/@models/farmacia';
 import { FilterObserver } from 'src/app/@models/filter-observer';
@@ -39,12 +40,18 @@ export class BusquedaComponent implements OnInit, FilterObserver {
   lng = LONGITUD_DEFAULT;
   zoom = 12;
   farmacias: Farmacia[] = [];
+  totalDatosProductos: number = 0;
+  totalDatosFarmacias: number = 0;
+  pagina: number = 0;
+  regxpag: number = 12;
 
   // Componentes
   @ViewChild('gridProductos') gridProductos: MatGridList;
   @ViewChild('gridFarmacias') gridFarmacias: MatGridList;
+  @ViewChild('paginatorProductos') paginatorProductos: MatPaginator;
+  @ViewChild('paginatorFarmacias') paginatorFarmacias: MatPaginator;
   gridByBreakpoint: any = [
-    { xl: 6, lg: 4, md: 3, sm: 3, xs: 1 }
+    { xl: 6, lg: 3, md: 2, sm: 2, xs: 1 }
   ];
 
   iconos = [
@@ -94,7 +101,7 @@ export class BusquedaComponent implements OnInit, FilterObserver {
 
   filtrar($event: any) {
     this.filtroAvanzado = $event;
-    // this.filtrarProductos();
+    this.filtrarProductos();
   }
 
   filtrarProductos(): void {
@@ -102,6 +109,8 @@ export class BusquedaComponent implements OnInit, FilterObserver {
     let filtro = new FiltroProductos(this.filtroAvanzado);
     filtro.nombre = this.filtro.controls['nombre'].value;
     filtro.ordenamiento = this.filtro.controls['orden'].value;
+    filtro.stock = 1;
+    filtro.estado = 1;
     filtro.regxpag = 12;
     let typeLocation = this.userService.getTypeLocation();
     if (+typeLocation == TYPE_LOCATION_MANUAL) {
@@ -120,6 +129,8 @@ export class BusquedaComponent implements OnInit, FilterObserver {
 
   buscarProductos(spinner: any, filtro: FiltroProductos) {
     this.productoService.getProductos(filtro).subscribe(response => {
+      this.totalDatosProductos = response.count;
+      this.totalDatosFarmacias = response.data.length;
       this.productos = [];
       this.farmacias = response.data;
       response.data.forEach((farmacia: Farmacia) => {
@@ -129,7 +140,7 @@ export class BusquedaComponent implements OnInit, FilterObserver {
       });
       if (response.count > 0) {
         this.gridProductos.rowHeight = '16rem';
-        this.gridFarmacias.rowHeight = '16rem';
+        this.gridFarmacias.rowHeight = '10rem';
       }
       else {
         this.gridProductos.rowHeight = '0';
@@ -144,7 +155,7 @@ export class BusquedaComponent implements OnInit, FilterObserver {
   abrirDetalles($event): void {
     const dialog = this.dialog.open(DetallesProductoComponent, {
       width: '30rem',
-      data: $event
+      data: { customData: $event, icon: this.getIcon($event[0].idCategoria) }
     });
   }
 

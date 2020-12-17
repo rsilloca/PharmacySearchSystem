@@ -21,6 +21,7 @@ export class DetallesProductoComponent implements OnInit {
   // horario: string = '';
   producto: Producto;
   farmacia: Farmacia;
+  icon: string;
 
   constructor(public dialogRef: MatDialogRef<DetallesProductoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
@@ -35,8 +36,9 @@ export class DetallesProductoComponent implements OnInit {
     // this.ubicacion = this.data.ubicacion;
     // this.distancia = this.data.distancia;
     // this.horario = this.data.horario;
-    this.producto = this.data[0];
-    this.farmacia = this.data[1];
+    this.producto = this.data.customData[0];
+    this.farmacia = this.data.customData[1];
+    this.icon = this.data.icon;
   }
 
 }

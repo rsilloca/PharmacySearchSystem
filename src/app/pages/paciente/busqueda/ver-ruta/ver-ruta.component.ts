@@ -24,6 +24,20 @@ export class VerRutaComponent implements OnInit {
   location = true;
   usuario: Usuario;
   farmacia: Farmacia;
+  iconPaciente = {
+    url: '/assets/svg/marcador-paciente.svg',
+    scaledSize: {
+      width: '24px',
+      height: '24px'
+    }
+  }
+  iconFarmacia = {
+    url: '/assets/svg/marcador-farmacia.svg',
+    scaledSize: {
+      width: '24px',
+      height: '24px'
+    }
+  }
 
   constructor(public dialogRef: MatDialogRef<VerRutaComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -44,13 +58,14 @@ export class VerRutaComponent implements OnInit {
       this.userService.getNavigatorGeolocation().then(location => {
         this.lat = location.latitud;
         this.lng = location.longitud;
+        this.getTracking();
       });
     } else {
       let locationUser = this.userService.getLocation();
       this.lat = locationUser[0];
       this.lng = locationUser[1];
+      this.getTracking();
     }
-    this.getTracking();
   }
 
   onMapReady(map) {
