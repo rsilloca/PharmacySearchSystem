@@ -1,0 +1,52 @@
+<div class="background-pattern page" fxLayout="column" fxLayoutAlign="center center">
+    <div class="card border-radius mat-elevation-z4">
+        <div class="header padding color-gray" fxLayout="column" fxLayoutAlign="center center">
+            <div class="logo fill-primary-contrast">
+                <mat-icon svgIcon="logo-sbf" class="logo-sbf"></mat-icon>
+            </div>
+            <h3>Registra tu Farmacia</h3>
+        </div>
+        <p class="secondary-text text-center margin-cero">
+            ¿Buscas Farmacias?<br>
+            <a [routerLink]="['/register']">Click aquí para registrarte</a>
+        </p>
+        <form class="padding-register" fxLayout="column" fxLayoutGap="16px" [formGroup]="form" (ngSubmit)="registrar()">
+            <div fxFlex="auto" fxLayout="column">
+                <mat-form-field fxFlex="grow">
+                    <mat-label>Nombre de la Farmacia</mat-label>
+                    <input matInput required formControlName="nombre">
+                </mat-form-field>
+
+                <mat-form-field fxFlex="grow">
+                    <mat-label>Correo</mat-label>
+                    <input matInput required formControlName="correo">
+                </mat-form-field>
+
+                <mat-form-field fxFlex="grow">
+                    <mat-label>Contraseña</mat-label>
+                    <input matInput [type]="visible ? 'text' : 'password'" formControlName="clave" required>
+                    <button type="button" mat-icon-button matSuffix (click)="visible = !visible"
+                        matTooltip="{{ visible ? 'Ocultar contraseña' : 'Ver contraseña' }}">
+                        <mat-icon>{{visible ? 'visibility' : 'visibility_off'}}</mat-icon>
+                    </button>
+                </mat-form-field>
+
+                <mat-form-field fxFlex="grow">
+                    <mat-label>Confirmar Contraseña</mat-label>
+                    <input matInput [type]="visible ? 'text' : 'password'" formControlName="claveConfirmacion" required>
+                    <button type="button" mat-icon-button matSuffix (click)="visible = !visible"
+                        matTooltip="{{ visible ? 'Ocultar contraseña' : 'Ver contraseña' }}">
+                        <mat-icon>{{visible ? 'visibility' : 'visibility_off'}}</mat-icon>
+                    </button>
+                    <mat-hint>Por favor, ingresa tu contraseña nuevamente</mat-hint>
+                </mat-form-field>
+            </div>
+            <button type="submit" color="primary" mat-raised-button [disabled]="form.invalid">
+                CREAR CUENTA
+            </button>
+            <p class="secondary-text text-center">
+                ¿Ya tienes una cuenta? <a [routerLink]="['/login']">Ingresa aquí</a>
+            </p>
+        </form>
+    </div>
+</div>

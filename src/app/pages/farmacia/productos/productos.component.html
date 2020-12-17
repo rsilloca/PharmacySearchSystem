@@ -1,76 +1,125 @@
-<div class="principal_content">
-    <mat-card>
-        <mat-card-header>
-            <mat-card-title>Mis Productos</mat-card-title>
-        </mat-card-header>
-        <mat-card-content fxLayout="column" fxLayoutAlign="center stretch">
-            <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
-                <mat-form-field appearance="outline" fxFlex="calc(65% - 1rem)">
-                    <mat-label>Búsqueda</mat-label>
-                    <input type="text" matInput placeholder="Nombre de la Farmacia">
-                </mat-form-field>
-                <button mat-raised-button color="primary" fxFlex="calc(35% - 1rem)">Buscar</button>
-            </div>
-            <div fxLayout="row" fxLayoutAlign="end start" fxLayoutGap="0.5rem">
-                <button mat-mini-fab color="accent">
-                    <mat-icon>update</mat-icon>
-                </button>
-                <button mat-mini-fab color="accent" (click)="subidaMasiva()">
-                    <mat-icon>cloud_upload</mat-icon>
-                </button>
-                <button mat-mini-fab color="primary" (click)="nuevoProducto()">
-                    <mat-icon>add</mat-icon>
-                </button>
-            </div>
-            <table mat-table [dataSource]="dataSource" class="mat-elevation-z2">
+<fury-page-layout mode="simple">
 
-                <!-- Columna de posicion -->
-                <ng-container matColumnDef="numero">
-                    <th mat-header-cell *matHeaderCellDef> N° </th>
-                    <td mat-cell *matCellDef="let element; let index=index"> {{index}} </td>
-                </ng-container>
-                <!-- Columna codigo -->
-                <ng-container matColumnDef="codigo">
-                    <th mat-header-cell *matHeaderCellDef> Código </th>
-                    <td mat-cell *matCellDef="let element"> {{element.codigo}} </td>
-                </ng-container>
-                <!-- Columna nombre -->
-                <ng-container matColumnDef="nombre">
-                    <th mat-header-cell *matHeaderCellDef> Nombre </th>
-                    <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
-                </ng-container>
-                <!-- Columna precio -->
-                <ng-container matColumnDef="precio">
-                    <th mat-header-cell *matHeaderCellDef> Precio </th>
-                    <td mat-cell *matCellDef="let element"> {{element.precio}} </td>
-                </ng-container>
-                <!-- Columna marca -->
-                <ng-container matColumnDef="marca">
-                    <th mat-header-cell *matHeaderCellDef> Marca </th>
-                    <td mat-cell *matCellDef="let element"> {{element.marca}} </td>
-                </ng-container>
+    <fury-page-layout-header>
+        <fury-breadcrumbs current="Productos"></fury-breadcrumbs>
+    </fury-page-layout-header>
 
-                <!-- Columna stock -->
-                <ng-container matColumnDef="stock">
-                    <th mat-header-cell *matHeaderCellDef> Stock </th>
-                    <td mat-cell *matCellDef="let element"> {{element.stock}} </td>
-                </ng-container>
+    <fury-page-layout-content fxLayout="column" fxLayoutGap="1rem">
+        <fury-card>
+            <fury-card-header>
+                <fury-card-header-heading> Filtro de Búsqueda </fury-card-header-heading>
+            </fury-card-header>
+            <fury-card-content>
+                <div fxLayout="column" [formGroup]="formFiltro">
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1rem" fxLayoutGap.xs="0">
+                        <mat-form-field fxFlex="calc(33% - 1rem)" fxFlex.xs="auto">
+                            <mat-label>Farmacia</mat-label>
+                            <mat-select formControlName="idFarmacia">
+                                <mat-option [value]="farmacia.idFarmacia" *ngFor="let farmacia of farmacias">
+                                    {{farmacia.nombre}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field fxFlex="calc(33% - 1rem)" fxFlex.xs="auto">
+                            <mat-label>Categoría</mat-label>
+                            <mat-select formControlName="categoria">
+                                <mat-option [value]="categoria.idCategoria" *ngFor="let categoria of categorias">
+                                    {{categoria.descripcion}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field fxFlex="calc(33% - 1rem)" fxFlex.xs="auto">
+                            <mat-label>Forma Farmacéutica</mat-label>
+                            <mat-select formControlName="presentacion">
+                                <mat-option [value]="forma.idFormaFarmaceutica"
+                                    *ngFor="let forma of formasFarmaceuticas">
+                                    {{forma.descripcion}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1rem" fxLayoutGap.xs="0"
+                        fxLayoutAlign="center center" fxLayoutAlign.xs="space-between stretch">
+                        <mat-form-field fxFlex="calc(66% - 1rem)">
+                            <mat-label>Nombre</mat-label>
+                            <input matInput formControlName="nombre">
+                        </mat-form-field>
+                        <button mat-raised-button color="primary" fxFlex="calc(33% - 1rem)" fxFlex.xs="auto"
+                            (click)="getProductos()" type="submit"
+                            [disabled]="formFiltro.get('idFarmacia').value == null">Buscar</button>
+                    </div>
+                </div>
+            </fury-card-content>
+        </fury-card>
+        <fury-card>
+            <fury-card-header>
+                <fury-card-header-heading> Tus Productos </fury-card-header-heading>
+                <fury-card-header-subheading> Lista de tus productos </fury-card-header-subheading>
+                <fury-card-header-actions>
+                    <button mat-icon-button>
+                        <mat-icon>refresh</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="subidaMasiva()">
+                        <mat-icon>cloud_upload</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="nuevoProducto()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </fury-card-header-actions>
+            </fury-card-header>
+            <fury-card-content>
+                <fury-list name="Productos" [hideHeader]="true">
+                    <table mat-table [dataSource]="productos" class="mat-elevation-z2" #tablaProductos>
 
-                <!-- Columna de acciones -->
-                <ng-container matColumnDef="acciones">
-                    <th mat-header-cell *matHeaderCellDef> Acciones </th>
-                    <td mat-cell *matCellDef="let row">
-                        <button mat-icon-button color="primary">
-                            <mat-icon>edit</mat-icon>
-                        </button>
-                        <button mat-icon-button color="primary">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                    </td>
-                </ng-container>
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns"> </tr>
-            </table>
-        </mat-card-content>
-    </mat-card>
-</div>
+                        <!-- Columna de posicion -->
+                        <ng-container matColumnDef="numero">
+                            <th mat-header-cell *matHeaderCellDef> N° </th>
+                            <td mat-cell *matCellDef="let element; let index=index"> {{index + 1}} </td>
+                        </ng-container>
+                        <!-- Columna codigo -->
+                        <ng-container matColumnDef="codigo">
+                            <th mat-header-cell *matHeaderCellDef> Código </th>
+                            <td mat-cell *matCellDef="let element"> {{element.codigo}} </td>
+                        </ng-container>
+                        <!-- Columna nombre -->
+                        <ng-container matColumnDef="nombre">
+                            <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                            <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+                        </ng-container>
+                        <!-- Columna precio -->
+                        <ng-container matColumnDef="precio">
+                            <th mat-header-cell *matHeaderCellDef> Precio </th>
+                            <td mat-cell *matCellDef="let element"> {{element.precioUnitario}} </td>
+                        </ng-container>
+                        <!-- Columna marca -->
+                        <ng-container matColumnDef="marca">
+                            <th mat-header-cell *matHeaderCellDef> Marca </th>
+                            <td mat-cell *matCellDef="let element"> {{element.marca}} </td>
+                        </ng-container>
+
+                        <!-- Columna stock -->
+                        <ng-container matColumnDef="stock">
+                            <th mat-header-cell *matHeaderCellDef> Stock </th>
+                            <td mat-cell *matCellDef="let element"> {{element.stock}} </td>
+                        </ng-container>
+
+                        <!-- Columna de acciones -->
+                        <ng-container matColumnDef="acciones">
+                            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                            <td mat-cell *matCellDef="let row">
+                                <button mat-icon-button color="accent">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-icon-button color="warn">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns"> </tr>
+                    </table>
+                    <mat-paginator [length]="totalDatos" [pageSize]="regxpag"></mat-paginator>
+                </fury-list>
+            </fury-card-content>
+        </fury-card>
+    </fury-page-layout-content>
+
+</fury-page-layout>

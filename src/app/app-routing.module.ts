@@ -18,6 +18,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/authentication/register/register.module').then(m => m.RegisterModule),
   },
   {
+    path: 'register-pharmacy',
+    canActivate: [LoginGuard],
+    loadChildren: () => import('./pages/authentication/register-pharmacy/register-pharmacy.module').then(m => m.RegisterPharmacyModule),
+  },
+  {
     path: 'forgot-password',
     canActivate: [LoginGuard],
     loadChildren: () => import('./pages/authentication/forgot-password/forgot-password.module').then(m => m.ForgotPasswordModule),

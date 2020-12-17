@@ -1,6 +1,19 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatGridList } from '@angular/material/grid-list';
+import { Categoria } from 'src/app/@models/categoria';
+import { Farmacia } from 'src/app/@models/farmacia';
+import { FiltroLocales } from 'src/app/@models/filtro-locales';
+import { FiltroProductos } from 'src/app/@models/filtro-productos';
+import { FormaFarmaceutica } from 'src/app/@models/formaFarmaceutica';
+import { Producto } from 'src/app/@models/producto';
+import { ConfiguracionService } from 'src/app/@services/configuracion.service';
+import { FarmaciaService } from 'src/app/@services/farmacia.service';
+import { ProductoService } from 'src/app/@services/producto.service';
+import { UsuarioService } from 'src/app/@services/usuario.service';
+import { AlertService } from 'src/app/shared/alert/alert.service';
+import { SpinnerService } from 'src/app/shared/spinner.service';
 
 @Component({
   selector: 'fury-control-stock',
@@ -12,53 +25,116 @@ export class ControlStockComponent implements OnInit {
   // Componentes
   @ViewChild('gridProductos') gridProductos: MatGridList;
   gridByBreakpoint: any = [
-    { xl: 4, lg: 3, md: 3, sm: 2, xs: 1 },
-    { xl: '1.25:1', lg: '1:1.2', md: '1.5:1', sm: '2:1', xs: '3.5:1' }
+    { xl: 4, lg: 3, md: 3, sm: 2, xs: 2 }
   ];
 
   // Filtro
-  farmacias: any[] = [
-    { id: 1, nombre: 'Mifarma Av. Kennedy' },
-    { id: 2, nombre: 'Inka farma Av. Jesús' }
-  ];
+  farmacias: Farmacia[] = [];
+  categorias: Categoria[] = [];
+  formasFarmaceuticas: FormaFarmaceutica[] = [];
   productoDesc: string = '';
+  formFiltro: FormGroup;
 
   // Variables
-  productos: any[] = [
-    { id: 1, codigo: 'IF001', nombre: 'Ibuprofeno 800mg', farmacia: 'Inkafarma Ejército', stock: 20 },
-    { id: 2, codigo: 'IF007', nombre: 'Ibuprofeno 500mg', farmacia: 'Inkafarma Ejército', stock: 15 },
-    { id: 3, codigo: 'MF001', nombre: 'Ibuprofeno 800mg', farmacia: 'Mifarma Paucarpata', stock: 3 },
-    { id: 4, codigo: 'MF014', nombre: 'Talco bebé', farmacia: 'Mifarma Paucarpata', stock: 15 },
-    { id: 5, codigo: 'IF101', nombre: 'Shampoo Ninet', farmacia: 'Inkafarma Ejército', stock: 5 },
-    { id: 6, codigo: 'MF201', nombre: 'Panadol Forte Tabletas', farmacia: 'Mifarma Paucarpata', stock: 100 } // ,
-    // { id: 7, codigo: 'IF301', nombre: 'Panadol Forte Jarabe', farmacia: 'Inkafarma Ejército', stock: 75 },
-    // { id: 8, codigo: 'MF108', nombre: 'Termómetro', farmacia: 'Mifarma Paucarpata', stock: 10 }
-  ];
-  productosSeleccionados: any[] = [];
+  productos: Producto[] = [];
+  productosSeleccionados: Producto[] = [];
 
-  constructor(private mediaObserver: MediaObserver) { }
+  // Paginado
+  totalDatos: number = 0;
+  regxpag = 12;
+  page: number = 0;
+
+  constructor(private mediaObserver: MediaObserver, private fb: FormBuilder,
+    private farmaciaService: FarmaciaService, private userService: UsuarioService,
+    private configuracionService: ConfiguracionService, private productoService: ProductoService,
+    private spinnerService: SpinnerService, private alertService: AlertService) { }
 
   ngAfterContentInit(): void {
     this.mediaObserver.asObservable().subscribe((changes: MediaChange[]) => {
       this.gridProductos.cols = this.gridByBreakpoint[0][changes[0].mqAlias];
-      this.gridProductos.rowHeight = this.gridByBreakpoint[1][changes[0].mqAlias];
     });
   }
 
   ngOnInit(): void {
+    this.getFarmacias();
+    this.getCategorias();
+    this.getFormasFarmaceuticas();
+    this.formFiltro = this.fb.group({
+      idFarmacia: [null],
+      categoria: [null],
+      presentacion: [null],
+      nombre: ['']
+    });
   }
 
-  seleccionarProducto(producto: any): void {
-    if (this.productosSeleccionados.findIndex((p: any) => p.id == producto.id) < 0) {
-      this.productosSeleccionados.push(producto);
+  seleccionarProducto(producto: Producto): void {
+    if (this.productosSeleccionados.findIndex((p: Producto) => p.idProducto == producto.idProducto) < 0) {
+      this.productosSeleccionados.push(new Producto(producto));
     }
   }
 
-  eliminarProductoSeleccionado(producto: any): void {
-    let index = this.productosSeleccionados.findIndex((p: any) => p.id == producto.id);
+  eliminarProductoSeleccionado(producto: Producto): void {
+    let index = this.productosSeleccionados.findIndex((p: Producto) => p.idProducto == producto.idProducto);
     if (index >= 0) {
       this.productosSeleccionados.splice(index, 1);
     }
+  }
+
+  getFarmacias() {
+    let filtro = new FiltroLocales();
+    filtro.idUsuario = +this.userService.getIdUsuario();
+    filtro.pagina = 0;
+    filtro.regxpag = 1000;
+    filtro.radio = 1000000000;
+    this.farmaciaService.getFarmaciaFiltros(filtro).subscribe(respFarmacias => {
+      this.farmacias = (respFarmacias as any).data;
+    });
+  }
+
+  getCategorias() {
+    this.configuracionService.getCategorias().subscribe(respCategorias => {
+      this.categorias = respCategorias;
+    });
+  }
+
+  getFormasFarmaceuticas() {
+    this.configuracionService.getFormasFarmaceuticas().subscribe(respFormas => {
+      this.formasFarmaceuticas = respFormas;
+    });
+  }
+
+  getProductos() {
+    let spinner = this.spinnerService.start('Buscando...');
+    let filtro = new FiltroProductos(this.formFiltro.value);
+    filtro.radio = 10000000000;
+    filtro.pagina = this.page;
+    filtro.regxpag = this.regxpag;
+    this.productoService.getProductos(filtro).subscribe(response => {
+      this.spinnerService.stop(spinner);
+      this.productos = response.count > 0 ? response.data[0].productos : [];
+      this.totalDatos = response.count;
+      if (this.totalDatos > 0) this.gridProductos.rowHeight = '8rem';
+      else this.gridProductos.rowHeight = '0';
+    }, error => {
+      this.spinnerService.stop(spinner);
+      this.alertService.error();
+    });
+  }
+
+  actualizarStock() {
+    let spinner = this.spinnerService.start('Actualizando...');
+    console.log('actualzar');
+    this.productoService.updateProductos(this.productosSeleccionados).subscribe(response => {
+      console.log('update success');
+      this.productosSeleccionados = [];
+      this.productos = [];
+      this.gridProductos.rowHeight = '0';
+      this.spinnerService.stop(spinner);
+      this.alertService.success('¡Éxito!', 'El stock se actualizó correctamente.');
+    }, error => {
+      this.spinnerService.stop(spinner);
+      this.alertService.error('¡Error!', 'No se pudo actualizar el stock.');
+    });
   }
 
 }
