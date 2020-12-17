@@ -4,16 +4,19 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PATHSERVICE_FARMACIA } from '../@constants/rutas';
 import { Farmacia } from '../@models/farmacia';
+import { FiltroLocales } from '../@models/filtro-locales';
 import { EncryptService } from './encrypt.service';
+import { UsuarioService } from './usuario.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FarmaciaService {
   private rutaBase = PATHSERVICE_FARMACIA;
+
   private header = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-  constructor(private client: HttpClient, private encryptService: EncryptService) { }
+  constructor(private client: HttpClient, private encryptService: EncryptService, private userService: UsuarioService) { }
 
   getFarmacia(idFarmacia: number): Observable<Farmacia>{
     const url = this.rutaBase;
@@ -23,6 +26,22 @@ export class FarmaciaService {
 
   createFarmacia(farmacia: Farmacia): Observable<Farmacia>{
     const url = this.rutaBase;
-    return this.client.post<Farmacia>(url, farmacia, {headers: this.header});
+    let headerF = new HttpHeaders({Authorization:"Bearer "+this.userService.getToken(), 'Content-Type': 'application/json'});
+    return this.client.post<Farmacia>(url, farmacia, {headers: headerF});
+  }
+  
+  getFarmaciaFiltros(filtros: FiltroLocales): Observable<any[]>{
+    const url = this.rutaBase+'/filtros';
+    let parametros = new HttpParams()
+    .set('idUsuario', filtros.idUsuario.toString())
+    .set('radio', filtros.radio.toString())
+    .set('ordenamiento', filtros.ordenamiento.toString())
+    .set('latitud', filtros.latitud.toString())
+    .set('longitud', filtros.longitud.toString())
+    .set('pagina', filtros.pagina.toString())
+    .set('regxpag', filtros.regxpag.toString());
+    if (filtros.nombre.length > 0) parametros = parametros.set('nombre', filtros.nombre);
+    if (filtros.direccion.length > 0) parametros = parametros.set('direccion', filtros.direccion);
+    return this.client.get<any>(url, {headers: this.header, params: parametros});
   }
 }

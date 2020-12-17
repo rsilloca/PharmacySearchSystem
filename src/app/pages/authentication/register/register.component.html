@@ -1,67 +1,58 @@
 <div class="background-pattern page" fxLayout="column" fxLayoutAlign="center center">
-  <div [@fadeInUp] class="card border-radius elevation">
-    <div class="header padding background-primary" fxLayout="column" fxLayoutAlign="center center">
-      <h3>Registrarse como</h3>
+  <div [@fadeInUp] class="card border-radius mat-elevation-z4">
+    <div class="header padding color-gray" fxLayout="column" fxLayoutAlign="center center">
+      <div class="logo fill-primary-contrast">
+        <mat-icon svgIcon="logo-sbf" class="logo-sbf"></mat-icon>
+      </div>
+      <h3>Regístrate en la aplicación</h3>
     </div>
-    <div class="padding" fxLayout="column" fxLayoutGap="16px" [formGroup]="form">
+    <p class="secondary-text text-center margin-cero">
+      ¿Tienes una Farmacia?<br>
+      <a [routerLink]="['/register-pharmacy']">Click aquí para registrarla</a>
+    </p>
+    <!-- <mat-tab-group mat-stretch-tabs>
+      <mat-tab label="Paciente"> -->
+    <form class="padding-register" fxLayout="column" fxLayoutGap="16px" [formGroup]="form" (ngSubmit)="registrar()">
       <div fxFlex="auto" fxLayout="column">
         <mat-form-field fxFlex="grow">
-          <mat-label>Nombres</mat-label>
-          <input matInput required formControlName="name">
+          <mat-label>Nombre</mat-label>
+          <input matInput required formControlName="nombre">
         </mat-form-field>
-
-        <mat-form-field fxFlex="grow">
-          <mat-label>Apellidos</mat-label>
-          <input matInput required formControlName="lastName">
-        </mat-form-field>
-
-        <div fxLayout="row">
-          <mat-form-field fxFlex="50">
-            <mat-label>Tipo de documento</mat-label>
-            <mat-select>
-              <mat-option *ngFor="let doc of tiposDocumento" [value]="doc.id">
-                {{doc.value}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field fxFlex="50">
-            <mat-label>Número de documento</mat-label>
-            <input matInput required formControlName="numDoc">
-          </mat-form-field>
-        </div>
 
         <mat-form-field fxFlex="grow">
           <mat-label>Correo</mat-label>
-          <input matInput required formControlName="email">
+          <input matInput required formControlName="correo">
         </mat-form-field>
 
         <mat-form-field fxFlex="grow">
-          <mat-label>Contrseña</mat-label>
-          <input matInput [type]="inputType" formControlName="password" required>
-          <button type="button" mat-icon-button matSuffix (click)="toggleVisibility()" matTooltip="Toggle Visibility">
-            <mat-icon *ngIf="visible">visibility</mat-icon>
-            <mat-icon *ngIf="!visible">visibility_off</mat-icon>
+          <mat-label>Contraseña</mat-label>
+          <input matInput [type]="visible ? 'text' : 'password'" formControlName="clave" required>
+          <button type="button" mat-icon-button matSuffix (click)="visible = !visible"
+            matTooltip="{{ visible ? 'Ocultar contraseña' : 'Ver contraseña' }}">
+            <mat-icon>{{visible ? 'visibility' : 'visibility_off'}}</mat-icon>
           </button>
         </mat-form-field>
 
-        <mat-form-field fxFlex="grow">
-          <mat-label>Contraseña (Confirmación)</mat-label>
-          <input matInput [type]="inputType" formControlName="passwordConfirm" required>
-          <button type="button" mat-icon-button matSuffix (click)="toggleVisibility()" matTooltip="Toggle Visibility">
-            <mat-icon *ngIf="visible">visibility</mat-icon>
-            <mat-icon *ngIf="!visible">visibility_off</mat-icon>
+        <mat-form-field fxFlex="grow" appearance="legacy">
+          <mat-label>Confirmar Contraseña</mat-label>
+          <input matInput [type]="visible ? 'text' : 'password'" formControlName="claveConfirmacion" required>
+          <button type="button" mat-icon-button matSuffix (click)="visible = !visible"
+            matTooltip="{{ visible ? 'Ocultar contraseña' : 'Ver contraseña' }}">
+            <mat-icon>{{visible ? 'visibility' : 'visibility_off'}}</mat-icon>
           </button>
           <mat-hint>Por favor, ingresa tu contraseña nuevamente</mat-hint>
         </mat-form-field>
       </div>
-
-      <button type="button" color="primary" mat-raised-button (click)="registrar()">
+      <button type="submit" color="primary" mat-raised-button [disabled]="form.invalid">
         CREAR CUENTA
       </button>
       <p class="secondary-text text-center">
-        ¿Ya tienes una cuenta?<br />
-        <a [routerLink]="['/login']">Ingresa aquí</a>
+        ¿Ya tienes una cuenta? <a [routerLink]="['/login']">Ingresa aquí</a>
       </p>
-    </div>
+    </form>
+    <!-- </mat-tab>
+      <mat-tab label="Farmacia">
+      </mat-tab>
+    </mat-tab-group> -->
   </div>
 </div>

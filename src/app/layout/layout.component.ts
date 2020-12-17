@@ -8,6 +8,15 @@ import { checkRouterChildsData } from '../../@fury/utils/check-router-childs-dat
 import { MatDialog } from '@angular/material/dialog';
 import { FiltroComponent } from '../pages/paciente/busqueda/filtro/filtro.component';
 import { UsuarioService } from '../@services/usuario.service';
+import { MediaChange, MediaObserver } from '@angular/flex-layout';
+import { FilterSubject } from '../@models/filter-subject';
+import { FilterObserver } from '../@models/filter-observer';
+import { FiltroMobileComponent } from '../pages/paciente/busqueda/filtro-mobile/filtro-mobile.component';
+import { FilterObserverService } from '../@services/filter-observer.service';
+import { Categoria } from '../@models/categoria';
+import { FormaFarmaceutica } from '../@models/formaFarmaceutica';
+import { ConfiguracionService } from '../@services/configuracion.service';
+import { Usuario } from '../@models/usuario';
 
 @Component({
   selector: 'fury-layout',
@@ -37,16 +46,37 @@ export class LayoutComponent implements OnInit, OnDestroy {
   );
 
   isPharmacyUser: boolean = false;
+  isMobile: boolean;
+  categorias: Categoria[];
+  presentaciones: FormaFarmaceutica[];
+  usuario: Usuario;
 
   constructor(private sidenavService: SidenavService,
     private themeService: ThemeService,
     private route: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog,
-    private userService: UsuarioService) { }
+    private userService: UsuarioService,
+    private mediaObserver: MediaObserver,
+    private filterObserverService: FilterObserverService,
+    private configuracionService: ConfiguracionService) { }
 
   ngOnInit() {
     this.isPharmacyUser = this.userService.isPharmacyUser();
+    this.getInfoUsuario();
+    this.listarCategorias();
+    this.listarPresentaciones();
+  }
+
+  ngAfterContentInit(): void {
+    this.mediaObserver.asObservable().subscribe((changes: MediaChange[]) => {
+      this.isMobile = changes[0].mqAlias == 'sm' || changes[0].mqAlias == 'xs';
+      if (this.isMobile) {
+        this.themeService.setToolbarPosition("fixed");
+      } else {
+        this.themeService.setToolbarPosition("above-fixed");
+      }
+    });
   }
 
   openQuickPanel() {
@@ -62,14 +92,46 @@ export class LayoutComponent implements OnInit, OnDestroy {
   }
 
   openSidenav() {
-    this.sidenavService.open();
+    if (this.isMobile) {
+      this.sidenavService.open();
+    } else {
+      this.sidenavService.toggleCollapsed();
+    }
   }
 
   ngOnDestroy(): void { }
 
   abrirFiltro() {
-    let dialogFiltro = this.dialog.open(FiltroComponent, {
-      width: '30rem'
+    let dialogFiltro = this.dialog.open(FiltroMobileComponent, {
+      width: '30rem',
+      data: { categorias: this.categorias, presentaciones: this.presentaciones }
+    });
+    dialogFiltro.afterClosed().subscribe(response => {
+      if (response) {
+        localStorage.setItem('filtro', JSON.stringify(response));
+        this.filterObserverService.notify();
+      }
+    });
+  }
+
+  listarCategorias() {
+    this.configuracionService.getCategorias().subscribe(response => {
+      this.categorias = response;
+    }, error => {
+      console.log('ha ocurrido un error al obtener categorias' + error);
+    });
+  }
+
+  listarPresentaciones() {
+    this.configuracionService.getFormasFarmaceuticas().subscribe(response => {
+      this.presentaciones = response;
+    });
+  }
+
+  getInfoUsuario() {
+    let idUsuario = this.userService.getIdUsuario();
+    this.userService.getUsuario(+idUsuario).subscribe(response => {
+      this.usuario = response;
     });
   }
 
