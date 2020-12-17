@@ -1,6 +1,6 @@
-<div class="title">{{ current }}</div>
+<div class="title"><h1 class="margin-0">{{ current }}</h1></div>
 <div class="crumbs" fxLayout="row" fxLayoutAlign="start center">
-  <a [routerLink]="['/']" class="crumb home">Home</a>
+  <a [routerLink]="['/']" class="crumb home">Inicio</a>
   <div *ngFor="let crumb of crumbs" class="crumb" fxLayout="row" fxLayoutAlign="start center">
     <mat-icon class="chevron">chevron_right</mat-icon>
     <div class="link">{{ crumb }}</div>

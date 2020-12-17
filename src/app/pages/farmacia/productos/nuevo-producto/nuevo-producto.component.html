@@ -1,86 +1,90 @@
 <div mat-dialog-title fxLayout="row" fxLayoutAlign="space-between center">
-    <h3 >Nuevo producto</h3>
+    <h3>Nuevo producto</h3>
     <button mat-icon-button mat-dialog-close>
         <mat-icon>close</mat-icon>
     </button>
 </div>
-<mat-dialog-content fxLayout="column">
-    <div fxLayout="row">
-        <mat-form-field appearance="fill" fxFlex="50%">
-            <mat-label>Código</mat-label>
-            <input matInput>
-        </mat-form-field>
-        <mat-form-field appearance="fill" fxFlex="50%">
-            <mat-label>Nombre</mat-label>
-            <input matInput>
-        </mat-form-field>
-    </div>
-    <div fxLayout="row">
-        <mat-form-field appearance="fill" fxFlex="50%">
-            <mat-label>Marca</mat-label>
-            <input matInput>
-        </mat-form-field>
-        <div fxLayout="row" fxFlex="50%">
-            <mat-form-field appearance="fill" fxFlex="50%">
-                <mat-label>Nombre</mat-label>
-                <input matInput>
-            </mat-form-field>
-            <mat-form-field appearance="fill" fxFlex="50%">
-                <mat-label>Unidad</mat-label>
-                <mat-select>
-                    <mat-option value="option">mg</mat-option>
+<form [formGroup]="formProducto" (ngSubmit)="guardarProducto()">
+    <mat-dialog-content fxLayout="column">
+        <div fxLayout="row" fxLayoutGap="1rem" fxLayout.xs="column" fxLayoutGap.xs="0">
+            <mat-form-field fxFlex="calc(50% - 1rem)" fxFlex.xs="auto">
+                <mat-label>Farmacia</mat-label>
+                <mat-select formControlName="idFarmacia">
+                    <mat-option [value]="farmacia.idFarmacia" *ngFor="let farmacia of data.farmacias">
+                        {{farmacia.nombre}}
+                    </mat-option>
                 </mat-select>
+                <mat-error>Seleccione una farmacia</mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="calc(50% - 1rem)" fxFlex.xs="auto">
+                <mat-label>Código</mat-label>
+                <input matInput formControlName="codigo">
             </mat-form-field>
         </div>
-    </div>
-    <div fxLayout="row">
-        <mat-form-field appearance="fill" fxFlex="50%">
-            <mat-label>Forma Farmacéutica</mat-label>
-            <mat-select>
-                <mat-option value="option">Option</mat-option>
-            </mat-select>
+        <div fxLayout="row" fxLayoutGap="1rem" fxLayout.xs="column" fxLayoutGap.xs="0">
+            <mat-form-field fxFlex="calc(50% - 1rem)" fxFlex.xs="auto">
+                <mat-label>Nombre</mat-label>
+                <input matInput formControlName="nombre">
+                <mat-error>Ingrese un nombre</mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="calc(50% - 1rem)" fxFlex.xs="auto">
+                <mat-label>Marca</mat-label>
+                <input matInput formControlName="marca">
+            </mat-form-field>
+        </div>
+        <mat-form-field fxFlex>
+            <mat-label>Descripción</mat-label>
+            <textarea matInput formControlName="descripcion"></textarea>
+            <mat-error>Ingrese una descripción</mat-error>
         </mat-form-field>
-        <mat-form-field appearance="fill" fxFlex="50%">
-            <mat-label>F. Farmacéutica Personalizada</mat-label>
-            <input matInput>
-        </mat-form-field>
-    </div>
-    <div fxLayout="row">
-        <mat-form-field appearance="fill" fxFlex="50%">
-            <mat-label>Presentación</mat-label>
-            <mat-select>
-                <mat-option value="option">Option</mat-option>
-            </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="fill" fxFlex="50%">
-            <mat-label>Presentación Personalizada</mat-label>
-            <input matInput>
-        </mat-form-field>
-    </div>
-    <div fxLayout="row">
-        <mat-form-field appearance="fill" fxFlex="50%">
-            <mat-label>Registro sanitario</mat-label>
-            <input matInput>
-        </mat-form-field>
-        <mat-form-field appearance="fill" fxFlex="50%">
-            <mat-label>Fecha de vencimiento</mat-label>
-            <input matInput [matDatepicker]="picker">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-    </div>
-    <div fxLayout="row">
-        <mat-form-field appearance="fill" fxFlex="50%">
-            <mat-label>Fracciones</mat-label>
-            <input matInput>
-        </mat-form-field>
-        <mat-form-field appearance="fill" fxFlex="50%">
-            <mat-label>Stock</mat-label>
-            <input matInput>
-        </mat-form-field>
-    </div>
-</mat-dialog-content>
-<mat-dialog-actions fxLayoutAlign="center center">
-    <button mat-button mat-dialog-close>Cancelar</button>
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Crear</button>
-</mat-dialog-actions>
+        <div fxLayout="row" fxLayoutGap="1rem" fxLayout.xs="column" fxLayoutGap.xs="0">
+            <mat-form-field fxFlex="calc(50% - 1rem)" fxFlex.xs="auto">
+                <mat-label>Categoría</mat-label>
+                <mat-select formControlName="idCategoria">
+                    <mat-option [value]="categoria.idCategoria" *ngFor="let categoria of data.categorias">
+                        {{categoria.descripcion}}</mat-option>
+                </mat-select>
+                <mat-error>Seleccione una categoría</mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="calc(50% - 1rem)" fxFlex.xs="auto">
+                <mat-label>Forma Farmacéutica</mat-label>
+                <mat-select formControlName="idFormaFarmaceutica">
+                    <mat-option [value]="forma.idFormaFarmaceutica" *ngFor="let forma of data.formasFarmaceuticas">
+                        {{forma.descripcion}}</mat-option>
+                </mat-select>
+                <mat-error>Seleccione una opción</mat-error>
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutGap="1rem" fxLayout.xs="column" fxLayoutGap.xs="0">
+            <mat-form-field fxFlex="calc(34% - 2rem)" fxFlex.xs="auto">
+                <mat-label>Fecha de vencimiento</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="fechaVencimiento">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error>Ingrese una fecha</mat-error>
+            </mat-form-field>
+            <div fxLayout="row" fxLayoutGap="1rem" fxFlex="calc(44% - 2rem)" fxFlex.xs="auto">
+                <mat-form-field fxFlex="calc(50% - 1rem)">
+                    <mat-label>Fracciones</mat-label>
+                    <input matInput formControlName="fraccion">
+                    <mat-error>Ingrese una cantidad</mat-error>
+                </mat-form-field>
+                <mat-form-field fxFlex="calc(50% - 1rem)">
+                    <mat-label>Stock</mat-label>
+                    <input matInput formControlName="stock">
+                    <mat-error>Ingrese stock</mat-error>
+                </mat-form-field>
+            </div>
+            <mat-form-field fxFlex="calc(22% - 2rem)" fxFlex.xs="auto">
+                <mat-label>Precio unitario</mat-label>
+                <span matPrefix>S/. &nbsp;</span>
+                <input matInput formControlName="precioUnitario">
+                <mat-error>Ingrese un precio</mat-error>
+            </mat-form-field>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions fxLayoutAlign="center center" fxLayoutGap="1rem">
+            <button mat-raised-button type="button" color="warn" mat-dialog-close>Cancelar</button>
+            <button mat-raised-button type="submit" color="primary">Crear Producto</button>
+    </mat-dialog-actions>
+</form>

@@ -5,5 +5,5 @@
     <div class="label">{{ label }}</div>
   </div>
 
-  <mat-icon class="icon">{{ icon }}</mat-icon>
+  <mat-icon *ngIf="icon.length > 0" class="icon">{{ icon }}</mat-icon>
 </div>

@@ -1,5 +1,14 @@
-<div fxLayout="column" fxLayoutAlign="center center">
-    <p>{{data.title}}</p>
-    <p>{{data.message}}</p>
-    <button mat-raised-button mat-dialog-close color="primary">Aceptar</button>
+<div fxLayout="column" fxLayoutAlign="space-between stretch">
+    <div [ngClass]="{'background-primary': data.type == 'success', 'background-warn': data.type == 'error'}"
+        style="color: white; font-weight: 700; font-size: 20px; padding: 1rem 0;" fxLayout="column"
+        fxLayoutAlign="center center">
+        {{data.title}}
+    </div>
+    <div fxLayout="column" style="padding: 0 1rem;">
+        <p style="text-align: center;">{{data.message}}</p>
+    </div>
+    <div fxLayout="column" style="padding: 1rem;">
+        <button mat-raised-button mat-dialog-close color="primary" *ngIf="data.type == 'success'">Aceptar</button>
+        <button mat-raised-button mat-dialog-close color="warn" *ngIf="data.type == 'error'">Aceptar</button>
+    </div>
 </div>

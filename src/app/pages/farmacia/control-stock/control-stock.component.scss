@@ -7,3 +7,30 @@
     padding: 2rem;
     height: 100%;
 }
+
+.scroll-view {
+    height: 100%;
+    background: gray;
+}
+
+.contenedor-scroll {
+    padding-left: 1rem;
+}
+
+.contenedor-items {
+    padding-right: 1rem;
+}
+
+@media (max-width: 960px) {
+    .scroll-view {
+        height: 34rem;
+    }
+
+    .contenedor-scroll {
+        padding: 1rem 0 0 0;
+    }
+
+    .contenedor-items {
+        padding: 0;
+    }
+}
