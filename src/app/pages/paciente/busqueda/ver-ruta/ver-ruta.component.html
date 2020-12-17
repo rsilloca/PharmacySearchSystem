@@ -1,14 +1,37 @@
-<div fxLayout="row" fxLayoutAlign="space-between start">
-    <h3>Ruta hacia Botica Maria JLByR (0.5km)</h3>
+<div fxLayout="row" fxLayoutAlign="space-between stretch">
+    <div fxLayout="column">
+        <h3 style="font-weight: 700;">Ruta hacia {{ farmacia ? farmacia.nombre : 'def'}}</h3>
+        <div fxLayout="row">
+            <span style="font-weight: 700;">Dirección: &nbsp; </span>
+            <span>{{ farmacia ? farmacia.direccion : 'def' }}</span>
+        </div>
+        <div fxLayout="row">
+            <span style="font-weight: 700;">Distancia: &nbsp;</span>
+            <span>A {{ farmacia ? farmacia.distancia : '0' }}m. aprox.</span>
+        </div>
+    </div>
     <button mat-icon-button mat-dialog-close>
         <mat-icon>close</mat-icon>
     </button>
 </div>
 <div mat-dialog-content>
-    <agm-map [latitude]="lat" [zoom]="zoom" [longitude]="lng">
-        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+    <agm-map [latitude]="lat" [zoom]="zoom" [longitude]="lng" id="map" (mapReady)="onMapReady($event)">
+        <agm-marker [latitude]="lat" [longitude]="lng" [iconUrl]="iconPaciente">
+            <agm-info-window #infoWindow>
+                <div>
+                    {{ usuario ? usuario.nombre : ''}}
+                </div>
+            </agm-info-window>
+        </agm-marker>
+        <agm-marker [latitude]="farmacia.latitud" [longitude]="farmacia.longitud" [iconUrl]="iconFarmacia">
+            <agm-info-window #infoWindow>
+                <div>
+                    {{ farmacia ? farmacia.nombre : '' }}
+                </div>
+            </agm-info-window>
+        </agm-marker>
     </agm-map>
 </div>
-<div mat-dialog-actions>
+<div mat-dialog-actions fxLayout="column" fxLayoutAlign="center stretch" style="margin-bottom: 0.5rem;">
     <button mat-raised-button mat-dialog-close color="primary">Aceptar</button>
 </div>

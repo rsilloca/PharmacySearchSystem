@@ -29,11 +29,14 @@ fury-sidenav {
 
     .sidenav-user-name {
       margin: $padding-sm 0 0;
+      color: $sidenav-secondary-text;
+      font-weight: 700;
     }
 
     .sidenav-user-email {
       font: var(--font-caption);
       color: $sidenav-secondary-text;
+      font-weight: 500;
     }
 
     .sidenav-user-name,

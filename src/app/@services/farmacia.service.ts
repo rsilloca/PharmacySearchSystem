@@ -34,14 +34,14 @@ export class FarmaciaService {
     const url = this.rutaBase+'/filtros';
     let parametros = new HttpParams()
     .set('idUsuario', filtros.idUsuario.toString())
-    .set('nombre', filtros.nombre)
     .set('radio', filtros.radio.toString())
     .set('ordenamiento', filtros.ordenamiento.toString())
     .set('latitud', filtros.latitud.toString())
     .set('longitud', filtros.longitud.toString())
     .set('pagina', filtros.pagina.toString())
     .set('regxpag', filtros.regxpag.toString());
-
+    if (filtros.nombre.length > 0) parametros = parametros.set('nombre', filtros.nombre);
+    if (filtros.direccion.length > 0) parametros = parametros.set('direccion', filtros.direccion);
     return this.client.get<any>(url, {headers: this.header, params: parametros});
   }
 }

@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Farmacia } from 'src/app/@models/farmacia';
 import { FiltroLocales } from 'src/app/@models/filtro-locales';
 import { FarmaciaService } from 'src/app/@services/farmacia.service';
 import { UsuarioService } from 'src/app/@services/usuario.service';
+import { AlertService } from 'src/app/shared/alert/alert.service';
+import { SpinnerService } from 'src/app/shared/spinner.service';
 
 //Tabla de horarios
 export interface LocalTable {
@@ -18,10 +21,10 @@ export interface LocalTable {
 const ELEMENT_DATA: LocalTable[] = [
   { position: 1, name: 'Inkafarma', address: 'Sachaca', opening: ['9:00'], closed: 0 },
   { position: 2, name: 'Mifarma', address: 'Sachaca', opening: ['9:00'], closed: 5 },
-  { position: 3, name: 'Angel', address: 'Sachaca', opening: ['9:00'],closed: 4  },
-  { position: 4, name: 'Botica Perú', address: 'Sachaca', opening: ['9:00'],closed: 3 },
-  { position: 5, name: 'ByS', address: 'Sachaca', opening: ['9:00'], closed: 2  },
-  { position: 6, name: 'Arcangel', address: 'Sachaca', opening:['9:00'], closed: 1  },
+  { position: 3, name: 'Angel', address: 'Sachaca', opening: ['9:00'], closed: 4 },
+  { position: 4, name: 'Botica Perú', address: 'Sachaca', opening: ['9:00'], closed: 3 },
+  { position: 5, name: 'ByS', address: 'Sachaca', opening: ['9:00'], closed: 2 },
+  { position: 6, name: 'Arcangel', address: 'Sachaca', opening: ['9:00'], closed: 1 },
 ];
 
 @Component({
@@ -31,26 +34,40 @@ const ELEMENT_DATA: LocalTable[] = [
 })
 export class LocalesComponent implements OnInit {
 
-  filtros:FiltroLocales=new FiltroLocales(); 
-  locales:Farmacia[];
+  locales: Farmacia[];
+  formFiltro: FormGroup;
 
   //CLASE TABLA
   displayedColumns: string[] = ['position', 'name', 'address', 'opening', 'closed', 'action'];
   dataSource = new MatTableDataSource<LocalTable>(ELEMENT_DATA);
+  totalDatos: number = 0;
+  pagina: number = 0;
+  regxpag: number = 10;
 
-  constructor(private userService:UsuarioService,private farmaciaService:FarmaciaService) { }
+  constructor(private userService: UsuarioService, private farmaciaService: FarmaciaService,
+    private fb: FormBuilder, private spinnerService: SpinnerService, private alertService: AlertService) { }
 
   ngOnInit(): void {
+    this.formFiltro = this.fb.group({
+      nombre: [''],
+      direccion: ['']
+    });
   }
-  buscarLocales():void{
-    this.filtros.idUsuario=(this.userService.currentUser() as any).IdUsuario;
-    this.filtros.pagina=0;
-    this.filtros.regxpag=10;
-    this.filtros.radio=10000;
-    this.farmaciaService.getFarmaciaFiltros(this.filtros).subscribe(response => 
-      {
-        console.log("Locales",response);
-        this.locales=(response as any).data;
-      });
+  buscarLocales(): void {
+    let spinner = this.spinnerService.start('Buscando...');
+    let filtros = new FiltroLocales(this.formFiltro.value);
+    filtros.idUsuario = (this.userService.currentUser() as any).IdUsuario;
+    filtros.pagina = 0;
+    filtros.regxpag = 10;
+    filtros.radio = 1000000000;
+    this.farmaciaService.getFarmaciaFiltros(filtros).subscribe(response => {
+      // console.log("Locales", response);
+      this.totalDatos = (response as any).count;
+      this.locales = (response as any).data;
+      this.spinnerService.stop(spinner);
+    }, error => {
+      this.spinnerService.stop(spinner);
+      this.alertService.error();
+    });
   }
 }
