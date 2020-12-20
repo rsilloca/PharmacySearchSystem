@@ -30,6 +30,13 @@ export class FarmaciaService {
     return this.client.post<Farmacia>(url, farmacia, {headers: headerF});
   }
   
+  updateFarmacia(farmacia: Farmacia): Observable<Farmacia>{
+    const url = this.rutaBase;
+    let headerF = new HttpHeaders({Authorization:"Bearer "+this.userService.getToken(), 'Content-Type': 'application/json'});
+    return this.client.put<Farmacia>(url, farmacia, {headers: headerF})
+  }
+
+  //------------------Filtros de farmacia--------
   getFarmaciaFiltros(filtros: FiltroLocales): Observable<any[]>{
     const url = this.rutaBase+'/filtros';
     let parametros = new HttpParams()
