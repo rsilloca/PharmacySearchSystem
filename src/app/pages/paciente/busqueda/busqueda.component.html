@@ -56,7 +56,8 @@
               <span style="text-align: center;">No encontramos productos</span>
               <span style="text-align: center;">Intenta cambiar los filtros de búsqueda</span>
             </div>
-            <mat-paginator *ngIf="productos.length > 0" [length]="totalDatosProductos" [pageSize]="regxpag" class="content-tabs"></mat-paginator>
+            <mat-paginator *ngIf="productos.length > 0" [length]="totalDatosProductos" [pageSize]="regxpag"
+              class="content-tabs" (page)="onPageChange($event)" showFirstLastButtons></mat-paginator>
           </div>
         </mat-tab>
 
@@ -80,7 +81,8 @@
               <span style="text-align: center;">No encontramos farmacias</span>
               <span style="text-align: center;">Intenta cambiar los filtros de búsqueda</span>
             </div>
-            <mat-paginator *ngIf="farmacias.length > 0" [length]="totalDatosFarmacias" [pageSize]="regxpag" class="content-tabs"></mat-paginator>
+            <mat-paginator *ngIf="farmacias.length > 0" [length]="totalDatosFarmacias" [pageSize]="regxpag"
+              class="content-tabs"></mat-paginator>
           </div>
         </mat-tab>
 

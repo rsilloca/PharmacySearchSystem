@@ -179,5 +179,9 @@ export class BusquedaComponent implements OnInit, FilterObserver {
       this.usuario = response;
     });
   }
+  onPageChange($event) {
+    this.pagina = $event.pageIndex;
+    this.filtrarProductos();
+  }
 
 }
