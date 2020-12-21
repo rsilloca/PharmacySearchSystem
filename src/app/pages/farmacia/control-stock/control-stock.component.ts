@@ -136,5 +136,9 @@ export class ControlStockComponent implements OnInit {
       this.alertService.error('¡Error!', 'No se pudo actualizar el stock.');
     });
   }
+  onPageChange($event) {
+    this.page = $event.pageIndex;
+    this.getProductos();
+  }
 
 }

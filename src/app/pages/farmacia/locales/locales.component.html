@@ -11,7 +11,8 @@
             </fury-card-header>
             <fury-card-content>
                 <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1rem" fxLayoutGap.xs="0"
-                    fxLayoutAlign="space-between center" fxLayoutAlign.xs="space-between stretch" [formGroup]="formFiltro">
+                    fxLayoutAlign="space-between center" fxLayoutAlign.xs="space-between stretch"
+                    [formGroup]="formFiltro">
                     <mat-form-field fxFlex="calc(37% - 3rem)">
                         <mat-label>Nombre</mat-label>
                         <input matInput formControlName="nombre">
@@ -20,8 +21,8 @@
                         <mat-label>Dirección</mat-label>
                         <input matInput formControlName="direccion">
                     </mat-form-field>
-                    <button mat-raised-button color="primary" fxFlex="calc(26% - 2rem)"
-                        (click)="buscarLocales()" type="submit">Buscar</button>
+                    <button mat-raised-button color="primary" fxFlex="calc(26% - 2rem)" (click)="buscarLocales()"
+                        type="submit">Buscar</button>
                 </div>
             </fury-card-content>
         </fury-card>
@@ -84,7 +85,8 @@
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns"> </tr>
                     </table>
-                    <mat-paginator [length]="totalDatos" [pageSize]="regxpag"></mat-paginator>
+                    <mat-paginator [length]="totalDatos" [pageSize]="regxpag" (page)="onPageChange($event)"
+                        showFirstLastButtons></mat-paginator>
                 </fury-list>
             </fury-card-content>
         </fury-card>

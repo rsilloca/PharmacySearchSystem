@@ -116,7 +116,8 @@
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns"> </tr>
                     </table>
-                    <mat-paginator [length]="totalDatos" [pageSize]="regxpag"></mat-paginator>
+                    <mat-paginator [length]="totalDatos" [pageSize]="regxpag" (page)="onPageChange($event)"
+                        showFirstLastButtons></mat-paginator>
                 </fury-list>
             </fury-card-content>
         </fury-card>

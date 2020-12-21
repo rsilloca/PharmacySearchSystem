@@ -135,8 +135,8 @@ export class ProductosComponent implements OnInit {
     let spinner = this.spinnerService.start('Buscando...');
     let filtro = new FiltroProductos(this.formFiltro.value);
     filtro.radio = 10000000000;
-    filtro.pagina = 0;
-    filtro.regxpag = 10;
+    filtro.pagina = this.pagina;
+    filtro.regxpag = this.regxpag;
     this.productoService.getProductos(filtro).subscribe(response => {
       // console.log('response', response);
       this.spinnerService.stop(spinner);
@@ -146,6 +146,11 @@ export class ProductosComponent implements OnInit {
       this.spinnerService.stop(spinner);
       this.alertService.error();
     });
+  }
+
+  onPageChange($event) {
+    this.pagina = $event.pageIndex;
+    this.getProductos();
   }
 
 }

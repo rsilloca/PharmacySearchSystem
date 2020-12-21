@@ -57,8 +57,8 @@ export class LocalesComponent implements OnInit {
     let spinner = this.spinnerService.start('Buscando...');
     let filtros = new FiltroLocales(this.formFiltro.value);
     filtros.idUsuario = (this.userService.currentUser() as any).IdUsuario;
-    filtros.pagina = 0;
-    filtros.regxpag = 10;
+    filtros.pagina = this.pagina;
+    filtros.regxpag = this.regxpag;
     filtros.radio = 1000000000;
     this.farmaciaService.getFarmaciaFiltros(filtros).subscribe(response => {
       // console.log("Locales", response);
@@ -69,5 +69,9 @@ export class LocalesComponent implements OnInit {
       this.spinnerService.stop(spinner);
       this.alertService.error();
     });
+  }
+  onPageChange($event) {
+    this.pagina = $event.pageIndex;
+    this.buscarLocales();
   }
 }
