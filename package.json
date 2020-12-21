@@ -34,6 +34,7 @@
     "chart.piecelabel.js": "~0.15.0",
     "core-js": "^2.5.4",
     "crypto-js": "^4.0.0",
+    "file-saver": "^2.0.5",
     "highlight.js": "~9.18.1",
     "lodash-es": "~4.17.15",
     "moment": "~2.24.0",
@@ -46,6 +47,7 @@
     "simplebar": "~4.1.0",
     "smoothscroll-polyfill": "~0.4.4",
     "tslib": "^1.10.0",
+    "xlsx": "^0.16.9",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {

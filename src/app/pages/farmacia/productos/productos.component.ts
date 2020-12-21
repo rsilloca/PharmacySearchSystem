@@ -82,7 +82,26 @@ export class ProductosComponent implements OnInit {
 
   subidaMasiva(): void {
     let dialogUpload = this.dialog.open(SubidaMasivaComponent, {
-      width: '30rem'
+      width: '30rem',
+      data: {
+        farmacias: this.farmacias,
+        categorias: this.categorias,
+        formasFarmaceuticas: this.formasFarmaceuticas
+      }
+    });
+    dialogUpload.afterClosed().subscribe(response => {
+      if(response) {
+        let spinner = this.spinnerService.start('Guardando...');
+        // guardar producto
+        this.productoService.createProducto(response).subscribe(respProducto => {
+          console.log('guardado', respProducto);
+          this.spinnerService.stop(spinner);
+          this.alertService.success('¡Éxito!', 'Se ha guardado el producto');
+        }, error => {
+          this.spinnerService.stop(spinner);
+          this.alertService.error();
+        });
+      }
     });
   }
 
