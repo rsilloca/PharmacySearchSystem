@@ -11,18 +11,19 @@ import { PendingInterceptorModule } from '../@fury/shared/loading-indicator/pend
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { TokenInterceptor } from './@interceptors/token.interceptor';
+import { MiPerfilComponent } from './pages/authentication/mi-perfil/mi-perfil.component';
+import { MaterialModule } from 'src/@fury/shared/material-components.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
-    // Angular Core Module // Don't remove!
+    // Angular Core Module
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-
-    // Fury Core Modules
     AppRoutingModule,
 
-    // Layout Module (Sidenav, Toolbar, Quickpanel, Content)
+    // Layout Module (Sidenav, Toolbar, Content)
     LayoutModule,
 
     // Google Maps Module
@@ -31,13 +32,14 @@ import { TokenInterceptor } from './@interceptors/token.interceptor';
       libraries: ['places']
     }),
 
-    // Displays Loading Bar when a Route Request or HTTP Request is pending
+    // Detecta requests pendientes
     PendingInterceptorModule,
 
-    // Register a Service Worker (optional)
-    // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    // Material Module
+    MaterialModule,
+    ReactiveFormsModule
   ],
-  declarations: [AppComponent],
+  declarations: [AppComponent, MiPerfilComponent],
   bootstrap: [AppComponent],
   providers: [
     {

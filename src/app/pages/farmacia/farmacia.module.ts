@@ -15,10 +15,11 @@ import { QuickInfoWidgetModule } from '../dashboard/widgets/quick-info-widget/qu
 import { ItemCarritoComponent } from './control-stock/item-carrito/item-carrito.component';
 import { LoadingOverlayModule } from 'src/@fury/shared/loading-overlay/loading-overlay.module';
 import { AgmCoreModule } from '@agm/core';
+import { EliminarConfirmacionComponent } from './eliminar-confirmacion/eliminar-confirmacion.component';
 
 
 @NgModule({
-  declarations: [DashboardComponent, ControlStockComponent, ProductosComponent, NuevoProductoComponent, SubidaMasivaComponent, ItemCarritoComponent],
+  declarations: [DashboardComponent, ControlStockComponent, ProductosComponent, NuevoProductoComponent, SubidaMasivaComponent, ItemCarritoComponent, EliminarConfirmacionComponent],
   imports: [
     CommonModule,
     FarmaciaRoutingModule,

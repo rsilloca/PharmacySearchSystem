@@ -49,6 +49,11 @@ export class UsuarioService {
     return this.client.post<Usuario>(url, usuario, { headers: this.header });
   }
 
+  updateUsuario(usuario: Usuario): Observable<Usuario> {
+    const url = this.rutaBase;
+    return this.client.put<Usuario>(url, usuario, {headers: this.header});
+  }
+
   public isPharmacyUser(): boolean {
     return this.getRol() == this.typePharmacy.toString();
   }

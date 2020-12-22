@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Farmacia } from 'src/app/@models/farmacia';
 import { FiltroLocales } from 'src/app/@models/filtro-locales';
@@ -7,6 +8,7 @@ import { FarmaciaService } from 'src/app/@services/farmacia.service';
 import { UsuarioService } from 'src/app/@services/usuario.service';
 import { AlertService } from 'src/app/shared/alert/alert.service';
 import { SpinnerService } from 'src/app/shared/spinner.service';
+import { EliminarConfirmacionComponent } from '../eliminar-confirmacion/eliminar-confirmacion.component';
 
 //Tabla de horarios
 export interface LocalTable {
@@ -45,7 +47,8 @@ export class LocalesComponent implements OnInit {
   regxpag: number = 10;
 
   constructor(private userService: UsuarioService, private farmaciaService: FarmaciaService,
-    private fb: FormBuilder, private spinnerService: SpinnerService, private alertService: AlertService) { }
+    private fb: FormBuilder, private spinnerService: SpinnerService, private alertService: AlertService,
+    private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.formFiltro = this.fb.group({
@@ -73,5 +76,25 @@ export class LocalesComponent implements OnInit {
   onPageChange($event) {
     this.pagina = $event.pageIndex;
     this.buscarLocales();
+  }
+
+  activarDesactivarLocal(local: Farmacia, estado: number) {
+    let dialog = this.dialog.open(EliminarConfirmacionComponent, {
+      width: '25rem',
+      data: estado == 0 ? 'desactivar' : 'activar'
+    });
+    dialog.afterClosed().subscribe(response => {
+      if (response) {
+        let spinner = this.spinnerService.start(estado == 0 ? 'Desactivando...' : 'Activando...');
+        local.logEstado = estado;
+        this.farmaciaService.updateFarmacia(local).subscribe(resp => {
+          this.spinnerService.stop(spinner);
+          this.alertService.success('¡Éxito!', 'El local farmacia se ha ' + (estado == 0 ? 'desactivado.' : 'activado.'));
+        }, error => {
+          this.spinnerService.stop(spinner);
+          this.alertService.error();
+        });
+      }
+    });
   }
 }

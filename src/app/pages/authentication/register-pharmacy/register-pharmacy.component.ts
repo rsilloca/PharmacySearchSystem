@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { fadeInUpAnimation } from 'src/@fury/animations/fade-in-up.animation';
 import { DOC_DNI, TYPE_PHARMACY } from 'src/app/@constants/constantes';
 import { Rol } from 'src/app/@models/rol';
 import { Usuario } from 'src/app/@models/usuario';
@@ -13,7 +14,8 @@ import { SpinnerService } from 'src/app/shared/spinner.service';
 @Component({
   selector: 'fury-register-pharmacy',
   templateUrl: './register-pharmacy.component.html',
-  styleUrls: ['./register-pharmacy.component.scss']
+  styleUrls: ['./register-pharmacy.component.scss'],
+  animations: [fadeInUpAnimation]
 })
 export class RegisterPharmacyComponent implements OnInit {
 

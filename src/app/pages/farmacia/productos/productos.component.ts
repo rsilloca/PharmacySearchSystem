@@ -13,6 +13,7 @@ import { ProductoService } from 'src/app/@services/producto.service';
 import { UsuarioService } from 'src/app/@services/usuario.service';
 import { AlertService } from 'src/app/shared/alert/alert.service';
 import { SpinnerService } from 'src/app/shared/spinner.service';
+import { EliminarConfirmacionComponent } from '../eliminar-confirmacion/eliminar-confirmacion.component';
 import { NuevoProductoComponent } from './nuevo-producto/nuevo-producto.component';
 import { SubidaMasivaComponent } from './subida-masiva/subida-masiva.component';
 @Component({
@@ -90,7 +91,7 @@ export class ProductosComponent implements OnInit {
       }
     });
     dialogUpload.afterClosed().subscribe(response => {
-      if(response) {
+      if (response) {
         let spinner = this.spinnerService.start('Guardando...');
         // guardar producto
         this.productoService.createProducto(response).subscribe(respProducto => {
@@ -112,21 +113,33 @@ export class ProductosComponent implements OnInit {
       data: {
         farmacias: this.farmacias,
         categorias: this.categorias,
-        formasFarmaceuticas: this.formasFarmaceuticas
+        formasFarmaceuticas: this.formasFarmaceuticas,
+        producto: producto
       }
     });
     dialogProducto.afterClosed().subscribe(response => {
       if (response) {
-        let spinner = this.spinnerService.start('Guardando...');
-        // guardar producto
-        this.productoService.createProducto([response]).subscribe(respProducto => {
-          console.log('guardado', respProducto);
-          this.spinnerService.stop(spinner);
-          this.alertService.success('¡Éxito!', 'Se ha guardado el producto');
-        }, error => {
-          this.spinnerService.stop(spinner);
-          this.alertService.error();
-        });
+        if (producto) {
+          let spinner = this.spinnerService.start('Actualizando...');
+          this.productoService.updateProductos([response]).subscribe(respEdicion => {
+            this.spinnerService.stop(spinner);
+            this.alertService.success('¡Éxito!', 'Se ha actualizado el producto');
+            this.productos = [];
+          }, error => {
+            this.spinnerService.stop(spinner);
+            this.alertService.error();
+          });
+        } else {
+          let spinner = this.spinnerService.start('Guardando...');
+          // guardar producto
+          this.productoService.createProducto([response]).subscribe(respProducto => {
+            this.spinnerService.stop(spinner);
+            this.alertService.success('¡Éxito!', 'Se ha guardado el producto');
+          }, error => {
+            this.spinnerService.stop(spinner);
+            this.alertService.error();
+          });
+        }
       }
     });
   }
@@ -151,6 +164,26 @@ export class ProductosComponent implements OnInit {
   onPageChange($event) {
     this.pagina = $event.pageIndex;
     this.getProductos();
+  }
+
+  activarDesactivarProducto(producto: Producto, estado: number) {
+    let dialog = this.dialog.open(EliminarConfirmacionComponent, {
+      width: '25rem',
+      data: estado == 0 ? 'desactivar' : 'activar'
+    });
+    dialog.afterClosed().subscribe(response => {
+      if (response) {
+        let spinner = this.spinnerService.start(estado == 0 ? 'Desactivando...' : 'Activando...');
+        producto.logEstado = estado;
+        this.productoService.updateProductos([producto]).subscribe(resp => {
+          this.spinnerService.stop(spinner);
+          this.alertService.success('¡Éxito!', 'El producto se ha ' + (estado == 0 ? 'desactivado.' : 'activado.'));
+        }, error => {
+          this.spinnerService.stop(spinner);
+          this.alertService.error();
+        });
+      }
+    });
   }
 
 }

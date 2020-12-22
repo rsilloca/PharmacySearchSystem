@@ -1,0 +1,7 @@
+<div fxLayout="column" fxLayoutAlign="space-between stretch">
+    <p style="text-align: center;">¿Seguro que desea {{data}} este elemento?</p>
+    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
+        <button mat-raised-button color="warn" mat-dialog-close>No</button>
+        <button mat-raised-button color="primary" [mat-dialog-close]="true">Si</button>
+    </div>
+</div>

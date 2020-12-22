@@ -104,13 +104,20 @@
                         <!-- Columna de acciones -->
                         <ng-container matColumnDef="acciones">
                             <th mat-header-cell *matHeaderCellDef> Acciones </th>
-                            <td mat-cell *matCellDef="let row">
+                            <td mat-cell *matCellDef="let row, let element">
                                 <button mat-icon-button color="accent">
-                                    <mat-icon>edit</mat-icon>
+                                    <mat-icon (click)="nuevoProducto(element)">edit</mat-icon>
                                 </button>
-                                <button mat-icon-button color="warn">
-                                    <mat-icon>delete</mat-icon>
+                                <button *ngIf="element.logEstado == 0; else desactivar" mat-icon-button
+                                    matTooltip="Activar producto" (click)="activarDesactivarProducto(element, 1)">
+                                    <mat-icon>published_with_changes</mat-icon>
                                 </button>
+                                <ng-template #desactivar>
+                                    <button mat-icon-button color="warn" matTooltip="Desactivar producto"
+                                        (click)="activarDesactivarProducto(element, 0)">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </ng-template>
                             </td>
                         </ng-container>
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

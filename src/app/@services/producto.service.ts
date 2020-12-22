@@ -43,7 +43,13 @@ export class ProductoService {
   updateProductos(productos: Producto[]): Observable<any> {
     const url = this.rutaBase;
     return this.client.put<any>(url, productos, { headers: this.header });
+  }
 
+  getProducto(idProducto: number): Observable<Producto> {
+    const url = this.rutaBase;
+    let parametros = new HttpParams()
+    .set('idProducto', idProducto.toString());
+    return this.client.get<Producto>(url, {headers: this.header, params: parametros});
   }
 
 }
