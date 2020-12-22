@@ -15,23 +15,6 @@ import { UsuarioService } from 'src/app/@services/usuario.service';
 import { AlertService } from 'src/app/shared/alert/alert.service';
 import { SpinnerService } from 'src/app/shared/spinner.service';
 
-export interface TimeTable {
-  name: string;
-  open: string;
-  closed: string;
-  position: number;
-}
-
-const ELEMENT_DATA: TimeTable[] = [
-  { position: 1, name: 'Lun', open: '09:00', closed: '18:00' },
-  { position: 2, name: 'Mar', open: '09:00', closed: '18:00' },
-  { position: 3, name: 'Mie', open: '09:00', closed: '18:00' },
-  { position: 4, name: 'Jue', open: '09:00', closed: '18:00' },
-  { position: 5, name: 'Vie', open: '09:00', closed: '18:00' },
-  { position: 6, name: 'Sab', open: '09:00', closed: '18:00' },
-  { position: 7, name: 'Dom', open: '09:00', closed: '18:00' },
-];
-
 @Component({
   selector: 'fury-nuevo-local',
   templateUrl: './nuevo-local.component.html',
@@ -150,25 +133,25 @@ export class NuevoLocalComponent implements OnInit {
       this.coordenadasF.disable();
     }
   }
-  getDataFromTemplate(): Farmacia{
+  getDataFromTemplate(): Farmacia {
     if (this.form.invalid) return;
     console.log("Farm a editar", this.farmToEdit);
     let farmacia: Farmacia;
-    if (this.isEditar == true){
+    if (this.isEditar == true) {
       farmacia = this.farmToEdit;
       for (let i = 0; i < this.formHoraApertura.value.length; i++) {
-        farmacia.horarios[i].horaApertura = this.makeFechaHoraMinuto(this.horarios[i].horaApertura,this.formHoraApertura.value[i]);
-        farmacia.horarios[i].horaCierre = this.makeFechaHoraMinuto(this.horarios[i].horaCierre,this.formHoraCierre.value[i]);
-        farmacia.horarios[i].logEstado =1;
+        farmacia.horarios[i].horaApertura = this.makeFechaHoraMinuto(this.horarios[i].horaApertura, this.formHoraApertura.value[i]);
+        farmacia.horarios[i].horaCierre = this.makeFechaHoraMinuto(this.horarios[i].horaCierre, this.formHoraCierre.value[i]);
+        farmacia.horarios[i].logEstado = 1;
       }
       farmacia.logEstado = 1;
-      console.log("farmacias hora guardada",farmacia.horarios)
+      console.log("farmacias hora guardada", farmacia.horarios)
       farmacia.nombre = this.form.value['nombre'];
       farmacia.direccion = this.form.value['direccion'];
-    }else{
+    } else {
       farmacia = new Farmacia(this.form.value);
       let moneda: Moneda = new Moneda();
-      moneda.idMoneda = 1;     
+      moneda.idMoneda = 1;
       let usuario: Usuario = this.usuarioService.currentUserSBF();
       farmacia.usuarioFarmacia = [usuario];
       farmacia.monedas = moneda;
@@ -184,10 +167,10 @@ export class NuevoLocalComponent implements OnInit {
       }
       farmacia.horarios = horario;
     }
-   
+
     farmacia.latitud = this.lat;
     farmacia.longitud = this.lng;
-    
+
     return farmacia;
   }
   registrarFarmacia() {
@@ -211,29 +194,32 @@ export class NuevoLocalComponent implements OnInit {
       this.form.controls['location'].setValue(this.farmToEdit.latitud + ', ' + this.farmToEdit.longitud);
       this.lat = this.farmToEdit.latitud;
       this.lng = this.farmToEdit.longitud;
-      this.horarios = this.farmToEdit.horarios;
-      
-      for (let i = 0; i < this.horarios.length; i++) {
-        let auxHora: Horario = this.horarios[i];
-        this.formHoraApertura.controls[i].setValue(this.dividirFechaHoraMinuto(auxHora.horaApertura));
-        this.formHoraCierre.controls[i].setValue(this.dividirFechaHoraMinuto(auxHora.horaCierre));
-        //FALTA EL SELECTION
+      if (this.farmToEdit.horarios) {
+        this.horarios = this.farmToEdit.horarios;
+        for (let i = 0; i < this.horarios.length; i++) {
+          let auxHora: Horario = this.horarios[i];
+          this.formHoraApertura.controls[i].setValue(this.dividirFechaHoraMinuto(auxHora.horaApertura));
+          this.formHoraCierre.controls[i].setValue(this.dividirFechaHoraMinuto(auxHora.horaCierre));
+          if (auxHora.logEstado == 1) {
+            this.selection.toggle(this.horarios[i]);
+          }
+        }
       }
     }, error => {
       this.alertService.error();
-    }); 
+    });
   }
   //Obtener solo hora y minuto para tabla 
-  dividirFechaHoraMinuto(cadena: String): String{
-    let diahoraMinutos: String[] = cadena.split('T',cadena.length);
-    let horaMinutos: String[] = diahoraMinutos[1].split(':',cadena.length);
-    return horaMinutos[0]+':'+horaMinutos[1];
+  dividirFechaHoraMinuto(cadena: String): String {
+    let diahoraMinutos: String[] = cadena.split('T', cadena.length);
+    let horaMinutos: String[] = diahoraMinutos[1].split(':', cadena.length);
+    return horaMinutos[0] + ':' + horaMinutos[1];
   }
   //Obtener formato fecha para horarios
-  makeFechaHoraMinuto(fechaComp: String, horaMinutos: String): string{
-    let diahoraMinutos: String[] = fechaComp.split('T',fechaComp.length);
+  makeFechaHoraMinuto(fechaComp: String, horaMinutos: String): string {
+    let diahoraMinutos: String[] = fechaComp.split('T', fechaComp.length);
     let nuevoHoraMins: String[] = horaMinutos.split(':');
-    let nuevaHora: string = diahoraMinutos[0]+'T'+ nuevoHoraMins[0]+':'+nuevoHoraMins[1]+':00';
+    let nuevaHora: string = diahoraMinutos[0] + 'T' + nuevoHoraMins[0] + ':' + nuevoHoraMins[1] + ':00';
     return nuevaHora;
   }
   editarFarmacia(): void {
@@ -246,12 +232,12 @@ export class NuevoLocalComponent implements OnInit {
     }, error => {
       this.spinnerService.stop(spinner);
       this.alertService.error();
-    });  
+    });
   }
-  createOrEdit():void{
-    if(this.isEditar ==true){
+  createOrEdit(): void {
+    if (this.isEditar == true) {
       this.editarFarmacia();
-    }else{
+    } else {
       this.registrarFarmacia();
     }
   }

@@ -1,12 +1,11 @@
 <fury-page-layout mode="simple">
 
     <fury-page-layout-header>
-        <fury-breadcrumbs *ngIf="isEditar==false" [crumbs]="['Locales']" current="Nuevo local"></fury-breadcrumbs>
-        <fury-breadcrumbs *ngIf="isEditar==true" [crumbs]="['Locales']" current="Modificar local"></fury-breadcrumbs>
+        <fury-breadcrumbs [crumbs]="['Locales']" current="{{isEditar ? 'Editar local' : 'Nuevo local'}}"></fury-breadcrumbs>
     </fury-page-layout-header>
 
     <fury-page-layout-content>
-        <form [formGroup]="form" (ngSubmit)=" createOrEdit()">
+        <form [formGroup]="form" (ngSubmit)="createOrEdit()">
             <fury-card style="padding-top: 2rem;">
                 <fury-card-content>
                     <div fxLayout="row" fxLayoutGap="3rem" fxLayout.sm="column" fxLayoutGap.sm="0" fxLayout.xs="column"
@@ -101,8 +100,9 @@
                     </div>
                 </fury-card-content>
                 <fury-card-actions fxLayout="row" fxLayoutAlign="center center">
-                    <button mat-raised-button color="warn" type="button" [routerLink]="['/pharmacy/locales']">Cancelar</button>
-                    <button mat-raised-button color="primary" type="submit" >Aceptar</button>
+                    <button mat-raised-button color="warn" type="button"
+                        [routerLink]="['/pharmacy/locales']">Cancelar</button>
+                    <button mat-raised-button color="primary" type="submit">Aceptar</button>
                 </fury-card-actions>
             </fury-card>
         </form>
