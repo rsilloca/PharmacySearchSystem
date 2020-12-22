@@ -40,7 +40,6 @@ const ELEMENT_DATA: TimeTable[] = [
 export class NuevoLocalComponent implements OnInit {
   //Objetos
   form: FormGroup;
-
   //Var globales
   lat = LATITUD_DEFAULT;
   lng = LONGITUD_DEFAULT;
@@ -56,6 +55,9 @@ export class NuevoLocalComponent implements OnInit {
   horarios: Horario[] = [];
   dias: string[] = ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom'];
 
+  //Para editar
+  farmToEdit: Farmacia;
+
   constructor(private formBuilder: FormBuilder,
     private farmaciaService: FarmaciaService,
     private mapsApi: MapsAPILoader,
@@ -70,7 +72,7 @@ export class NuevoLocalComponent implements OnInit {
     this.form = this.formBuilder.group({
       nombre: ['', Validators.required],
       direccion: ['', Validators.required],
-      automaticLocation: [true],
+      automaticLocation: [false],
       location: ['', Validators.required]
     });
     this.form.controls['automaticLocation'].valueChanges.subscribe(change => {
@@ -89,8 +91,7 @@ export class NuevoLocalComponent implements OnInit {
     this.idFarmacia = this.activatedRoute.snapshot.params.id || 0;
     this.isEditar = this.idFarmacia != 0;
     if (this.isEditar) {
-      console.log("Modo Edicion");
-      this.obtenerDatos();
+      this.getDataBDtoTemplate();
     }
   }
 
@@ -137,8 +138,6 @@ export class NuevoLocalComponent implements OnInit {
     this.lat = evt.coords.lat;
     this.lng = evt.coords.lng;
     this.verCoordenadas();
-    //console.log("lat" + this.lat);
-    //console.log("lng" + this.lng);
   }
 
   verCoordenadas() {
@@ -151,30 +150,49 @@ export class NuevoLocalComponent implements OnInit {
       this.coordenadasF.disable();
     }
   }
-  registrarFarmacia() {
+  getDataFromTemplate(): Farmacia{
     if (this.form.invalid) return;
-    let spinner = this.spinnerService.start('Registrando local...');
-    let farmacia: Farmacia = new Farmacia(this.form.value);
-    let moneda: Moneda = new Moneda();
-    moneda.idMoneda = 1;
-    let horario: Horario[] = [];
-    let usuario: Usuario = this.usuarioService.currentUserSBF();
-    for (let i = 0; i < this.formHoraApertura.value.length; i++) {
-      let haux = new Horario();
-      haux.diaSemana = i;
-      haux.horaApertura = this.formHoraApertura.value[i];
-      haux.horaCierre = this.formHoraCierre.value[i];
-      haux.logEstado = this.selection.isSelected(this.horarios[i]) ? 1 : 0;
-      horario.push(haux);
+    console.log("Farm a editar", this.farmToEdit);
+    let farmacia: Farmacia;
+    if (this.isEditar == true){
+      farmacia = this.farmToEdit;
+      for (let i = 0; i < this.formHoraApertura.value.length; i++) {
+        farmacia.horarios[i].horaApertura = this.makeFechaHoraMinuto(this.horarios[i].horaApertura,this.formHoraApertura.value[i]);
+        farmacia.horarios[i].horaCierre = this.makeFechaHoraMinuto(this.horarios[i].horaCierre,this.formHoraCierre.value[i]);
+        farmacia.horarios[i].logEstado =1;
+      }
+      farmacia.logEstado = 1;
+      console.log("farmacias hora guardada",farmacia.horarios)
+      farmacia.nombre = this.form.value['nombre'];
+      farmacia.direccion = this.form.value['direccion'];
+    }else{
+      farmacia = new Farmacia(this.form.value);
+      let moneda: Moneda = new Moneda();
+      moneda.idMoneda = 1;     
+      let usuario: Usuario = this.usuarioService.currentUserSBF();
+      farmacia.usuarioFarmacia = [usuario];
+      farmacia.monedas = moneda;
+      farmacia.idMoneda = moneda.idMoneda;
+      let horario: Horario[] = [];
+      for (let i = 0; i < this.formHoraApertura.value.length; i++) {
+        let haux = new Horario();
+        haux.diaSemana = i;
+        haux.horaApertura = this.formHoraApertura.value[i];
+        haux.horaCierre = this.formHoraCierre.value[i];
+        haux.logEstado = this.selection.isSelected(this.horarios[i]) ? 1 : 0;
+        horario.push(haux);
+      }
+      farmacia.horarios = horario;
     }
+   
     farmacia.latitud = this.lat;
     farmacia.longitud = this.lng;
-    farmacia.usuarioFarmacia = [usuario];
-    farmacia.horarios = horario;
-    farmacia.monedas = moneda;
-    farmacia.idMoneda = moneda.idMoneda;
-    // console.log('farmacia enviada', farmacia);
-    this.farmaciaService.createFarmacia(farmacia).subscribe(response => {
+    
+    return farmacia;
+  }
+  registrarFarmacia() {
+    let spinner = this.spinnerService.start('Registrando local...');
+    this.farmaciaService.createFarmacia(this.getDataFromTemplate()).subscribe(response => { //Obtengo objeto Farmacia con el método getDataFromTemplate
       // console.log('response crear farmacia', response);
       this.spinnerService.stop(spinner);
       this.alertService.success('¡Éxito!', 'Local registrado correctamente.');
@@ -184,11 +202,57 @@ export class NuevoLocalComponent implements OnInit {
       this.alertService.error();
     });
   }
-
-  obtenerDatos(): void {
+  //-------------EDITAR FARMACIA--------------
+  getDataBDtoTemplate(): void {
     this.farmaciaService.getFarmacia(this.idFarmacia).subscribe(response => {
-      console.log("Farmacia Encontrada", response);
-    });
+      this.farmToEdit = (response as Farmacia);
+      this.form.controls['nombre'].setValue(this.farmToEdit.nombre);
+      this.form.controls['direccion'].setValue(this.farmToEdit.direccion);
+      this.form.controls['location'].setValue(this.farmToEdit.latitud + ', ' + this.farmToEdit.longitud);
+      this.lat = this.farmToEdit.latitud;
+      this.lng = this.farmToEdit.longitud;
+      this.horarios = this.farmToEdit.horarios;
+      
+      for (let i = 0; i < this.horarios.length; i++) {
+        let auxHora: Horario = this.horarios[i];
+        this.formHoraApertura.controls[i].setValue(this.dividirFechaHoraMinuto(auxHora.horaApertura));
+        this.formHoraCierre.controls[i].setValue(this.dividirFechaHoraMinuto(auxHora.horaCierre));
+        //FALTA EL SELECTION
+      }
+    }, error => {
+      this.alertService.error();
+    }); 
   }
-
+  //Obtener solo hora y minuto para tabla 
+  dividirFechaHoraMinuto(cadena: String): String{
+    let diahoraMinutos: String[] = cadena.split('T',cadena.length);
+    let horaMinutos: String[] = diahoraMinutos[1].split(':',cadena.length);
+    return horaMinutos[0]+':'+horaMinutos[1];
+  }
+  //Obtener formato fecha para horarios
+  makeFechaHoraMinuto(fechaComp: String, horaMinutos: String): string{
+    let diahoraMinutos: String[] = fechaComp.split('T',fechaComp.length);
+    let nuevoHoraMins: String[] = horaMinutos.split(':');
+    let nuevaHora: string = diahoraMinutos[0]+'T'+ nuevoHoraMins[0]+':'+nuevoHoraMins[1]+':00';
+    return nuevaHora;
+  }
+  editarFarmacia(): void {
+    console.log("Modo Edicion");
+    let spinner = this.spinnerService.start('Editando local...');
+    this.farmaciaService.updateFarmacia(this.getDataFromTemplate()).subscribe(response => { //Obtengo objeto Farmacia con el método getDataFromTemplate
+      this.spinnerService.stop(spinner);
+      this.alertService.success('¡Éxito!', 'Local editado correctamente.');
+      this.router.navigate(['/pharmacy/locales']);
+    }, error => {
+      this.spinnerService.stop(spinner);
+      this.alertService.error();
+    });  
+  }
+  createOrEdit():void{
+    if(this.isEditar ==true){
+      this.editarFarmacia();
+    }else{
+      this.registrarFarmacia();
+    }
+  }
 }
