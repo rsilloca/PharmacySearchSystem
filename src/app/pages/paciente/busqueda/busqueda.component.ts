@@ -110,7 +110,8 @@ export class BusquedaComponent implements OnInit, FilterObserver {
     filtro.nombre = this.filtro.controls['nombre'].value;
     filtro.ordenamiento = this.filtro.controls['orden'].value;
     filtro.stock = 1;
-    filtro.regxpag = 12;
+    filtro.pagina = this.pagina;
+    filtro.regxpag = this.regxpag;
     let typeLocation = this.userService.getTypeLocation();
     if (+typeLocation == TYPE_LOCATION_MANUAL) {
       let location = this.userService.getLocation();
