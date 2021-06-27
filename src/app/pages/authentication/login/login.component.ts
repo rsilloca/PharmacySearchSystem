@@ -36,6 +36,9 @@ export class LoginComponent implements OnInit {
     iconRegistry.addSvgIcon(
       'logo-sbf',
       sanitizer.bypassSecurityTrustResourceUrl('assets/svg/search.svg'));
+    iconRegistry.addSvgIcon(
+      'canasta-test',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/svg/canasta.svg'));
   }
 
   ngOnInit() {

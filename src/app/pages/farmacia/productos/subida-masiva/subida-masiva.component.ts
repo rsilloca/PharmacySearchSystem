@@ -60,7 +60,7 @@ export class SubidaMasivaComponent implements OnInit {
       var workbook = XLSX.read(bstr, { type: "binary" });
       var first_sheet_name = workbook.SheetNames[0];
       var worksheet = workbook.Sheets[first_sheet_name];
-      console.log(XLSX.utils.sheet_to_json(worksheet, { raw: true }));
+      // console.log(XLSX.utils.sheet_to_json(worksheet, { raw: true }));
       var arraylist: any[] = XLSX.utils.sheet_to_json(worksheet, { raw: true });
       this.filelist = [];
       for (let index = 0; index < arraylist.length; index++) {
